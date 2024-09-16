@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: community
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/community?useSSL=false&serverTimezone=Asia/Seoul
+    username: root
+    password: 12341234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+      dialect: org.hibernate.dialect.MySQL5Dialect  # MySQL5Dialect 또는 MySQL8Dialect 사용
+    show-sql: true
