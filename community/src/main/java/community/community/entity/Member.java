@@ -1,17 +1,12 @@
 package community.community.entity;
 
+import community.community.dto.MemberDTO.MemberDTO;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "Member")
 @Getter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class Member {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +19,14 @@ public class Member {
     @Column(name = "password", nullable = false)
     private String password;
 
+    //member객체로 변환 로직
+    public void convertToMember(MemberDTO memberDTO){
+        this.id = memberDTO.getId();
+        this.email=memberDTO.getEmail();
+        this.password=memberDTO.getPassword();
+    }
 
-
+    public void setPassword(String password){
+        this.password=password;
+    }
 }

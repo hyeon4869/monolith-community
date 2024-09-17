@@ -1,9 +1,11 @@
 package community.community.interfaceService.memberInterface;
 
 import community.community.dto.MemberDTO.MemberDTO;
+import community.community.dto.MemberDTO.MemberPasswordDTO;
+import community.community.entity.Member;
 
 public interface MemberUpdateInterface {
-    MemberDTO findMember(String email);
+    MemberDTO findMember(Long id);
 
-  //  MemberDTO updatePassword(String password);
+    Member updatePassword(Long id, MemberPasswordDTO memberPasswordDTO);
 }
