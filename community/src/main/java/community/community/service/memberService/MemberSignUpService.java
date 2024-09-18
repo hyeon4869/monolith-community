@@ -32,10 +32,11 @@ public class MemberSignUpService implements MemberSignUpInterface {
         //이메일 중복 검사
         validationDuplicateEmail(memberDTO.getEmail());
 
-        Member member = Member.builder()
-                .email(memberDTO.getEmail())
-                .password(memberDTO.getPassword())
-                .build();
+        if(memberDTO.getEmail()==null || memberDTO.getPassword()==null){
+            throw new IllegalArgumentException("아이디나 비밀번호는 필수입니다.");
+        }
+        Member member = new Member();
+        member.convertToMember(memberDTO);
         memberRepository.save(member);
 
         return String.valueOf(member.getId());

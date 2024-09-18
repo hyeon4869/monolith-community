@@ -1,6 +1,7 @@
 package community.community.service.memberService;
 
 import community.community.dto.MemberDTO.MemberDTO;
+import community.community.dto.MemberDTO.MemberPasswordDTO;
 import community.community.entity.Member;
 import community.community.exception.customException.NotFoundMemberException;
 import community.community.interfaceService.memberInterface.MemberUpdateInterface;
@@ -21,8 +22,8 @@ public class MemberUpdateService implements MemberUpdateInterface {
     }
 
     @Override
-    public MemberDTO findMember(String email){
-        Member member =memberRepository.findByEmail(email)
+    public MemberDTO findMember(Long id){
+        Member member =memberRepository.findById(id)
                 .orElseThrow(()-> new NotFoundMemberException("일치하는 회원이 존재하지 않습니다."));
 
         MemberDTO memberDTO = MemberDTO.builder()
@@ -33,10 +34,24 @@ public class MemberUpdateService implements MemberUpdateInterface {
         return memberDTO;
     }
 
-//    @Override
-//    @Transactional
-//    public MemberDTO updatePassword(String password){
-//
-//        return
-//    }
+    @Override
+    @Transactional
+    //비밀번호 변경 로직
+    public Member updatePassword(Long id, MemberPasswordDTO memberPasswordDTO){
+        Member member=memberRepository.findById(id)
+                .orElseThrow(() -> new NotFoundMemberException("회원 정보 변경을 위한 아이디 조회에 실패했습니다."));
+
+        //비밀번호 변경 메서드
+        member.setPassword(memberPasswordDTO.getPassword());
+        return member;
+    }
+
+    @Override
+    @Transactional
+    public void deleteMember(Long id){
+        memberRepository.findById(id)
+                .orElseThrow(() -> new NotFoundMemberException("삭제하려는 계정이 조회되지 않습니다."));
+
+        memberRepository.deleteById(id);
+    }
 }
