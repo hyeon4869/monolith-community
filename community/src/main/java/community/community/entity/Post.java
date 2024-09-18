@@ -1,9 +1,7 @@
 package community.community.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import community.community.dto.postDTO.PostDTO;
+import jakarta.persistence.*;
 import lombok.Getter;
 
 @Entity
@@ -12,11 +10,22 @@ import lombok.Getter;
 public class Post {
 
     @Id @GeneratedValue
+    @Column(name = "post_id")
     private Long id;
 
+    @Column(name = "title", nullable = false)
     private String title;
 
+    @Column(name = "content", nullable = false)
     private String content;
 
-    
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "postList")
+//    private Member member;
+
+    //엔티티로 변환 로직
+    public void convertToPost(PostDTO postDTO){
+        this.title= postDTO.getTitle();
+        this.content= postDTO.getContent();
+    }
 }

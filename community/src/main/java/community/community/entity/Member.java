@@ -19,6 +19,10 @@ public class Member {
     @Column(name = "password", nullable = false)
     private String password;
 
+//    @OneToMany(mappedBy = "member")
+//    private List<Post> postList = new ArrayList<>();
+
+
     //member객체로 변환 로직
     public void convertToMember(MemberDTO memberDTO){
         this.id = memberDTO.getId();
