@@ -4,10 +4,7 @@ import community.community.dto.MemberDTO.MemberDTO;
 import community.community.interfaceService.memberInterface.MemberSignUpInterface;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +25,7 @@ public class MemberSignUpController {
     }
 
     @PostMapping("/signUp")
-    public ResponseEntity<Map<String, Object>> signUp(@ModelAttribute  MemberDTO memberDTO) {
+    public ResponseEntity<Map<String, Object>> signUp(@RequestBody MemberDTO memberDTO) {
         Map<String, Object> response = new HashMap<>();
         String signUpId =  memberSignUpInterface.signUp(memberDTO);
 
