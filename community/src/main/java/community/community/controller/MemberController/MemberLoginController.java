@@ -3,6 +3,7 @@ package community.community.controller.MemberController;
 import community.community.dto.MemberDTO.MemberLoginDTO;
 import community.community.entity.Member;
 import community.community.interfaceService.memberInterface.MemberLoginInterface;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,10 +23,23 @@ public class MemberLoginController {
     }
 
     @PostMapping("/memberLogin")
-    public ResponseEntity<Map<String, Object>> memberLogin(@RequestBody MemberLoginDTO memberLoginDTO){
+    public ResponseEntity<Map<String, Object>> memberLogin(@RequestBody MemberLoginDTO memberLoginDTO, HttpSession session){
         Map<String, Object> response = new HashMap<>();
         Member member=memberLoginInterface.memberLogin(memberLoginDTO);
+        session.setAttribute("loginEmail", member.getEmail());
+        String loginEmail = (String) session.getAttribute("loginEmail");
         response.put("message", "로그인 완료");
+        response.put("loginEmail", loginEmail);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/memberLogout")
+    public ResponseEntity<Map<String, Object>> memberLogout(HttpSession session){
+        Map<String, Object> response = new HashMap<>();
+
+        session.invalidate();
+
+        response.put("message","로그아웃하셨습니다.");
         return ResponseEntity.ok(response);
     }
 }
