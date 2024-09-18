@@ -8,4 +8,6 @@ public interface MemberUpdateInterface {
     MemberDTO findMember(Long id);
 
     Member updatePassword(Long id, MemberPasswordDTO memberPasswordDTO);
+
+    void deleteMember(Long id);
 }

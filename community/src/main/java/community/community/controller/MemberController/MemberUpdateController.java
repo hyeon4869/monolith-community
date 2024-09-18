@@ -43,4 +43,15 @@ public class MemberUpdateController {
         return ResponseEntity.ok(response);
     }
 
+    @DeleteMapping("/deleteMember/{id}")
+    public ResponseEntity<Map<String, Object>> deleteMember(@PathVariable("id") Long id){
+        Map<String, Object> response = new HashMap<>();
+
+        memberUpdateInterface.deleteMember(id);
+
+        response.put("message", "회원탈퇴가 정상적으로 이루어졌습니다.");
+
+        return ResponseEntity.ok(response);
+    }
+
 }
