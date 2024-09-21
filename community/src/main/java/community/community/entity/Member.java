@@ -4,6 +4,9 @@ import community.community.dto.MemberDTO.MemberDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "Member")
 @Getter
@@ -19,8 +22,8 @@ public class Member {
     @Column(name = "password", nullable = false)
     private String password;
 
-//    @OneToMany(mappedBy = "member")
-//    private List<Post> postList = new ArrayList<>();
+    @OneToMany(mappedBy = "member")
+    private List<Post> postList = new ArrayList<>();
 
 
     //member객체로 변환 로직

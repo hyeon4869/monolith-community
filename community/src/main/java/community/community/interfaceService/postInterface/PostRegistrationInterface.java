@@ -2,7 +2,10 @@ package community.community.interfaceService.postInterface;
 
 import community.community.dto.postDTO.PostDTO;
 import community.community.entity.Post;
+import jakarta.servlet.http.HttpSession;
 
 public interface PostRegistrationInterface {
-    Post postRegistration(PostDTO postDTO);
+
+    //게시글 등록 메소드
+    Post postRegistration(PostDTO postDTO, HttpSession session);
 }

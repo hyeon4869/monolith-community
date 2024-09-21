@@ -19,13 +19,22 @@ public class Post {
     @Column(name = "content", nullable = false)
     private String content;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "postList")
-//    private Member member;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     //엔티티로 변환 로직
     public void convertToPost(PostDTO postDTO){
         this.title= postDTO.getTitle();
         this.content= postDTO.getContent();
+    }
+
+    //양방향 연관관계 편의 메서드
+    public void setMember(Member member){
+        if(this.member!=null){
+            this.member.getPostList().remove(this);
+        }
+        this.member=member;
+        member.getPostList().add(this);
     }
 }
