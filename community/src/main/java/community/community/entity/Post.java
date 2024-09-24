@@ -22,7 +22,7 @@ public class Post {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
-
+    
     //엔티티로 변환 로직
     public void convertToPost(PostDTO postDTO){
         this.title= postDTO.getTitle();
