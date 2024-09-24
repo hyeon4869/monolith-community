@@ -6,6 +6,7 @@ import community.community.entity.Member;
 import community.community.exception.customException.NotFoundMemberException;
 import community.community.interfaceService.memberInterface.MemberUpdateInterface;
 import community.community.repository.MemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,10 +16,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Qualifier("basicUpdate")
 public class MemberUpdateService implements MemberUpdateInterface {
 
+    @Autowired
     private final MemberRepository memberRepository;
 
-    public MemberUpdateService(MemberRepository memberRepository){
+    @Autowired
+    private PasswordValidator passwordValidator;
+
+    public MemberUpdateService(MemberRepository memberRepository, PasswordValidator passwordValidator){
         this.memberRepository=memberRepository;
+        this.passwordValidator=passwordValidator;
     }
 
     @Override
@@ -48,10 +54,11 @@ public class MemberUpdateService implements MemberUpdateInterface {
 
     @Override
     @Transactional
-    public void deleteMember(Long id){
-        memberRepository.findById(id)
+    public void deleteMember(Long id, MemberPasswordDTO memberPasswordDTO){
+        Member member=memberRepository.findById(id)
                 .orElseThrow(() -> new NotFoundMemberException("삭제하려는 계정이 조회되지 않습니다."));
 
+        passwordValidator.validate(memberPasswordDTO.getPassword(), member.getPassword(), "현재 비밀번화와 일치하지 않습니다.");
         memberRepository.deleteById(id);
     }
 }

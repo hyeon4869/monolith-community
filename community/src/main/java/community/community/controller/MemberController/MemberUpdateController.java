@@ -44,10 +44,10 @@ public class MemberUpdateController {
     }
 
     @DeleteMapping("/deleteMember/{id}")
-    public ResponseEntity<Map<String, Object>> deleteMember(@PathVariable("id") Long id){
+    public ResponseEntity<Map<String, Object>> deleteMember(@PathVariable("id") Long id,@RequestBody MemberPasswordDTO memberPasswordDTO){
         Map<String, Object> response = new HashMap<>();
 
-        memberUpdateInterface.deleteMember(id);
+        memberUpdateInterface.deleteMember(id, memberPasswordDTO);
 
         response.put("message", "회원탈퇴가 정상적으로 이루어졌습니다.");
 
