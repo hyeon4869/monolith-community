@@ -32,7 +32,7 @@ public class MemberLoginService implements MemberLoginInterface {
                 .orElseThrow(() -> new NotFoundMemberException("아이디가 존재하지 않거나 비밀번호가 일치하지 않습니다."));
 
         //요청 스코프를 사용한 비밀번호 검증 로직
-        passwordValidator.validate(memberLoginDTO.getPassword(), member.getPassword());
+        passwordValidator.validate(memberLoginDTO.getPassword(), member.getPassword(), "아이디가 존재하지 않거나 비밀번호가 일치하지 않습니다.");
 
         return member;
     }

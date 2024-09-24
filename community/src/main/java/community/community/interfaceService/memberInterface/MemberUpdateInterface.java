@@ -9,5 +9,5 @@ public interface MemberUpdateInterface {
 
     Member updatePassword(Long id, MemberPasswordDTO memberPasswordDTO);
 
-    void deleteMember(Long id);
+    void deleteMember(Long id, MemberPasswordDTO memberPasswordDTO);
 }
