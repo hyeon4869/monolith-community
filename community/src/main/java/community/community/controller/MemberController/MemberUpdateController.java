@@ -33,7 +33,7 @@ public class MemberUpdateController {
     }
 
     @PutMapping("/updateMember/{id}")
-    public ResponseEntity<Map<String, Object>> updateMember(@PathVariable("id") Long id, @ModelAttribute MemberPasswordDTO memberPasswordDTO){
+    public ResponseEntity<Map<String, Object>> updateMember(@PathVariable("id") Long id, @RequestBody MemberPasswordDTO memberPasswordDTO){
         Map<String, Object> response = new HashMap<>();
 
         Member member =memberUpdateInterface.updatePassword(id, memberPasswordDTO);
