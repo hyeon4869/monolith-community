@@ -31,8 +31,11 @@ public class PostRegistrationService implements PostRegistrationInterface {
     @Transactional
     public Post postRegistration(PostDTO postDTO, HttpSession session){
         //게시물 등록 로직
-        Post post = new Post();
-        post.convertToPost(postDTO);
+        Post post = Post.builder()
+                .title(postDTO.getTitle())
+                .content(postDTO.getContent())
+                .build();
+
         String loginEmail = (String) session.getAttribute("loginEmail");
 
         Member member =  memberRepository.findByEmail(loginEmail)

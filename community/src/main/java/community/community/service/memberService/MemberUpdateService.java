@@ -20,7 +20,7 @@ public class MemberUpdateService implements MemberUpdateInterface {
     private final MemberRepository memberRepository;
 
     @Autowired
-    private PasswordValidator passwordValidator;
+    private final PasswordValidator passwordValidator;
 
     public MemberUpdateService(MemberRepository memberRepository, PasswordValidator passwordValidator){
         this.memberRepository=memberRepository;
@@ -46,9 +46,8 @@ public class MemberUpdateService implements MemberUpdateInterface {
     public Member updatePassword(Long id, MemberPasswordDTO memberPasswordDTO){
         Member member=memberRepository.findById(id)
                 .orElseThrow(() -> new NotFoundMemberException("회원 정보 변경을 위한 아이디 조회에 실패했습니다."));
-
         //비밀번호 변경 메서드
-        member.setPassword(memberPasswordDTO.getPassword());
+        member.updatePassword(memberPasswordDTO.getPassword());
         return member;
     }
 

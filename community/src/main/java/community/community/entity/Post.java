@@ -1,12 +1,17 @@
 package community.community.entity;
 
-import community.community.dto.postDTO.PostDTO;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
 @Table(name = "POST")
+@NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class Post {
 
     @Id @GeneratedValue
@@ -22,12 +27,9 @@ public class Post {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
-    
-    //엔티티로 변환 로직
-    public void convertToPost(PostDTO postDTO){
-        this.title= postDTO.getTitle();
-        this.content= postDTO.getContent();
-    }
+
+    //엔티티 변환 로직
+
 
     //양방향 연관관계 편의 메서드
     public void setMember(Member member){
@@ -37,4 +39,6 @@ public class Post {
         this.member=member;
         member.getPostList().add(this);
     }
+
+
 }
