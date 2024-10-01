@@ -1,8 +1,10 @@
 package community.community.entity;
 
-import community.community.dto.MemberDTO.MemberDTO;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +12,9 @@ import java.util.List;
 @Entity
 @Table(name = "Member")
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Member {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,14 +31,18 @@ public class Member {
     private List<Post> postList = new ArrayList<>();
 
 
-    //member객체로 변환 로직
-    public void convertToMember(MemberDTO memberDTO){
-        this.id = memberDTO.getId();
-        this.email=memberDTO.getEmail();
-        this.password=memberDTO.getPassword();
-    }
-
-    public void setPassword(String password){
+    //패스워드 수정 메서드
+    public void updatePassword(String password){
+        validateNullOrEmpty("비밀번호", password);
         this.password=password;
     }
+
+
+    //null 또는 empty 확인 메서드
+    public void validateNullOrEmpty(String fieldName, String value){
+        if(value==null||value.trim().isEmpty()){
+            throw new IllegalArgumentException(fieldName+"이(가) null이거나 비어있습니다.");
+        }
+    }
+
 }

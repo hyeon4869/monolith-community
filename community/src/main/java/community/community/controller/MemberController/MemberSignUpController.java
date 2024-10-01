@@ -26,9 +26,10 @@ public class MemberSignUpController {
 
     @PostMapping("/signUp")
     public ResponseEntity<Map<String, Object>> signUp(@RequestBody MemberDTO memberDTO) {
+        System.out.println("memberDTO Email= " + memberDTO.getEmail());
+        System.out.println("memberDTO Password= " + memberDTO.getPassword());
         Map<String, Object> response = new HashMap<>();
         String signUpId =  memberSignUpInterface.signUp(memberDTO);
-
         response.put("message","회원가입 완료");
         response.put("signUpId", signUpId);
         return ResponseEntity.ok(response);
