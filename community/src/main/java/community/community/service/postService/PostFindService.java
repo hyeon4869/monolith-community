@@ -4,11 +4,13 @@ import community.community.dto.postDTO.PostFindDTO;
 import community.community.interfaceService.postInterface.PostFindInterface;
 import community.community.repository.PostRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class PostFindService implements PostFindInterface {
 
     private final PostRepository postRepository;
