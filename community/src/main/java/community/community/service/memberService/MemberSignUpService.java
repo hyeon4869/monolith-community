@@ -49,7 +49,8 @@ public class MemberSignUpService implements MemberSignUpInterface {
 
     @Override
     public void validationDuplicateEmail(String email){
-        if(memberRepository.findByEmail(email).isPresent()){
+
+        if(memberRepository.findByReadEmail(email).isPresent()){
             throw new DuplicateEmailException("이미 사용중인 이메일입니다.");
         }
     }
