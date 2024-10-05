@@ -1,6 +1,5 @@
 package community.community.repository;
 
-import community.community.dto.postDTO.PostFindDTO;
 import community.community.entity.Post;
 import jakarta.persistence.QueryHint;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,9 +16,9 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     //Spring data JPA를 활용한 방법
     //N+1 문제를 해결해야함
 
-    @Query("SELECT DISTINCT new community.community.dto.postDTO.PostFindDTO(p.id, p.title, m.email) FROM Post p JOIN p.member m")
+    @Query("SELECT p, m FROM Post p JOIN FETCH p.member m")
     @QueryHints(@QueryHint(name = "org.hibernate.readOnly", value="true"))
-    List<PostFindDTO> findAllRead();
+    List<Post> findAllRead();
 
 
     //읽기 전용 쿼리 힌트 사용
