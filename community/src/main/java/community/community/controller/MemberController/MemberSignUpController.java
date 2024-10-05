@@ -1,7 +1,7 @@
 package community.community.controller.MemberController;
 
 import community.community.dto.MemberDTO.MemberDTO;
-import community.community.interfaceService.memberInterface.MemberSignUpInterface;
+import community.community.service.memberService.MemberSignUpService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,15 +12,15 @@ import java.util.Map;
 @RestController
 public class MemberSignUpController {
 
-    private final MemberSignUpInterface memberSignUpInterface;
+    private final MemberSignUpService memberSignUpService;
 
     //기본 회원가입 로직
-    public MemberSignUpController(@Qualifier("basicSignUp") MemberSignUpInterface memberSignUp){
-        this.memberSignUpInterface = memberSignUp;
+    public MemberSignUpController(@Qualifier("basicSignUp") MemberSignUpService memberSignUp){
+        this.memberSignUpService = memberSignUp;
     }
     @GetMapping("/")
     public String Hello(){
-        String hello = memberSignUpInterface.hello();
+        String hello = memberSignUpService.hello();
         return hello;
     }
 
@@ -29,7 +29,7 @@ public class MemberSignUpController {
         System.out.println("memberDTO Email= " + memberDTO.getEmail());
         System.out.println("memberDTO Password= " + memberDTO.getPassword());
         Map<String, Object> response = new HashMap<>();
-        String signUpId =  memberSignUpInterface.signUp(memberDTO);
+        String signUpId =  memberSignUpService.signUp(memberDTO);
         response.put("message","회원가입 완료");
         response.put("signUpId", signUpId);
         return ResponseEntity.ok(response);

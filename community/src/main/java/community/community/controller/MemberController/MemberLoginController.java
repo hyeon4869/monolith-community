@@ -3,7 +3,7 @@ package community.community.controller.MemberController;
 import community.community.dto.MemberDTO.MemberLoginDTO;
 import community.community.entity.Member;
 import community.community.exception.customException.NotFoundMemberException;
-import community.community.interfaceService.memberInterface.MemberLoginInterface;
+import community.community.service.memberService.MemberLoginService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -17,16 +17,16 @@ import java.util.Map;
 @RestController
 public class MemberLoginController {
 
-    private final MemberLoginInterface memberLoginInterface;
+    private final MemberLoginService memberLoginService;
 
-    public MemberLoginController(@Qualifier("basicLogin") MemberLoginInterface memberLoginInterface){
-        this.memberLoginInterface=memberLoginInterface;
+    public MemberLoginController(@Qualifier("basicLogin") MemberLoginService memberLoginService){
+        this.memberLoginService = memberLoginService;
     }
 
     @PostMapping("/memberLogin")
     public ResponseEntity<Map<String, Object>> memberLogin(@RequestBody MemberLoginDTO memberLoginDTO, HttpSession session){
         Map<String, Object> response = new HashMap<>();
-        Member member=memberLoginInterface.memberLogin(memberLoginDTO);
+        Member member= memberLoginService.memberLogin(memberLoginDTO);
         session.setAttribute("loginEmail", member.getEmail());
         String loginEmail = (String) session.getAttribute("loginEmail");
         response.put("message", "로그인 완료");
