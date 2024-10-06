@@ -18,7 +18,7 @@ public class MemberSignUpController {
     private final MemberSignUpService memberSignUpService;
 
     //기본 회원가입 로직
-    public MemberSignUpController(@Qualifier("basicSignUp") MemberSignUpService memberSignUp){
+    public MemberSignUpController(@Qualifier("defaultSignUp") MemberSignUpService memberSignUp){
         this.memberSignUpService = memberSignUp;
     }
     @GetMapping("/")

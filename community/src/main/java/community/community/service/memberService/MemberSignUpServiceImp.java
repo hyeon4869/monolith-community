@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Qualifier("basicSignUp")
+@Qualifier("defaultSignUp")
 @Transactional(readOnly = true)
 public class MemberSignUpServiceImp implements MemberSignUpService {
 
@@ -59,7 +59,7 @@ public class MemberSignUpServiceImp implements MemberSignUpService {
 
     @Override
     public void validationDuplicateEmail(String email){
-        if(memberRepository.findByEmail(email).isPresent()){
+        if(memberRepository.findByReadEmail(email).isPresent()){
             throw new InvalidEmailException("이미 사용중인 이메일입니다.");
         }
     }

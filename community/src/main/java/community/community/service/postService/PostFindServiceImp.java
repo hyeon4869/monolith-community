@@ -3,13 +3,14 @@ package community.community.service.postService;
 import community.community.dto.postDTO.PostDetailDTO;
 import community.community.dto.postDTO.PostFindDTO;
 import community.community.entity.Post;
+import community.community.exception.customException.NotFoundMemberException;
 import community.community.exception.customException.NotFoundPostException;
 import community.community.repository.PostRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -23,14 +24,14 @@ public class PostFindServiceImp implements PostFindService {
 
     //게시물 메인 조회
     public List<PostFindDTO> postFindAll(){
-        List<Post> posts =postRepository.findAllRead();
+        List<Post> postList =postRepository.findAllRead();
 
 
-        return posts.stream()
+        return postList==null || postList.isEmpty() ? new ArrayList<>() : postList.stream()
                 .map(post ->{
                     try{
-                        if (true) { // 조건을 항상 참으로 설정하여 예외를 항상 발생시킵니다.
-                            throw new RuntimeException("고의로 발생시킨 예외입니다.");
+                        if(post.getMember()==null) {
+                            throw new NotFoundMemberException("게시물을 작성한 작성자의 정보가 조회되지 않습니다");
                         }
                         return new PostFindDTO(post.getId(), post.getTitle(), post.getMember().getEmail());
                     } catch (NullPointerException e) {
@@ -40,7 +41,7 @@ public class PostFindServiceImp implements PostFindService {
                     }
 
                 })
-                .collect(Collectors.toList());
+                .toList();
     }
 
     //게시물 상세 조회
