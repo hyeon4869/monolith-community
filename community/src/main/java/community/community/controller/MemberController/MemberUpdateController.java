@@ -1,6 +1,5 @@
 package community.community.controller.MemberController;
 
-import community.community.dto.MemberDTO.MemberDTO;
 import community.community.dto.MemberDTO.MemberPasswordDTO;
 import community.community.entity.Member;
 import community.community.service.memberService.MemberUpdateService;
@@ -16,20 +15,8 @@ public class MemberUpdateController {
 
     private final MemberUpdateService memberUpdateService;
 
-    public MemberUpdateController(@Qualifier("basicUpdate") MemberUpdateService memberUpdateService){
+    public MemberUpdateController(@Qualifier("defaultUpdate") MemberUpdateService memberUpdateService){
         this.memberUpdateService = memberUpdateService;
-    }
-
-    @GetMapping("/findMember/{id}")
-    public ResponseEntity<Map<String, Object>> findMember(@PathVariable("id") Long id){
-        Map<String, Object> response = new HashMap<>();
-
-         MemberDTO memberDTO = memberUpdateService.findMember(id);
-
-        response.put("message", "회원조회를 시작합니다");
-        response.put("email", memberDTO.getEmail());
-        response.put("password", memberDTO.getPassword());
-        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/updateMember/{id}")

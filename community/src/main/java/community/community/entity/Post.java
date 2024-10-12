@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Table(name = "POST")
+@Table(name = "Post")
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor

@@ -13,10 +13,8 @@ import java.util.Optional;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    //Spring data JPA를 활용한 방법
-    //N+1 문제를 해결해야함
 
-    @Query("SELECT p, m FROM Post p JOIN FETCH p.member m")
+    @Query("SELECT p FROM Post p JOIN FETCH p.member m")
     @QueryHints(@QueryHint(name = "org.hibernate.readOnly", value="true"))
     List<Post> findAllRead();
 

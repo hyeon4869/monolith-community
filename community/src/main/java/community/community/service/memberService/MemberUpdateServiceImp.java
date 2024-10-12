@@ -1,6 +1,5 @@
 package community.community.service.memberService;
 
-import community.community.dto.MemberDTO.MemberDTO;
 import community.community.dto.MemberDTO.MemberPasswordDTO;
 import community.community.entity.Member;
 import community.community.exception.customException.DBAccessException;
@@ -14,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-@Qualifier("basicUpdate")
+@Qualifier("defaultUpdate")
 public class MemberUpdateServiceImp implements MemberUpdateService {
 
     @Autowired
@@ -26,20 +25,6 @@ public class MemberUpdateServiceImp implements MemberUpdateService {
     public MemberUpdateServiceImp(MemberRepository memberRepository, PasswordValidator passwordValidator){
         this.memberRepository=memberRepository;
         this.passwordValidator=passwordValidator;
-    }
-
-    @Override
-    public MemberDTO findMember(Long id){
-        Member member =memberRepository.findByReadId(id)
-                .orElseThrow(()-> new NotFoundMemberException("일치하는 회원이 존재하지 않습니다."));
-
-
-        MemberDTO memberDTO = MemberDTO.builder()
-                .email(member.getEmail())
-                .password(member.getPassword())
-                .build();
-
-        return memberDTO;
     }
 
     @Override

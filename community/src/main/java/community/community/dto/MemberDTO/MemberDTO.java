@@ -1,12 +1,12 @@
 package community.community.dto.MemberDTO;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MemberDTO {
 
     private Long id;
