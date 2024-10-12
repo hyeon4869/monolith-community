@@ -30,6 +30,8 @@ public class MemberFindServiceImp implements MemberFindService{
 
     @Override
     public MemberDTO findMember(Long id){
+
+
         Member member =memberRepository.findByReadId(id)
                 .orElseThrow(()-> new NotFoundMemberException("일치하는 회원이 존재하지 않습니다."));
 

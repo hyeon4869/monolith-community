@@ -18,7 +18,7 @@ public class MemberFindController {
 
     private final MemberFindService memberFindService;
 
-    public MemberFindController(@Qualifier("defaultFind") MemberFindService memberFindService){
+    public MemberFindController(@Qualifier("queryDslFind") MemberFindService memberFindService){
         this.memberFindService=memberFindService;
     }
 
@@ -39,7 +39,7 @@ public class MemberFindController {
         Map<String,Object> response = new HashMap<>();
 
         MemberMyPageDTO memberMyPageDTO=memberFindService.findMemberAndPost(id);
-        response.put("Mypage", memberMyPageDTO);
+        response.put("myPage", memberMyPageDTO);
         return ResponseEntity.ok(response);
     }
     @GetMapping("/findMember")
