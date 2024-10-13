@@ -2,7 +2,7 @@ package community.community.controller.CommentController;
 
 import community.community.dto.commentDTO.CommentRegisterDTO;
 import community.community.entity.Comment;
-import community.community.service.commentService.CommentService;
+import community.community.service.commentService.CommentRegisterService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +13,9 @@ import java.util.Map;
 @RestController
 public class CommentRegisterController {
 
-    private final CommentService commentService;
+    private final CommentRegisterService commentService;
 
-    public CommentRegisterController(CommentService commentService){
+    public CommentRegisterController(CommentRegisterService commentService){
         this. commentService=commentService;
     }
 

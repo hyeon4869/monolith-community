@@ -2,6 +2,9 @@ spring:
   application:
     name: community
 
+  jackson:
+    time-zone: Asia/Seoul
+
   datasource:
     url: jdbc:mysql://localhost:3306/community?useSSL=false&serverTimezone=Asia/Seoul
     username: root

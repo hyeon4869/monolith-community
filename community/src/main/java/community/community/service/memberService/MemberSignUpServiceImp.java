@@ -50,7 +50,7 @@ public class MemberSignUpServiceImp implements MemberSignUpService {
             return String.valueOf(member.getId());
 
         } catch (DataAccessException e) {
-            throw new DBAccessException("서버의 오류로 회원가입에 실패했습니다", e);
+            throw new DBAccessException("데이터베이스의 오류로 회원가입에 실패했습니다", e);
         } catch (Exception e){
             throw new SignUpFailedException("서버의 오류로 회원가입에 실패했습니다.", e);
         }

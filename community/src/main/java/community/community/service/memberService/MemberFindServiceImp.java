@@ -53,7 +53,7 @@ public class MemberFindServiceImp implements MemberFindService{
                     try{
                        return new MemberDTO(member.getId(), member.getEmail(), member.getPassword());
                     } catch (DataAccessException e){
-                        throw new DBAccessException("회원 정보 조회중 데이터베이스 문제가 발생했습니다.",e);
+                        throw new DBAccessException("회원 정보 조회 중 데이터베이스 문제가 발생했습니다.",e);
                     } catch (Exception e){
                         throw new NotFoundMemberException("회원 정보 조회 중 예상치 못한 문제가 발생했습니다");
                     }

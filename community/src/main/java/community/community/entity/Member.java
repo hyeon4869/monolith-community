@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Member {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue
     @Column(name = "member_id")
     private Long id;
 
