@@ -2,6 +2,9 @@ spring:
   application:
     name: community
 
+  jackson:
+    time-zone: Asia/Seoul
+
   datasource:
     url: jdbc:mysql://localhost:3306/community?useSSL=false&serverTimezone=Asia/Seoul
     username: root
@@ -10,6 +13,6 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
       dialect: org.hibernate.dialect.MySQL5Dialect  # MySQL5Dialect 또는 MySQL8Dialect 사용
     show-sql: true

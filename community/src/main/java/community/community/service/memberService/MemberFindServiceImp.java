@@ -7,7 +7,7 @@ import community.community.entity.Member;
 import community.community.exception.customException.DBAccessException;
 import community.community.exception.customException.NotFoundMemberException;
 import community.community.exception.customException.NotFoundPostException;
-import community.community.repository.MemberRepository;
+import community.community.repository.memberRepository.MemberRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -53,7 +53,7 @@ public class MemberFindServiceImp implements MemberFindService{
                     try{
                        return new MemberDTO(member.getId(), member.getEmail(), member.getPassword());
                     } catch (DataAccessException e){
-                        throw new DBAccessException("회원 정보 조회중 데이터베이스 문제가 발생했습니다.",e);
+                        throw new DBAccessException("회원 정보 조회 중 데이터베이스 문제가 발생했습니다.",e);
                     } catch (Exception e){
                         throw new NotFoundMemberException("회원 정보 조회 중 예상치 못한 문제가 발생했습니다");
                     }

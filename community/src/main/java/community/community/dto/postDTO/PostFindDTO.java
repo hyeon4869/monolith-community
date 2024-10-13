@@ -16,4 +16,5 @@ public class PostFindDTO {
     private String title;
 
     private String memberEmail;
+
 }

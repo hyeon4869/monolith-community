@@ -5,7 +5,7 @@ import community.community.dto.postDTO.PostFindDTO;
 import community.community.entity.Post;
 import community.community.exception.customException.NotFoundMemberException;
 import community.community.exception.customException.NotFoundPostException;
-import community.community.repository.PostRepository;
+import community.community.repository.postRepository.PostRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,6 +53,7 @@ public class PostFindServiceImp implements PostFindService {
         postDetailDTO.setId(post.getId());
         postDetailDTO.setTitle(post.getTitle());
         postDetailDTO.setContent(post.getContent());
+        postDetailDTO.setCommentList(post.getCommentList());
         return postDetailDTO;
     }
 

@@ -4,7 +4,7 @@ import community.community.dto.MemberDTO.MemberPasswordDTO;
 import community.community.entity.Member;
 import community.community.exception.customException.DBAccessException;
 import community.community.exception.customException.NotFoundMemberException;
-import community.community.repository.MemberRepository;
+import community.community.repository.memberRepository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
@@ -40,7 +40,7 @@ public class MemberUpdateServiceImp implements MemberUpdateService {
         } catch (DataAccessException e) {
             throw new DBAccessException("비밀번호 업데이트 중 데이터베이스에 오류가 발생했습니다.",e);
         } catch (Exception e) {
-            throw new RuntimeException("예상치 못한 예외가 발생했습니다.");
+            throw new RuntimeException("비밀번호 수정 중 예상치 못한 예외가 발생했습니다.");
         }
     }
 
@@ -56,7 +56,7 @@ public class MemberUpdateServiceImp implements MemberUpdateService {
         } catch (DataAccessException e){
             throw new DBAccessException("회원 삭제 중 데이터베이스에 오류가 발생했습니다.", e);
         } catch (Exception e){
-            throw new RuntimeException("예상치 못한 예외가 발생했습니다.");
+            throw new RuntimeException("회원 삭제 중 예상치 못한 예외가 발생했습니다.");
         }
     }
 }

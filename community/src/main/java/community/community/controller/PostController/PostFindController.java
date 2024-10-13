@@ -39,6 +39,7 @@ public class PostFindController {
         response.put("message", "게시물 내용을 불러옵니다.");
         response.put("title", postDetailDTO.getTitle());
         response.put("content", postDetailDTO.getContent());
+        response.put("comment", postDetailDTO.getCommentList());
 
         return ResponseEntity.ok(response);
     }
