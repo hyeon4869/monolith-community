@@ -1,4 +1,4 @@
-package community.community.repository;
+package community.community.repository.postRepository;
 
 import community.community.entity.Post;
 import jakarta.persistence.QueryHint;
@@ -20,7 +20,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
 
     //읽기 전용 쿼리 힌트 사용
-    @Query("SELECT p FROM Post p WHERE p.id=:id")
+    @Query("SELECT DISTINCT p FROM Post p LEFT JOIN FETCH p.commentList c WHERE p.id=:id")
     @QueryHints(@QueryHint(name = "org.hibernate.readOnly", value ="true"))
     Optional<Post> findByReadId(Long id);
 

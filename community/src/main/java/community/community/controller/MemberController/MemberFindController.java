@@ -18,7 +18,7 @@ public class MemberFindController {
 
     private final MemberFindService memberFindService;
 
-    public MemberFindController(@Qualifier("queryDslFind") MemberFindService memberFindService){
+    public MemberFindController(@Qualifier("defaultFind") MemberFindService memberFindService){
         this.memberFindService=memberFindService;
     }
 

@@ -4,7 +4,7 @@ import community.community.dto.MemberDTO.MemberPasswordDTO;
 import community.community.entity.Member;
 import community.community.exception.customException.DBAccessException;
 import community.community.exception.customException.NotFoundMemberException;
-import community.community.repository.MemberRepository;
+import community.community.repository.memberRepository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;

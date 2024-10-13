@@ -1,9 +1,7 @@
-package community.community.repository;
+package community.community.repository.memberRepository;
 
 import community.community.entity.Member;
 import jakarta.persistence.QueryHint;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.QueryHints;
@@ -22,7 +20,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @QueryHints(@QueryHint(name = "org.hibernate.readOnly", value = "true"))
     Optional<Member> findByReadId(Long id);
 
-    @Query("SELECT m FROM Member m where email= :email")
+    @Query("SELECT m FROM Member m where m.email= :email")
     @QueryHints(@QueryHint(name = "org.hibernate.readOnly", value = "true"))
     Optional<Member> findByReadEmail(String email);
 
@@ -34,7 +32,4 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @QueryHints(@QueryHint(name = "org.hibernate.readOnly", value = "true"))
     Member findByMemberAndPost(Long id);
 
-    @Query("SELECT m FROM Member m")
-    @QueryHints(@QueryHint(name = "org.hibernate.readOnly", value = "true"))
-    Page<Member> findReadPagingFindList(Pageable pageable);
 }
