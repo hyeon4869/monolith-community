@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Comment {
+public class Comment extends BasicTimeEntity{
 
     @Id @GeneratedValue
     @Column(name = "comment_id")

@@ -41,6 +41,7 @@ public class CommentServiceImp implements CommentService {
                 .build();
 
         comment.setPost(post);
+
         commentRepository.save(comment);
         return comment;
     }
