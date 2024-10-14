@@ -12,7 +12,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-
+@ToString
 public class Member extends BasicTimeEntity{
 
     @Id @GeneratedValue
