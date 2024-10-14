@@ -21,6 +21,7 @@ public class CommentUpdateServiceImp implements CommentUpdateService{
     @Transactional
     @Override
     public CommentUpdateDTO findCommentId(Long id, CommentUpdateDTO commentUpdateDTO) {
+
         Comment comment=commentRepository.findById(id)
                 .orElseThrow(() -> new NotFoundCommentException("존재하지 않는 댓글입니다."));
 
