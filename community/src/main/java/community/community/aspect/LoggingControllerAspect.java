@@ -1,6 +1,5 @@
 package community.community.aspect;
 
-import community.community.dto.MemberDTO.MemberDTO;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
@@ -18,10 +17,7 @@ public class LoggingControllerAspect {
     @Pointcut("execution(* community.community.controller.*.*.*(..))")
     public void ControllerMethods(){}
 
-    @Pointcut("execution(* community.community.controller.MemberController.MemberSignUpController.signUp(..))")
-    public void signUpMethods(){}
-
-    @Before("ControllerMethods() && !signUpMethods()")
+    @Before("ControllerMethods()")
     public void logBeforeMethods(JoinPoint joinPoint){
            String methodName = joinPoint.getSignature().getName();
            Object[] methodArgs = joinPoint.getArgs();
@@ -42,13 +38,4 @@ public class LoggingControllerAspect {
         logger.error("[[Method: {}, threw an Exception: {}]]", methodName, error.getMessage());
     }
 
-    @Before("signUpMethods()")
-    public void logBeforeSignUpMethod(JoinPoint joinPoint){
-        String methodName = joinPoint.getSignature().getName();
-        Object[] methodArgs = joinPoint.getArgs();
-
-        if (methodArgs[0] instanceof MemberDTO memberDTO) {
-            logger.info("[[Executing methodName: {} with email: {} with password: [[FILTERED]]]]", methodName, memberDTO.getEmail());
-        }
-    }
 }

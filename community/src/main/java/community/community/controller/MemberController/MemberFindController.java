@@ -1,6 +1,6 @@
 package community.community.controller.MemberController;
 
-import community.community.dto.MemberDTO.MemberDTO;
+import community.community.dto.MemberDTO.MemberFindDTO;
 import community.community.dto.MemberDTO.MemberMyPageDTO;
 import community.community.service.memberService.MemberFindService;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,11 +26,10 @@ public class MemberFindController {
     public ResponseEntity<Map<String, Object>> findMember(@PathVariable("id") Long id){
         Map<String, Object> response = new HashMap<>();
 
-        MemberDTO memberDTO = memberFindService.findMember(id);
+        MemberFindDTO memberFindDTO = memberFindService.findMember(id);
 
-        response.put("message", "회원조회를 시작합니다");
-        response.put("email",memberDTO.getEmail());
-        response.put("password", memberDTO.getPassword());
+        response.put("message", "회원조회 완료");
+        response.put("email",memberFindDTO);
         return ResponseEntity.ok(response);
     }
 
@@ -45,8 +44,8 @@ public class MemberFindController {
     @GetMapping("/findMember")
     public ResponseEntity<Map<String, Object>> findMemberList(){
         Map<String, Object> response = new HashMap<>();
-        List<MemberDTO> memberDTOList = memberFindService.findMemberList();
-        response.put("member",memberDTOList);
+        List<MemberFindDTO> memberFindDTOList = memberFindService.findMemberList();
+        response.put("member",memberFindDTOList);
 
         return ResponseEntity.ok(response);
     }

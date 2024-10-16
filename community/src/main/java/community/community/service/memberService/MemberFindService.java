@@ -1,14 +1,14 @@
 package community.community.service.memberService;
 
-import community.community.dto.MemberDTO.MemberDTO;
+import community.community.dto.MemberDTO.MemberFindDTO;
 import community.community.dto.MemberDTO.MemberMyPageDTO;
 
 import java.util.List;
 
 public interface MemberFindService {
-    MemberDTO findMember(Long id);
+    MemberFindDTO findMember(Long id);
 
-    List<MemberDTO> findMemberList();
+    List<MemberFindDTO> findMemberList();
 
     MemberMyPageDTO findMemberAndPost(Long id);
 }

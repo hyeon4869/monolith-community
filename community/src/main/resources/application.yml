@@ -13,6 +13,6 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
       dialect: org.hibernate.dialect.MySQL5Dialect  # MySQL5Dialect 또는 MySQL8Dialect 사용
     show-sql: true
