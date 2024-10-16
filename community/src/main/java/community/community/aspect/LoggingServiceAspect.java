@@ -23,6 +23,9 @@ public class LoggingServiceAspect {
     @Pointcut("execution(* community.community.service.memberService.MemberSignUpService.signUp(..))")
     public void signUpMethods() {}
 
+    @Pointcut("execution(* community.community.service.memberService.MemberLoginService.memberLogin(..))")
+    public void memberLoginMethods(){}
+
     @Before("serviceMethods()&& !signUpMethods()")
     public void logBeforeMethods(JoinPoint joinPoint) {
         String methodName = joinPoint.getSignature().getName();
@@ -30,7 +33,7 @@ public class LoggingServiceAspect {
         logger.info("[[Executing method: {} with arguments: {}]]", methodName, Arrays.toString(methodArgs));
     }
 
-    @AfterReturning(pointcut = "serviceMethods()", returning = "result")
+    @AfterReturning(pointcut = "serviceMethods() && !memberLoginMethods()" , returning = "result")
     public void logAfterReturning(JoinPoint joinPoint, Object result) {
         String methodName = joinPoint.getSignature().getName();
         logger.info("[[Method {} returned: {}]]", methodName, result);
@@ -52,6 +55,11 @@ public class LoggingServiceAspect {
         }
     }
 
+    @AfterReturning(value = "memberLoginMethods()", returning = "result")
+    public void logAfterMemberLoginMethod(JoinPoint joinPoint, Object result){
+        String methodName = joinPoint.getSignature().getName();
+        logger.info("[[Method: {}, result: {}", methodName,result);
+    }
 
 
 }

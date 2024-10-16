@@ -29,14 +29,14 @@ public class LoggingControllerAspect {
            logger.info("[[Executing methodName: {} with argument: {}]]", methodName, Arrays.toString(methodArgs));
     }
 
-    @AfterReturning("ControllerMethods()")
+    @AfterReturning(value = "ControllerMethods()", returning = "result")
     public void logAfterMethods(JoinPoint joinPoint, Object result){
         String methodName = joinPoint.getSignature().getName();
 
         logger.info("[[Method: {}, Returned: {}]]", methodName, result);
     }
 
-    @AfterThrowing("ControllerMethods()")
+    @AfterThrowing(value = "ControllerMethods()", throwing = "error")
     public void logAfterError(JoinPoint joinPoint, Throwable error){
         String methodName = joinPoint.getSignature().getName();
         logger.error("[[Method: {}, threw an Exception: {}]]", methodName, error.getMessage());
@@ -50,12 +50,5 @@ public class LoggingControllerAspect {
         if (methodArgs[0] instanceof MemberDTO memberDTO) {
             logger.info("[[Executing methodName: {} with email: {} with password: [[FILTERED]]]]", methodName, memberDTO.getEmail());
         }
-    }
-
-    @AfterReturning("signUpMethods()")
-    public void logAfterSignUpMethods(JoinPoint joinPoint){
-        String methodName = joinPoint.getSignature().getName();
-
-        logger.info("[[Method: {}]]", methodName);
     }
 }
