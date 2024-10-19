@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 @Builder
-public class MemberFindDTO {
+public class MemberIdAndEmailDTO {
 
     private Long id;
 
