@@ -11,8 +11,16 @@ spring:
     password: 12341234
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+    hikari:
+      minimum-idle: 5            # 최소 커넥션 수
+      maximum-pool-size: 10       # 최대 커넥션 풀 크기 (CPU 코어 수에 맞춤)
+      idle-timeout: 600000        # 커넥션 최대 유휴 시간 (밀리초)
+      max-lifetime: 1800000       # 커넥션 최대 수명 (밀리초)
+      connection-timeout: 30000   # 커넥션 타임아웃 (밀리초)
+      pool-name: HikariPool-1     # 풀 이름
+
   jpa:
     hibernate:
       ddl-auto: update
-      dialect: org.hibernate.dialect.MySQL5Dialect  # MySQL5Dialect 또는 MySQL8Dialect 사용
+      dialect: org.hibernate.dialect.MySQLDialect   # 최신 Hibernate Dialect 사용 (Hibernate 6.x)
     show-sql: true
