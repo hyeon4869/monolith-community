@@ -1,7 +1,7 @@
 package community.community.controller.MemberController;
 
 import community.community.dto.MemberDTO.MemberLoginDTO;
-import community.community.entity.Member;
+import community.community.dto.MemberDTO.MemberSuccessLoginDTO;
 import community.community.exception.customException.NotFoundMemberException;
 import community.community.service.memberService.MemberLoginService;
 import jakarta.servlet.http.HttpSession;
@@ -26,8 +26,8 @@ public class MemberLoginController {
     @PostMapping("/memberLogin")
     public ResponseEntity<Map<String, Object>> memberLogin(@RequestBody MemberLoginDTO memberLoginDTO, HttpSession session){
         Map<String, Object> response = new HashMap<>();
-        Member member= memberLoginService.memberLogin(memberLoginDTO);
-        session.setAttribute("loginEmail", member.getEmail());
+        MemberSuccessLoginDTO memberSuccessLoginDTO = memberLoginService.memberLogin(memberLoginDTO);
+        session.setAttribute("loginEmail", memberSuccessLoginDTO.getEmail());
         String loginEmail = (String) session.getAttribute("loginEmail");
         response.put("message", "로그인 완료");
         response.put("loginEmail", loginEmail);

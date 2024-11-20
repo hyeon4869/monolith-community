@@ -1,8 +1,8 @@
 package community.community.service.memberService;
 
 import community.community.dto.MemberDTO.MemberLoginDTO;
-import community.community.entity.Member;
+import community.community.dto.MemberDTO.MemberSuccessLoginDTO;
 
 public interface MemberLoginService {
-    Member memberLogin(MemberLoginDTO memberLoginDTO);
+    MemberSuccessLoginDTO memberLogin(MemberLoginDTO memberLoginDTO);
 }

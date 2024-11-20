@@ -1,6 +1,6 @@
 package community.community.service.memberService;
 
-import community.community.dto.MemberDTO.MemberDTO;
+import community.community.dto.MemberDTO.MemberIdAndEmailDTO;
 import community.community.dto.MemberDTO.MemberMyPageDTO;
 import community.community.dto.postDTO.PostFindDTO;
 import community.community.entity.Member;
@@ -29,29 +29,29 @@ public class MemberFindServiceImp implements MemberFindService{
     }
 
     @Override
-    public MemberDTO findMember(Long id){
+    public MemberIdAndEmailDTO findMember(Long id){
 
 
         Member member =memberRepository.findByReadId(id)
                 .orElseThrow(()-> new NotFoundMemberException("일치하는 회원이 존재하지 않습니다."));
 
 
-        MemberDTO memberDTO = MemberDTO.builder()
+        MemberIdAndEmailDTO memberIdAndEmailDTO = MemberIdAndEmailDTO.builder()
+                .id(member.getId())
                 .email(member.getEmail())
-                .password(member.getPassword())
                 .build();
 
-        return memberDTO;
+        return memberIdAndEmailDTO;
     }
 
     @Override
-    public List<MemberDTO> findMemberList(){
+    public List<MemberIdAndEmailDTO> findMemberList(){
         List<Member> memberList=memberRepository.findReadMemberList();
 
         return memberList.stream()
                 .map(member -> {
                     try{
-                       return new MemberDTO(member.getId(), member.getEmail(), member.getPassword());
+                       return new MemberIdAndEmailDTO(member.getId(), member.getEmail());
                     } catch (DataAccessException e){
                         throw new DBAccessException("회원 정보 조회 중 데이터베이스 문제가 발생했습니다.",e);
                     } catch (Exception e){

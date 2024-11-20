@@ -1,7 +1,7 @@
 package community.community.controller.MemberController;
 
+import community.community.dto.MemberDTO.MemberIdAndEmailDTO;
 import community.community.dto.MemberDTO.MemberPasswordDTO;
-import community.community.entity.Member;
 import community.community.service.memberService.MemberUpdateService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +23,9 @@ public class MemberUpdateController {
     public ResponseEntity<Map<String, Object>> updateMember(@PathVariable("id") Long id, @RequestBody MemberPasswordDTO memberPasswordDTO){
         Map<String, Object> response = new HashMap<>();
 
-        Member member = memberUpdateService.updatePassword(id, memberPasswordDTO);
+        MemberIdAndEmailDTO memberIdAndEmailDTO = memberUpdateService.updatePassword(id, memberPasswordDTO);
 
         response.put("message", "회원님의 비밀번호가 변경되었습니다.");
-        response.put("password",member.getPassword());
         return ResponseEntity.ok(response);
     }
 

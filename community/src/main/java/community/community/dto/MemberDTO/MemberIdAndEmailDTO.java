@@ -4,15 +4,13 @@ import lombok.*;
 
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class MemberDTO {
+@Builder
+public class MemberIdAndEmailDTO {
 
     private Long id;
 
     private String email;
-
-    private String password;
 }

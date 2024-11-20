@@ -1,5 +1,6 @@
 package community.community.service.memberService;
 
+import community.community.dto.MemberDTO.MemberIdAndEmailDTO;
 import community.community.dto.MemberDTO.MemberPasswordDTO;
 import community.community.entity.Member;
 import community.community.exception.customException.DBAccessException;
@@ -30,13 +31,17 @@ public class MemberUpdateServiceImp implements MemberUpdateService {
     @Override
     @Transactional
     //비밀번호 변경 로직
-    public Member updatePassword(Long id, MemberPasswordDTO memberPasswordDTO){
+    public MemberIdAndEmailDTO updatePassword(Long id, MemberPasswordDTO memberPasswordDTO){
         Member member=memberRepository.findById(id)
                 .orElseThrow(() -> new NotFoundMemberException("회원 정보 변경을 위한 아이디 조회에 실패했습니다."));
         //비밀번호 변경 메서드
         try {
             member.updatePassword(memberPasswordDTO.getPassword());
-            return member;
+            MemberIdAndEmailDTO updateDTO = MemberIdAndEmailDTO.builder()
+                    .id(member.getId())
+                    .email(member.getEmail())
+                    .build();
+            return updateDTO;
         } catch (DataAccessException e) {
             throw new DBAccessException("비밀번호 업데이트 중 데이터베이스에 오류가 발생했습니다.",e);
         } catch (Exception e) {
