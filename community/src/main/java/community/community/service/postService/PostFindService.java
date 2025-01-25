@@ -2,11 +2,11 @@ package community.community.service.postService;
 
 import community.community.dto.postDTO.PostDetailDTO;
 import community.community.dto.postDTO.PostFindDTO;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface PostFindService {
-    List<PostFindDTO> postFindAll();
+    Page<PostFindDTO> postFindAll(Pageable pageable);
 
     PostDetailDTO postDetail(Long id);
 }

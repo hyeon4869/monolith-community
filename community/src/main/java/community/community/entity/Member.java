@@ -2,6 +2,8 @@ package community.community.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Cacheable
+@org.hibernate.annotations.Cache(usage= CacheConcurrencyStrategy.READ_WRITE)
 public class Member extends BasicTimeEntity{
 
     @Id @GeneratedValue

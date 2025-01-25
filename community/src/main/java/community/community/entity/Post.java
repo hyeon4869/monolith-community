@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
+
 public class Post extends BasicTimeEntity{
 
     @Id @GeneratedValue

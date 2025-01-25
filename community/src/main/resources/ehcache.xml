@@ -1,0 +1,16 @@
+<config xmlns="http://www.ehcache.org/v3" xmlns:jsr107="http://www.ehcache.org/v3/jsr107">
+    <service>
+        <jsr107:defaults enable-management="true" enable-statistics="true"/>
+    </service>
+    <cache alias="member">
+        <key-type>java.lang.Long</key-type>
+        <value-type>community.community.entity.Member</value-type>
+        <expiry>
+            <ttl unit="minutes">10</ttl> <!-- 캐시 데이터 유지 시간 -->
+        </expiry>
+        <resources>
+            <heap unit="entries">1000</heap> <!-- 힙 메모리에 저장할 최대 엔트리 수 -->
+            <offheap unit="MB">100</offheap> <!-- 오프힙 메모리 크기 -->
+        </resources>
+    </cache>
+</config>
