@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -19,4 +20,5 @@ public class PostDetailDTO {
 
     private List<Comment> commentList=new ArrayList<>();
 
+    private Date createTime;
 }

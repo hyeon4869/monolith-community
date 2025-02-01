@@ -1,0 +1,89 @@
+/* 기본 스타일 초기화 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+.header .logo a {
+    text-decoration: none;
+    color: white;
+    font-size: 24px;
+}
+
+.content-container {
+    max-width: 800px;
+    margin: 20px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.hero h1 {
+    font-size: 28px;
+    color: #333;
+}
+
+.post-list-section {
+    margin-top: 20px;
+}
+
+.post-list {
+    list-style-type: none;
+}
+
+.post-list li {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.post-list li:last-child {
+    border-bottom: none;
+}
+
+.post-list a {
+    text-decoration: none;
+    color: #4CAF50;
+}
+
+.post-list a:hover {
+    text-decoration: underline;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    padding: 10px 15px;
+    margin-right: 5px;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+    border: none;
+}
+
+.pagination button:hover {
+    background-color: #45a049;
+}
+
+.pagination button[disabled] {
+    background-color: #ccc;
+}

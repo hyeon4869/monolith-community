@@ -27,6 +27,7 @@ public class PostRegistrationController {
         Post post = postRegistrationService.postRegistration(postDTO, session);
         response.put("message", "게시물을 등록했습니다.");
         response.put("title", post.getTitle());
+        response.put("createTime", post.getCreateTime());
         response.put("content",post.getContent());
         response.put("memberId",post.getMember().getId());
         response.put("memberEmail",post.getMember().getEmail());

@@ -21,9 +21,7 @@ public class PostFindServiceImp implements PostFindService {
 
     //게시물 메인 조회
     public Page<PostFindDTO> postFindAll(Pageable pageable) {
-        // JPQL 쿼리를 통해 PostFindDTO 리스트 직접 조회
         Page<PostFindDTO> postPage = postRepository.findAllPostWithEmail(pageable);
-
 
         return postPage;
     }
@@ -34,11 +32,13 @@ public class PostFindServiceImp implements PostFindService {
                 .orElseThrow(()->new IllegalArgumentException("삭제된 게시물입니다."));
 
         PostDetailDTO postDetailDTO = new PostDetailDTO();
+        postDetailDTO.setCreateTime(post.getCreateTime());
         postDetailDTO.setId(post.getId());
         postDetailDTO.setTitle(post.getTitle());
         postDetailDTO.setContent(post.getContent());
         postDetailDTO.setCommentList(post.getCommentList());
         return postDetailDTO;
     }
+
 
 }
