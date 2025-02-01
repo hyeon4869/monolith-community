@@ -1,0 +1,110 @@
+/* 기본 스타일 초기화 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+.header .logo a {
+    text-decoration: none;
+    color: white;
+    font-size: 24px;
+}
+
+.content-container {
+    max-width: 800px;
+    margin: 20px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.hero h1 {
+    font-size: 28px;
+    color: #333;
+}
+
+.hero p {
+    font-size: 14px;
+    color: #777;
+}
+
+.post-content {
+    margin-top: 20px;
+}
+
+.post-content p {
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+.comments-section {
+    margin-top: 30px;
+}
+
+.comments-section h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.comment-list {
+    list-style-type: none;
+}
+
+.comment-list li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.comment-list li:last-child {
+    border-bottom: none;
+}
+
+.back-link {
+    margin-top: 20px;
+}
+
+.back-link a {
+    text-decoration: none;
+    color: #4CAF50;
+}
+
+.back-link a:hover {
+    text-decoration: underline;
+}
+
+.footer {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #4CAF50;
+    color: white;
+}
+/* 삭제 버튼 스타일 */
+.delete-btn {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.delete-btn:hover {
+  background-color: #ff1a1a;
+}

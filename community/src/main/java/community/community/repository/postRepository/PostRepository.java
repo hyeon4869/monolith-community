@@ -15,19 +15,16 @@ import java.util.Optional;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-
+    //소프트 삭제로 처리
     @Query("SELECT new community.community.dto.postDTO.PostFindDTO(p.id, p.title, m.email) " +
-            "FROM Post p JOIN p.member m")
+            "FROM Post p JOIN p.member m WHERE isDeleted=false")
     Page<PostFindDTO> findAllPostWithEmail(Pageable pageable);
 
-
-//    @Query("SELECT p FROM Post p JOIN FETCH p.member m")
-//    @QueryHints(@QueryHint(name = "org.hibernate.readOnly", value="true"))
-//    List<Post> findAllRead();
 
     //읽기 전용 쿼리 힌트 사용
     @Query("SELECT DISTINCT p FROM Post p LEFT JOIN FETCH p.commentList c WHERE p.id=:id")
     @QueryHints(@QueryHint(name = "org.hibernate.readOnly", value ="true"))
     Optional<Post> findByReadId(Long id);
+
 
 }

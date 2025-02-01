@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+    <link rel="stylesheet" href="/styles/styles.css"> <!-- 공통 CSS 파일 -->
+</head>
+<body>
+<header class="header">
+    <div class="logo"><a href="/">대화의 장소</a></div>
+</header>
+
+<main class="content-container">
+    <section class="form-section">
+        <h1>회원가입</h1>
+        <form id="signupForm" class="form-container">
+            <label for="email">이메일</label>
+            <input type="email" id="email" name="email" placeholder="이메일을 입력하세요" required>
+
+            <label for="username">아이디</label>
+            <input type="text" id="username" name="username" placeholder="아이디를 입력하세요" required>
+
+            <label for="password">비밀번호</label>
+            <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요" required>
+
+            <label for="confirmPassword">비밀번호 확인</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="비밀번호를 다시 입력하세요" required>
+
+            <button type="button" id="signupButton" class="btn">회원가입</button>
+        </form>
+        <p>이미 계정이 있으신가요? <a href="/login">로그인</a></p>
+    </section>
+</main>
+
+<footer class="footer">
+    © 2025 POST. All rights reserved.
+</footer>
+
+<!-- JavaScript -->
+<script>
+    document.getElementById("signupButton").addEventListener("click", async function () {
+        // 폼 데이터 가져오기
+        const email = document.getElementById("email").value;
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirmPassword").value;
+
+        // 비밀번호 확인
+        if (password !== confirmPassword) {
+            alert("비밀번호가 일치하지 않습니다.");
+            return;
+        }
+
+        // Fetch API로 POST 요청 보내기
+        try {
+            const response = await fetch("/signUp", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email: email,
+                    username: username,
+                    password: password
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error("회원가입 실패");
+            }
+
+            const data = await response.json();
+            alert(data.message); // 서버에서 받은 메시지 표시
+            console.log(data);
+
+            // 회원가입 성공 시 로그인 페이지로 이동
+            if (data.message === "회원가입 완료") {
+                window.location.href = "/login";
+            }
+        } catch (error) {
+            alert("회원가입 중 오류가 발생했습니다: " + error.message);
+        }
+    });
+</script>
+</body>
+</html>
