@@ -2,6 +2,16 @@ spring:
   application:
     name: community
 
+  server:
+    tomcat:
+      threads:
+        max: 25    # 최대 스레드 수 (I/O 바운드 기준)
+        min-spare: 10 # 최소 유휴 스레드 수
+      max-connections: 2000 # 동시에 허용할 최대 연결 수
+      accept-count: 200     # 대기열 크기
+      connection-timeout: 20000 # 연결 타임아웃 (20초)
+
+
   jackson:
     time-zone: Asia/Seoul
 
@@ -12,11 +22,11 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
     hikari:
-      minimum-idle: 5              # 최소 유휴 커넥션 수 감소
-      maximum-pool-size: 16        # CPU 코어 기반으로 최대 풀 크기 조정 (4 × 2~3)
+      minimum-idle: 10              # 최소 유휴 커넥션 수
+      maximum-pool-size: 25        # 최대 풀 크기 (CPU 코어 기반)
       idle-timeout: 300000         # 유휴 시간 유지 (5분)
-      max-lifetime: 1800000        # 최대 수명 유지 (30분)
-      connection-timeout: 10000    # 커넥션 타임아웃 단축 (10초)
+      max-lifetime: 1740000        # 최대 수명 유지 (29분)
+      connection-timeout: 5000     # 커넥션 타임아웃 단축 (5초)
 
 
   jpa:

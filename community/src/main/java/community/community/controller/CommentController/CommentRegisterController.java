@@ -1,11 +1,10 @@
 package community.community.controller.CommentController;
 
 import community.community.dto.commentDTO.CommentRegisterDTO;
-import community.community.entity.Comment;
 import community.community.service.commentService.CommentRegisterService;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,21 +12,17 @@ import java.util.Map;
 @RestController
 public class CommentRegisterController {
 
-    private final CommentRegisterService commentService;
+    private final CommentRegisterService commentRegisterService;
 
-    public CommentRegisterController(CommentRegisterService commentService){
-        this. commentService=commentService;
+    public CommentRegisterController(CommentRegisterService commentRegisterService){
+        this.commentRegisterService=commentRegisterService;
     }
 
-    @PostMapping("/postDetail/{id}")
-    public ResponseEntity<Map<String, Object>> register(@RequestBody CommentRegisterDTO commentRegisterDTO, HttpSession session, @PathVariable Long id){
+    @PostMapping("/write/{id}")
+    public ResponseEntity<Map<String, Object>> commentRegister(CommentRegisterDTO commentRegisterDTO){
+
         Map<String, Object> response = new HashMap<>();
-        String writer = (String) session.getAttribute("loginEmail");
-
-        Comment comment=commentService.register(commentRegisterDTO, writer, id);
-
-        response.put("Comment", comment);
+        commentRegisterService.commentRegister(commentRegisterDTO);
         return ResponseEntity.ok(response);
     }
-
 }

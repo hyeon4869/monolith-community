@@ -36,7 +36,6 @@ public class PostFindServiceImp implements PostFindService {
         postDetailDTO.setId(post.getId());
         postDetailDTO.setTitle(post.getTitle());
         postDetailDTO.setContent(post.getContent());
-        postDetailDTO.setCommentList(post.getCommentList());
         return postDetailDTO;
     }
 
