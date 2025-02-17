@@ -4,6 +4,7 @@ import community.community.dto.MemberDTO.MemberLoginDTO;
 import community.community.dto.MemberDTO.MemberSuccessLoginDTO;
 import community.community.exception.customException.NotFoundMemberException;
 import community.community.service.memberService.MemberLoginService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -24,11 +25,19 @@ public class MemberLoginController {
     }
 
     @PostMapping("/memberLogin")
-    public ResponseEntity<Map<String, Object>> memberLogin(@RequestBody MemberLoginDTO memberLoginDTO, HttpSession session){
+    public ResponseEntity<Map<String, Object>> memberLogin(@RequestBody MemberLoginDTO memberLoginDTO, HttpServletRequest request){
         Map<String, Object> response = new HashMap<>();
+
         MemberSuccessLoginDTO memberSuccessLoginDTO = memberLoginService.memberLogin(memberLoginDTO);
-        session.setAttribute("loginEmail", memberSuccessLoginDTO.getEmail());
-        String loginEmail = (String) session.getAttribute("loginEmail");
+
+        HttpSession oldSession = request.getSession(false);
+
+        if(oldSession!=null){
+            oldSession.invalidate();
+        }
+        HttpSession newSession = request.getSession(true);
+        newSession.setAttribute("loginEmail", memberSuccessLoginDTO.getEmail());
+        String loginEmail = (String) newSession.getAttribute("loginEmail");
         response.put("message", "로그인 완료");
         response.put("loginEmail", loginEmail);
         return ResponseEntity.ok(response);
