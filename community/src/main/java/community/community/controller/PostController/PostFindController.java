@@ -57,7 +57,6 @@ public class PostFindController {
         response.put("title", postDetailDTO.getTitle());
         response.put("createTime", postDetailDTO.getCreateTime());
         response.put("content", postDetailDTO.getContent());
-        response.put("comment", postDetailDTO.getCommentList());
 
         return ResponseEntity.ok(response);
     }

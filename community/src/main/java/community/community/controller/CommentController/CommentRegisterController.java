@@ -2,9 +2,9 @@ package community.community.controller.CommentController;
 
 import community.community.dto.commentDTO.CommentRegisterDTO;
 import community.community.service.commentService.CommentRegisterService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,10 +19,11 @@ public class CommentRegisterController {
     }
 
     @PostMapping("/write/{id}")
-    public ResponseEntity<Map<String, Object>> commentRegister(CommentRegisterDTO commentRegisterDTO){
+    public ResponseEntity<Map<String, Object>> commentRegister(@PathVariable("id") Long id, @RequestBody CommentRegisterDTO commentRegisterDTO, HttpSession session){
 
         Map<String, Object> response = new HashMap<>();
-        commentRegisterService.commentRegister(commentRegisterDTO);
+        String content=commentRegisterService.commentRegister(id, commentRegisterDTO,session);
+        response.put("댓글", content);
         return ResponseEntity.ok(response);
     }
 }

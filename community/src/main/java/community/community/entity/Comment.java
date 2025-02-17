@@ -1,16 +1,14 @@
 package community.community.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Comment extends BasicTimeEntity{
 
     @Id @GeneratedValue
@@ -27,6 +25,10 @@ public class Comment extends BasicTimeEntity{
 
     public void setContent(String content){
         this.content=content;
+    }
+
+    public void setPost(Post post){
+        this.post=post;
     }
 
 }
