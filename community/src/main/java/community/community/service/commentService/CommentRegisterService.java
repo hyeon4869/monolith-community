@@ -1,9 +1,8 @@
 package community.community.service.commentService;
 
 import community.community.dto.commentDTO.CommentRegisterDTO;
-import community.community.entity.Comment;
+import jakarta.servlet.http.HttpSession;
 
 public interface CommentRegisterService {
-    Comment register(CommentRegisterDTO commentRegisterDTO, String writer, Long id);
-
+    String commentRegister(Long id, CommentRegisterDTO commentRegisterDTO, HttpSession session);
 }

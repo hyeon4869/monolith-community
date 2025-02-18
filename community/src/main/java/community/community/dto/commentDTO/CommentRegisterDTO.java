@@ -1,6 +1,5 @@
 package community.community.dto.commentDTO;
 
-import community.community.entity.Post;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +16,4 @@ public class CommentRegisterDTO {
     private String Content;
 
     private String writer;
-
-    private Post postId;
 }
