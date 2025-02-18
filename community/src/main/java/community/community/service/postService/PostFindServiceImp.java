@@ -31,12 +31,7 @@ public class PostFindServiceImp implements PostFindService {
         Post post =postRepository.findByReadId(id)
                 .orElseThrow(()->new IllegalArgumentException("삭제된 게시물입니다."));
 
-        PostDetailDTO postDetailDTO = new PostDetailDTO();
-        postDetailDTO.setCreateTime(post.getCreateTime());
-        postDetailDTO.setId(post.getId());
-        postDetailDTO.setTitle(post.getTitle());
-        postDetailDTO.setContent(post.getContent());
-        postDetailDTO.setCommentList(post.getCommentList());
+        PostDetailDTO postDetailDTO =PostDetailDTO.toFromEntity(post);
         return postDetailDTO;
     }
 

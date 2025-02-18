@@ -9,7 +9,6 @@
 <body>
 <header class="header">
   <div class="logo"><a href="/posts">읽고 가</a></div>
-  <!-- 삭제 버튼 추가 -->
   <button class="delete-btn" onclick="deletePost()">삭제하기</button>
 </header>
 
@@ -28,7 +27,11 @@
   <!-- Comments Section -->
   <section class="comments-section">
     <h2>댓글</h2>
-    <ul id="commentList" class="comment-list">
+    <!-- 댓글 보기 버튼 -->
+    <button id="toggleCommentsBtn" onclick="toggleComments()">댓글 보기 (0)</button>
+
+    <!-- 댓글 리스트 (기본적으로 숨김 처리) -->
+    <ul id="commentList" class="comment-list" style="display: none;">
       <!-- 댓글 리스트가 여기에 추가됩니다 -->
     </ul>
   </section>
