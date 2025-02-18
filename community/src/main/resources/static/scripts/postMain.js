@@ -38,6 +38,7 @@ async function fetchPostList(page, title = "") {
     }
 }
 
+
 // 게시물 삭제 요청 함수
 async function deletePost(postId) {
     if (!confirm("정말로 이 게시물을 삭제하시겠습니까?")) return;
@@ -91,6 +92,7 @@ async function registerPost() {
     }
 }
 
+=======
 // 검색 요청 함수
 function searchPosts() {
     const title = document.getElementById('searchInput').value; // 검색어 가져오기
