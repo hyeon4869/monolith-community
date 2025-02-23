@@ -83,4 +83,11 @@ public class MemberFindServiceImp implements MemberFindService{
         return memberMyPageDTO;
     }
 
+    @Override
+    public Member findByEmail(String email) {
+        Member member =memberRepository.findByReadEmail(email)
+                .orElseThrow(()->new IllegalArgumentException("확인되지 않은 회원입니다. : "+ email));
+        return member;
+    }
+
 }

@@ -24,7 +24,6 @@ async function fetchPostDetail() {
 
         // 댓글 데이터 가져오기
         await fetchComments();
-
     } catch (error) {
         console.error("Error fetching post detail:", error);
         document.getElementById('postContent').textContent = "게시물을 불러오는 데 실패했습니다.";
@@ -53,6 +52,7 @@ async function fetchComments() {
                         <span style="float: right; font-size: 0.9em; color: gray;">- ${comment.writer}</span>
                     </p>
                     <span class="comment-time">${formatDate(comment.createTime)}</span>
+                    <button class="like-comment-btn" onclick="likeComment(${comment.id})">좋아요</button>
                 `;
                 commentList.appendChild(li);
             });
@@ -69,6 +69,42 @@ async function fetchComments() {
         console.error("Error fetching comments:", error);
         const commentList = document.getElementById('commentList');
         commentList.innerHTML = "<li>댓글을 불러오는 데 실패했습니다.</li>";
+    }
+}
+
+// 게시글 좋아요 요청 함수
+async function likePost() {
+    try {
+        const response = await fetch(`/like/post`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ entityId: postId })
+        });
+
+        if (!response.ok) throw new Error("게시글 좋아요 요청에 실패했습니다.");
+
+        alert("게시글에 좋아요를 눌렀습니다!");
+    } catch (error) {
+        console.error("Error liking post:", error);
+        alert("좋아요 요청 중 오류가 발생했습니다.");
+    }
+}
+
+// 댓글 좋아요 요청 함수
+async function likeComment(commentId) {
+    try {
+        const response = await fetch(`/like/comment`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ entityId: commentId })
+        });
+
+        if (!response.ok) throw new Error("댓글 좋아요 요청에 실패했습니다.");
+
+        alert("댓글에 좋아요를 눌렀습니다!");
+    } catch (error) {
+        console.error("Error liking comment:", error);
+        alert("좋아요 요청 중 오류가 발생했습니다.");
     }
 }
 
@@ -120,8 +156,6 @@ async function submitComment(event) {
         });
 
         if (!response.ok) throw new Error("댓글 등록에 실패했습니다.");
-
-        const result = await response.json();
 
         alert("댓글이 등록되었습니다!");
 
