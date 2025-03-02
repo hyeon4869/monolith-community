@@ -28,6 +28,9 @@ public class Post extends BasicTimeEntity{
     private Member member;
 
     @Column(nullable = false)
+    private int likeCount = 0;
+
+    @Column(nullable = false)
     private boolean isDeleted;
 
     //양방향 연관관계 편의 메서드
