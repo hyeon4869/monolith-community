@@ -1,7 +1,6 @@
 package community.community.controller.MemberController;
 
 import community.community.dto.MemberDTO.MemberIdAndEmailDTO;
-import community.community.dto.MemberDTO.MemberMyPageDTO;
 import community.community.service.memberService.MemberFindService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -33,14 +32,6 @@ public class MemberFindController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/myPage/{id}")
-    public ResponseEntity<Map<String, Object>> findMemberAndPost(@PathVariable("id") Long id){
-        Map<String,Object> response = new HashMap<>();
-
-        MemberMyPageDTO memberMyPageDTO=memberFindService.findMemberAndPost(id);
-        response.put("myPage", memberMyPageDTO);
-        return ResponseEntity.ok(response);
-    }
     @GetMapping("/findMember")
     public ResponseEntity<Map<String, Object>> findMemberList(){
         Map<String, Object> response = new HashMap<>();

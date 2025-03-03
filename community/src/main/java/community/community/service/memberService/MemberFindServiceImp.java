@@ -61,27 +61,6 @@ public class MemberFindServiceImp implements MemberFindService{
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public MemberMyPageDTO findMemberAndPost(Long id) {
-        Member member=memberRepository.findByMemberAndPost(id);
-
-        List<PostFindDTO> postFindDTOList = member.getPostList()==null || member.getPostList().isEmpty()
-                ? new ArrayList<>(): member.getPostList().stream()
-                .map( post -> {
-                    try{
-                        return new PostFindDTO(post.getId(), post.getTitle(), post.getMember().getEmail());
-                    } catch(Exception e){
-                        throw new NotFoundPostException("게시물을 불러오던 중 문제가 발생했습니다.", e);
-                    }
-                })
-                .toList();
-
-        MemberMyPageDTO memberMyPageDTO = new MemberMyPageDTO();
-        memberMyPageDTO.setId(member.getId());
-        memberMyPageDTO.setEmail(member.getEmail());
-        memberMyPageDTO.setPostList(postFindDTOList);
-        return memberMyPageDTO;
-    }
 
     @Override
     public Member findByEmail(String email) {
