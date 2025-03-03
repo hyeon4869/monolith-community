@@ -26,6 +26,7 @@ public class PostFindServiceImp implements PostFindService {
     }
 
     //게시물 메인 조회
+    @Override
     public Page<PostFindDTO> postFindAll(Pageable pageable) {
         Page<PostFindDTO> postPage = postRepository.findAllPostWithEmail(pageable);
 
@@ -33,6 +34,7 @@ public class PostFindServiceImp implements PostFindService {
     }
 
     //게시물 상세 조회
+    @Override
     public PostDetailDTO postDetail(Long id){
         Post post =postRepository.findByReadId(id)
                 .orElseThrow(()->new IllegalArgumentException("삭제된 게시물입니다."));
