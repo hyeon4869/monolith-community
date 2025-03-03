@@ -1,6 +1,5 @@
 package community.community.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,7 +23,6 @@ public class Post extends BasicTimeEntity{
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "member_id")
-    @JsonIgnore
     private Member member;
 
     @Column(nullable = false)
@@ -35,9 +33,6 @@ public class Post extends BasicTimeEntity{
 
     //양방향 연관관계 편의 메서드
     public void setMember(Member member){
-        if(this.member!=null){
-            this.member.getPostList().remove(this);
-        }
         this.member=member;
     }
 

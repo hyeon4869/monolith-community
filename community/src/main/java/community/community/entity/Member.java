@@ -5,9 +5,6 @@ import lombok.*;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.cache.annotation.Cacheable;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Table(name = "Member")
 @Getter
@@ -28,10 +25,6 @@ public class Member extends BasicTimeEntity{
 
     @Column(name = "password", nullable = false)
     private String password;
-
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Post> postList = new ArrayList<>();
-
 
     //패스워드 수정 메서드
     public void updatePassword(String password){

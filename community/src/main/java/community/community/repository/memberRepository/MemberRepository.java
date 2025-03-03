@@ -28,8 +28,5 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @QueryHints(@QueryHint(name = "org.hibernate.readOnly", value = "true"))
     List<Member> findReadMemberList();
 
-    @Query("SELECT DISTINCT m FROM Member m LEFT JOIN FETCH m.postList p WHERE m.id= :id")
-    @QueryHints(@QueryHint(name = "org.hibernate.readOnly", value = "true"))
-    Member findByMemberAndPost(Long id);
 
 }

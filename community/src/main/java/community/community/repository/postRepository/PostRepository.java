@@ -31,7 +31,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     //대소문자 구분없이 조회함
     //ex) a 로 입력해도 A 게시물 조회 가능
     @Query("SELECT new community.community.dto.postDTO.PostFindDTO(p.id, p.title, m.email)" +
-            "FROM Post p JOIN p.member m WHERE p.isDeleted=false AND LOWER(p.title) LIKE LOWER(CONCAT('%',:title,'%'))")
+            "FROM Post p JOIN p.member m WHERE p.isDeleted=false AND LOWER(p.title) LIKE LOWER(CONCAT('%',:title,'%')) ORDER BY p.createTime DESC")
     @QueryHints(@QueryHint(name = "org.hibernate.readOnly", value="true"))
     Page<PostFindDTO> findSearchTitle(Pageable pageable, String title);
 }
