@@ -46,5 +46,8 @@ public class Post extends BasicTimeEntity{
         this.isDeleted=true;
     }
 
+    public void increaseLikeCount(){
+        this.likeCount++;
+    }
 
 }

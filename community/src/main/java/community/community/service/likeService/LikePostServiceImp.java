@@ -33,7 +33,7 @@ public class LikePostServiceImp implements LikeService{
         String email = (String) session.getAttribute("loginEmail");
         Member member = memberFindService.findByEmail(email);
 
-        Optional<UserLike> existingLike = likeRepository.findByEntityIdAndMemberId(member.getId(),likePostDTO.getEntityId());
+        Optional<UserLike> existingLike = likeRepository.findByMemberIdAndEntityId(member.getId(),likePostDTO.getEntityId());
 
         if(existingLike.isPresent()){
             likeRepository.delete(existingLike.get());
@@ -47,6 +47,8 @@ public class LikePostServiceImp implements LikeService{
                 .entityName(entityName)
                 .build();
 
+//            System.out.println(entityName);
+
              likeRepository.save(userlike);
         }
     }
@@ -55,6 +57,7 @@ public class LikePostServiceImp implements LikeService{
     @Transactional
     public void likePostPush( LikePostDTO likePostDTO, HttpSession session, EntityName entityName) {
         likePush(likePostDTO, session, entityName);
+
     }
 
 
