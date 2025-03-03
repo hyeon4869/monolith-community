@@ -38,7 +38,6 @@ public class PostFindServiceImp implements PostFindService {
                 .orElseThrow(()->new IllegalArgumentException("삭제된 게시물입니다."));
 
         PostDetailDTO postDetailDTO =PostDetailDTO.toFromEntity(post);
-=======
         return postDetailDTO;
     }
 

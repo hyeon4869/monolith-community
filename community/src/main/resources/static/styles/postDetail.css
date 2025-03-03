@@ -207,3 +207,18 @@ body {
    .comment-list li {
        font-size :16 px;}
 }
+/* 좋아요 버튼 스타일 */
+#likePostBtn,
+.like-comment-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#likePostBtn:hover,
+.like-comment-btn:hover {
+    background-color: #45a049;
+}

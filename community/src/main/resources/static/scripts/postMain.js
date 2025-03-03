@@ -92,7 +92,6 @@ async function registerPost() {
     }
 }
 
-=======
 // 검색 요청 함수
 function searchPosts() {
     const title = document.getElementById('searchInput').value; // 검색어 가져오기
