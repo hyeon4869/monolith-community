@@ -42,6 +42,11 @@ public class LikePostServiceImp implements LikeService{
         Optional<UserLike> existingLike = likeRepository.findByMemberIdAndEntityId(member.getId(),likePostDTO.getEntityId());
 
         if(existingLike.isPresent()){
+            if (entityName==EntityName.POST){
+                Post post=postFindService.postFindId(likePostDTO.getEntityId());
+                post.decreaseLikeCount();
+            }
+
             likeRepository.delete(existingLike.get());
         }
 

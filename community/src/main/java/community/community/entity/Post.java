@@ -41,8 +41,13 @@ public class Post extends BasicTimeEntity{
         this.isDeleted=true;
     }
 
+    //좋아요 증가 메서드
     public void increaseLikeCount(){
         this.likeCount++;
     }
 
+    //좋아요 감소 메서드
+    public void decreaseLikeCount() {
+        this.likeCount--;
+    }
 }
