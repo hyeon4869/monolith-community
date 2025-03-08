@@ -20,6 +20,7 @@ async function fetchPostList(page, title = "") {
                 <a href="/detail/${post.id}">
                     <h3>${post.title}</h3>
                     <p>작성자 이메일: ${post.memberEmail}</p>
+                    <span class="like-count">좋아요 수: ${post.likeCount}</span>
                 </a>
                 ${post.memberEmail === loginEmail ? `
                     <button class="delete-btn" onclick="deletePost(${post.id})">삭제</button>
@@ -37,7 +38,6 @@ async function fetchPostList(page, title = "") {
         document.getElementById('postList').innerHTML = "<li>게시물을 불러오는 데 실패했습니다.</li>";
     }
 }
-
 
 // 게시물 삭제 요청 함수
 async function deletePost(postId) {

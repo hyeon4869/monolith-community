@@ -22,7 +22,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
 
     //읽기 전용 쿼리 힌트 사용
-    //여기서 한 번에 쿼리를 실행할지 따로 구현할지 고민해보기
     @Query("SELECT DISTINCT p FROM Post p WHERE p.id=:id")
     @QueryHints(@QueryHint(name = "org.hibernate.readOnly", value ="true"))
     Optional<Post> findByReadId(Long id);
