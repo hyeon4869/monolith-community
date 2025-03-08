@@ -1,7 +1,7 @@
 package community.community.service.postService;
 
 import community.community.dto.postDTO.PostDetailDTO;
-import community.community.dto.postDTO.PostFindDTO;
+import community.community.dto.postDTO.PostFindAllDTO;
 import community.community.entity.Post;
 import community.community.repository.postRepository.PostRepository;
 import community.community.service.commentService.CommentViewService;
@@ -25,13 +25,14 @@ public class PostFindServiceImp implements PostFindService {
         this.commentViewService=commentViewService;
     }
 
-    //게시물 메인 조회
+    //좋아요 수가 추가된 메인 조회
     @Override
-    public Page<PostFindDTO> postFindAll(Pageable pageable) {
-        Page<PostFindDTO> postPage = postRepository.findAllPostWithEmail(pageable);
+    public Page<PostFindAllDTO> postFindAll(Pageable pageable) {
+        Page<PostFindAllDTO> postPage = postRepository.findAllPostWithEmailWithLike(pageable);
 
         return postPage;
     }
+
 
     //게시물 상세 조회
     @Override

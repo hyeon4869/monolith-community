@@ -1,7 +1,7 @@
 package community.community.controller.PostController;
 
 import community.community.dto.postDTO.PostDetailDTO;
-import community.community.dto.postDTO.PostFindDTO;
+import community.community.dto.postDTO.PostFindAllDTO;
 import community.community.service.postService.PostFindService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,7 +35,7 @@ public class PostFindController {
         Pageable pageable = PageRequest.of(page, size);
 
         // Service 계층에서 페이징 처리된 결과 호출
-        Page<PostFindDTO> postPage = postFindService.postFindAll(pageable);
+        Page<PostFindAllDTO> postPage = postFindService.postFindAll(pageable);
 
         // 응답 데이터 구성
         response.put("message", "게시글 조회에 성공하였습니다.");
