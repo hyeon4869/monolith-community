@@ -23,6 +23,11 @@ public class Comment extends BasicTimeEntity{
     @JoinColumn(name = "post_id")
     private Post post;
 
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "parentComment_id")
+    private Comment parentComment;
+
     public void setContent(String content){
         this.content=content;
     }
