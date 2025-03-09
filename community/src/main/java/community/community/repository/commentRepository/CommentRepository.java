@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-    @Query("SELECT c FROM Comment c JOIN FETCH  c.post p where p.id=:id")
+    @Query("SELECT c FROM Comment c JOIN FETCH  c.post p where p.id=:id AND c.parentComment IS NULL")
     @QueryHints(@QueryHint(name = "org.hibernate.readOnly", value = "true"))
     List<Comment> findReadAll(@Param("id") Long id);
 }

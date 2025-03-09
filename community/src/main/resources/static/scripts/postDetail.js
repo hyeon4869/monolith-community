@@ -1,4 +1,4 @@
-// URL에서 게시물 ID 추출 (예: "/posts/3" → "3")
+// URL에서 게시물 ID 추출
 const postId = window.location.pathname.split('/').pop();
 
 // 게시물 상세 정보 및 댓글 조회
@@ -53,6 +53,17 @@ async function fetchComments() {
                     </p>
                     <span class="comment-time">${formatDate(comment.createTime)}</span>
                     <button class="like-comment-btn" onclick="likeComment(${comment.id})">좋아요</button>
+                    <button class="show-replies-btn" onclick="showReplies(${comment.id})">대댓글 보기</button>
+                    <button class="write-reply-btn" onclick="showReplyForm(${comment.id})">대댓글 작성</button>
+
+                    <!-- 대댓글 목록이 여기에 추가됩니다 -->
+                    <ul id="replies-${comment.id}" class="replies-list" style="display: none;"></ul>
+
+                    <!-- 대댓글 입력 폼 -->
+                    <form id="reply-form-${comment.id}" class="reply-form" style="display: none;">
+                        <textarea id="reply-input-${comment.id}" placeholder="대댓글을 입력하세요..." required></textarea>
+                        <button type="submit" onclick="submitReply(${comment.id}, event)">등록</button>
+                    </form>
                 `;
                 commentList.appendChild(li);
             });
@@ -72,7 +83,101 @@ async function fetchComments() {
     }
 }
 
-// 게시글 좋아요 요청 함수
+// 대댓글 입력 폼 표시 함수
+function showReplyForm(commentId) {
+    const replyForm = document.getElementById(`reply-form-${commentId}`);
+    replyForm.style.display = "block";
+}
+
+// 대댓글 제출 함수
+async function submitReply(commentId, event) {
+    event.preventDefault(); // 폼 기본 동작 방지
+
+    const replyInput = document.getElementById(`reply-input-${commentId}`);
+    const content = replyInput.value;
+
+    try {
+        // 대댓글 등록 요청
+        const response = await fetch(`/replicaComment/${commentId}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ content })
+        });
+
+        if (!response.ok) throw new Error("대댓글 등록에 실패했습니다.");
+
+        alert("대댓글이 등록되었습니다!");
+
+        // 입력 필드 초기화 및 대댓글 목록 갱신
+        replyInput.value = "";
+        await showReplies(commentId);
+
+    } catch (error) {
+        console.error("Error submitting reply:", error);
+        alert("대댓글 등록 중 오류가 발생했습니다.");
+    }
+}
+
+// 대댓글 목록 표시 함수
+async function showReplies(commentId) {
+    try {
+        const response = await fetch(`/replicaComment/${commentId}`);
+        if (!response.ok) throw new Error("대댓글 데이터를 가져오는 데 실패했습니다.");
+
+        const data = await response.json();
+        const repliesList = document.getElementById(`replies-${commentId}`);
+        repliesList.innerHTML = "";
+
+        if (data.replies && data.replies.length > 0) {
+            // 대댓글 렌더링
+            data.replies.forEach(reply => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <p>
+                        <span>${reply.content}</span>
+                        <span style="float: right; font-size: 0.9em; color: gray;">- ${reply.writer}</span>
+                    </p>
+                    <span class="reply-time">${formatDate(reply.createTime)}</span>
+                `;
+                repliesList.appendChild(li);
+            });
+
+            // 대댓글 입력 폼 표시
+            const replyForm = document.getElementById(`reply-form-${commentId}`);
+            replyForm.style.display = "block";
+        } else {
+            repliesList.innerHTML = "<li>대댓글이 없습니다.</li>";
+        }
+
+        // 대댓글 목록 표시
+        repliesList.style.display = "block";
+
+    } catch (error) {
+        console.error("Error fetching replies:", error);
+        const repliesList = document.getElementById(`replies-${commentId}`);
+        repliesList.innerHTML = "<li>대댓글을 불러오는 데 실패했습니다.</li>";
+    }
+}
+
+// 좋아요 기능 함수
+async function likeComment(commentId) {
+    try {
+        const response = await fetch(`/like/comment`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ entityId: commentId })
+        });
+
+        if (!response.ok) throw new Error("댓글 좋아요 요청에 실패했습니다.");
+
+        alert("댓글에 좋아요를 눌렀습니다!");
+    } catch (error) {
+        console.error("Error liking comment:", error);
+        alert("좋아요 요청 중 오류가 발생했습니다.");
+    }
+}
+
+// 좋아요 기능 함수 (게시글)
 async function likePost() {
     try {
         const response = await fetch(`/like/post`, {
@@ -90,22 +195,34 @@ async function likePost() {
     }
 }
 
-// 댓글 좋아요 요청 함수
-async function likeComment(commentId) {
-    try {
-        const response = await fetch(`/like/comment`, {
-            method: 'POST',
+// 삭제 기능 함수
+function deletePost() {
+    if (confirm('정말로 이 게시물을 삭제하시겠습니까?')) {
+        fetch(`/delete/${postId}`, {
+            method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ entityId: commentId })
-        });
-
-        if (!response.ok) throw new Error("댓글 좋아요 요청에 실패했습니다.");
-
-        alert("댓글에 좋아요를 눌렀습니다!");
-    } catch (error) {
-        console.error("Error liking comment:", error);
-        alert("좋아요 요청 중 오류가 발생했습니다.");
+        })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                window.location.href = '/';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('삭제에 실패했습니다.');
+            });
     }
+}
+
+// 날짜 포맷팅 함수
+function formatDate(dateString) {
+    return new Date(dateString).toLocaleString('ko-KR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
 }
 
 // 댓글 보이기/숨기기 토글 함수
@@ -167,36 +284,6 @@ async function submitComment(event) {
         console.error("Error submitting comment:", error);
         alert("댓글 등록 중 오류가 발생했습니다.");
     }
-}
-
-// 게시물 삭제 함수
-function deletePost() {
-    if (confirm('정말로 이 게시물을 삭제하시겠습니까?')) {
-        fetch(`/delete/${postId}`, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-        })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.message);
-                window.location.href = '/';
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('삭제에 실패했습니다.');
-            });
-    }
-}
-
-// 날짜 포맷팅 함수
-function formatDate(dateString) {
-    return new Date(dateString).toLocaleString('ko-KR', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit'
-    });
 }
 
 // 초기 실행
