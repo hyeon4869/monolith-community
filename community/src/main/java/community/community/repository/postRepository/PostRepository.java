@@ -1,5 +1,6 @@
 package community.community.repository.postRepository;
 
+import community.community.dto.postDTO.PostFindAllDTO;
 import community.community.dto.postDTO.PostFindDTO;
 import community.community.entity.Post;
 import jakarta.persistence.QueryHint;
@@ -16,13 +17,12 @@ import java.util.Optional;
 public interface PostRepository extends JpaRepository<Post, Long> {
 
     //소프트삭제 제외하고 조회
-    @Query("SELECT new community.community.dto.postDTO.PostFindDTO(p.id, p.title, m.email) " +
-            "FROM Post p JOIN p.member m WHERE p.isDeleted=false")
-    Page<PostFindDTO> findAllPostWithEmail(Pageable pageable);
-
+    @Query("SELECT new community.community.dto.postDTO.PostFindAllDTO(p.id, p.title, m.email, p.likeCount) " +
+            "FROM Post p JOIN p.member m WHERE p.isDeleted=false ORDER BY p.createTime DESC")
+    @QueryHints(@QueryHint(name = "org.hibernate.readOnly", value ="true"))
+    Page<PostFindAllDTO> findAllPostWithEmailWithLike(Pageable pageable);
 
     //읽기 전용 쿼리 힌트 사용
-    //여기서 한 번에 쿼리를 실행할지 따로 구현할지 고민해보기
     @Query("SELECT DISTINCT p FROM Post p WHERE p.id=:id")
     @QueryHints(@QueryHint(name = "org.hibernate.readOnly", value ="true"))
     Optional<Post> findByReadId(Long id);

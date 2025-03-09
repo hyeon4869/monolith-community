@@ -65,6 +65,11 @@ body {
     text-decoration: underline;
 }
 
+.like-count {
+    font-size: 14px;
+    color: #666;
+}
+
 .pagination {
     display: flex;
     justify-content: center;
