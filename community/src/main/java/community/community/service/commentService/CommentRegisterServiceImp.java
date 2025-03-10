@@ -1,7 +1,7 @@
 package community.community.service.commentService;
 
 import community.community.dto.commentDTO.CommentRegisterDTO;
-import community.community.dto.commentDTO.ReplicaCommentRegisterDTO;
+import community.community.dto.commentDTO.RepliesCommentRegisterDTO;
 import community.community.entity.Comment;
 import community.community.entity.Post;
 import community.community.exception.customException.DBAccessException;
@@ -56,7 +56,7 @@ public class CommentRegisterServiceImp implements CommentRegisterService{
 
     @Override
     @Transactional
-    public String replicaCommentRegister(Long commentId, ReplicaCommentRegisterDTO replicaCommentRegisterDTO, HttpSession session) {
+    public String replicaCommentRegister(Long commentId, RepliesCommentRegisterDTO repliesCommentRegisterDTO, HttpSession session) {
         String writer=(String)session.getAttribute("loginEmail");
 
         if(writer==null||writer.isEmpty()){
@@ -69,7 +69,7 @@ public class CommentRegisterServiceImp implements CommentRegisterService{
 
 
         Comment comment = Comment.builder()
-                .content(replicaCommentRegisterDTO.getContent())
+                .content(repliesCommentRegisterDTO.getContent())
                 .writer(writer)
                 .parentComment(parentComment)
                 .post(parentComment.getPost())
@@ -77,7 +77,7 @@ public class CommentRegisterServiceImp implements CommentRegisterService{
 
         try{
             commentRepository.save(comment);
-            return replicaCommentRegisterDTO.getContent();
+            return repliesCommentRegisterDTO.getContent();
         } catch (DBAccessException e){
             throw new DBAccessException("DB와의 연결에 문제가 발생했습니다.",e);
         }

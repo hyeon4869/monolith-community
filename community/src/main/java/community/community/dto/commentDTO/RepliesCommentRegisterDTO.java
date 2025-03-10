@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReplicaCommentRegisterDTO {
+public class RepliesCommentRegisterDTO {
 
     private Long id;
 

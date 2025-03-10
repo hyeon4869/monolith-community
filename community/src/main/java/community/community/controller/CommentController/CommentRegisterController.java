@@ -1,7 +1,7 @@
 package community.community.controller.CommentController;
 
 import community.community.dto.commentDTO.CommentRegisterDTO;
-import community.community.dto.commentDTO.ReplicaCommentRegisterDTO;
+import community.community.dto.commentDTO.RepliesCommentRegisterDTO;
 import community.community.service.commentService.CommentRegisterService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
@@ -31,9 +31,9 @@ public class CommentRegisterController {
 
     //대댓글 작성
     @PostMapping("/replicaComment/{commentId}")
-    public ResponseEntity<Map<String, Object>> replicaRegister(@PathVariable("commentId") Long commentId, @RequestBody ReplicaCommentRegisterDTO replicaCommentRegisterDTO, HttpSession session){
+    public ResponseEntity<Map<String, Object>> replicaRegister(@PathVariable("commentId") Long commentId, @RequestBody RepliesCommentRegisterDTO repliesCommentRegisterDTO, HttpSession session){
         Map<String, Object> response = new HashMap<>();
-        String content=commentRegisterService.replicaCommentRegister(commentId, replicaCommentRegisterDTO,session);
+        String content=commentRegisterService.replicaCommentRegister(commentId, repliesCommentRegisterDTO,session);
         response.put("대댓글", content);
 
         return ResponseEntity.ok(response);
