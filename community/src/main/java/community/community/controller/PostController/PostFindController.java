@@ -53,6 +53,7 @@ public class PostFindController {
         Map<String, Object> response = new HashMap<>();
 
         PostDetailDTO postDetailDTO = postFindService.postDetail(id);
+
         response.put("message", "게시물 내용을 불러옵니다.");
         response.put("title", postDetailDTO.getTitle());
         response.put("createTime", postDetailDTO.getCreateTime());

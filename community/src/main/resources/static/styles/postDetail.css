@@ -103,6 +103,12 @@ body {
     cursor: pointer;
     transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
 }
+
+#toggleCommentsBtn:hover {
+    background-color: #45a049; /* 버튼 호버 색상 변경 */
+    transform: scale(1.05); /* 호버 시 살짝 확대 효과 추가 */
+}
+
 /* 댓글 입력 폼 스타일 */
 #commentForm {
     display: flex;
@@ -118,12 +124,6 @@ body {
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 16px;
-}
-.comment-time {
-  display: block;
-  font-size: 0.8rem;
-  color: #888; /* 회색으로 표시 */
-  margin-top: 4px; /* 댓글 내용과 간격 */
 }
 
 #commentInput:focus {
@@ -144,9 +144,100 @@ body {
     background-color: #45a049;
 }
 
-#toggleCommentsBtn:hover {
-    background-color: #45a049; /* 버튼 호버 색상 변경 */
-    transform: scale(1.05); /* 호버 시 살짝 확대 효과 추가 */
+/* 댓글 시간 스타일 */
+.comment-time {
+    display: block;
+    font-size: 0.8rem;
+    color: #888; /* 회색으로 표시 */
+    margin-top: 4px; /* 댓글 내용과 간격 */
+}
+
+/* 좋아요 버튼 스타일 */
+#likePostBtn,
+.like-comment-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+/* 대댓글 보기 버튼 스타일 */
+button.show-replies-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 10px; /* 버튼 간격 추가 */
+}
+
+button.show-replies-btn:hover {
+    background-color: #45a049; /* 호버 시 색상 변경 */
+}
+
+/* 대댓글 작성 버튼 스타일 */
+button.write-reply-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+#likePostBtn:hover,
+.like-comment-btn:hover {
+    background-color: #45a049;
+}
+
+/* 대댓글 입력 폼 스타일 */
+.reply-form {
+    margin-left: 40px;
+    display: none;
+}
+
+.reply-form textarea {
+    width: 100%;
+    height: 60px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.reply-form button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.reply-form button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* 대댓글 목록 스타일 */
+.replies-list {
+    list-style-type: none;
+    margin-left: 40px;
+}
+
+.replies-list li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.replies-list li:last-child {
+    border-bottom: none;
+}
+
+.replies-list li:hover {
+    background-color: #f9f9f9;
 }
 
 /* 뒤로가기 링크 스타일 */
@@ -173,52 +264,39 @@ body {
 
 /* 삭제 버튼 스타일 */
 .delete-btn {
-  background-color: #ff4d4d;
-  color: white;
-  border: none;
-  padding: 10px 20px; /* 패딩 증가로 버튼 크기 키움 */
-  border-radius: 5px; /* 둥근 모서리 강조 */
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 10px 20px; /* 패딩 증가로 버튼 크기 키움 */
+    border-radius: 5px; /* 둥근 모서리 강조 */
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
 }
 
 .delete-btn:hover {
-  background-color: #ff1a1a; /* 호버 시 더 강렬한 빨간색으로 변경 */
-  transform: scale(1.05); /* 호버 시 살짝 확대 효과 추가 */
+    background-color: #ff1a1a; /* 호버 시 더 강렬한 빨간색으로 변경 */
+    transform: scale(1.05); /* 호버 시 살짝 확대 효과 추가 */
 }
 
 /* 반응형 디자인 (모바일 최적화) */
 @media (max-width: 768px) {
+    .header .logo a {
+        font-size: 20px; /* 작은 화면에서 로고 크기 조정 */
+    }
 
-   .header .logo a {
-       font-size: 20px; /* 작은 화면에서 로고 크기 조정 */
-   }
+    .content-container {
+        padding: 15px; /* 모바일에서 패딩 감소 */
+    }
 
-   .content-container {
-       padding: 15px; /* 모바일에서 패딩 감소 */
-   }
+    .hero h1 {
+        font-size: 24px;
+    }
 
-   .hero h1 {
-       font-size: 24px;
-   }
 
-   .post-content p,
-   .comments-section h2,
-   .comment-list li {
-       font-size :16 px;}
-}
-/* 좋아요 버튼 스타일 */
-#likePostBtn,
-.like-comment-btn {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-}
 
-#likePostBtn:hover,
-.like-comment-btn:hover {
-    background-color: #45a049;
+    .post-content p,
+    .comments-section h2,
+    .comment-list li {
+        font-size: 16px;
+    }
 }
