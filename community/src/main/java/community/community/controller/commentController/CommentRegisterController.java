@@ -1,4 +1,4 @@
-package community.community.controller.CommentController;
+package community.community.controller.commentController;
 
 import community.community.dto.commentDTO.CommentRegisterDTO;
 import community.community.dto.commentDTO.RepliesCommentRegisterDTO;

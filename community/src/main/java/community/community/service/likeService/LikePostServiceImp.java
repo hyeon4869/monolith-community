@@ -6,6 +6,7 @@ import community.community.entity.Member;
 import community.community.entity.Post;
 import community.community.entity.UserLike;
 import community.community.repository.likeRepository.LikeRepository;
+import community.community.service.NotificationService;
 import community.community.service.memberService.MemberFindService;
 import community.community.service.postService.PostFindService;
 import jakarta.servlet.http.HttpSession;
@@ -28,10 +29,14 @@ public class LikePostServiceImp implements LikeService{
     @Autowired
     private final PostFindService postFindService;
 
-    public LikePostServiceImp(LikeRepository likeRepository, MemberFindService memberFindService, PostFindService postFindService){
+    @Autowired
+    private final NotificationService notificationService;
+
+    public LikePostServiceImp(LikeRepository likeRepository, MemberFindService memberFindService, PostFindService postFindService, NotificationService notificationService){
         this.likeRepository=likeRepository;
         this.memberFindService=memberFindService;
         this.postFindService=postFindService;
+        this.notificationService=notificationService;
     }
 
     @Override
@@ -65,6 +70,7 @@ public class LikePostServiceImp implements LikeService{
                 Post post=postFindService.postFindId(likePostDTO.getEntityId());
                 post.increaseLikeCount();
             }
+            notificationService.createNotification(member.getEmail(), likePostDTO.getEntityId());
              likeRepository.save(userlike);
         }
     }
