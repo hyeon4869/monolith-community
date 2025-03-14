@@ -54,6 +54,8 @@
         <a href="/login" class="login-btn">로그인</a>
         <a href="/signUp" class="signup-btn">회원가입</a>
     </div>
+    <!-- 알림 표시 영역 추가 -->
+
 </header>
 
 <main class="content-container">
@@ -66,6 +68,15 @@
         <input type="text" id="searchInput" placeholder="검색어를 입력하세요">
         <button onclick="searchPosts()">검색</button>
     </section>
+
+    <!-- 알림 버튼 및 알림 표시 영역 -->
+    <div id="notification-container">
+        <button id="notification-btn">알림 보기</button>
+        <div id="notification-area" style="display: none;">
+            <h3>알림</h3>
+            <ul id="notifications"></ul>
+        </div>
+    </div>
 
     <!-- Post List Section -->
     <section class="post-list-section">

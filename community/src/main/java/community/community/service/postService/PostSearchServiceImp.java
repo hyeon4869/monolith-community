@@ -3,7 +3,7 @@ package community.community.service.postService;
 import community.community.dto.postDTO.PostFindDTO;
 import community.community.exception.customException.DBAccessException;
 import community.community.repository.postRepository.PostRepository;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-@Qualifier("BASIC SEARCH")
 public class PostSearchServiceImp implements PostSearchService{
 
     private final PostRepository postRepository;
@@ -21,7 +20,7 @@ public class PostSearchServiceImp implements PostSearchService{
     }
 
     @Override
-//    @Cacheable(value = "myC")
+    @Cacheable(value = "myC")
     public Page<PostFindDTO> postSearch(Pageable pageable, String title) {
         try{
             Page<PostFindDTO> searchTitle = postRepository.findSearchTitle(pageable, title);

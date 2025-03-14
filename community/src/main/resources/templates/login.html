@@ -59,8 +59,9 @@
             alert(data.message); // 서버에서 받은 메시지 표시
             console.log(data);
 
-            // 로그인 성공 시 다른 페이지로 이동 (예: 메인 페이지)
+            // 로그인 성공 시 이메일을 로컬 스토리지에 저장
             if (data.message === "로그인 완료") {
+                localStorage.setItem('userEmail', username); // 이메일 저장
                 window.location.href = "/";
             }
         } catch (error) {

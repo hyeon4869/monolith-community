@@ -6,7 +6,6 @@ import community.community.exception.customException.DBAccessException;
 import community.community.exception.customException.InvalidEmailException;
 import community.community.exception.customException.SignUpFailedException;
 import community.community.repository.memberRepository.MemberRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class MemberSignUpServiceImp implements MemberSignUpService {
 
-    @Autowired
     private final MemberRepository memberRepository;
 
     public MemberSignUpServiceImp(MemberRepository memberRepository){

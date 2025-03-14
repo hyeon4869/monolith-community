@@ -1,4 +1,4 @@
-package community.community.controller.PostController;
+package community.community.controller.postController;
 
 import community.community.dto.postDTO.PostDTO;
 import community.community.entity.Post;

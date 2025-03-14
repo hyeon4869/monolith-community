@@ -141,5 +141,63 @@ function changePage(direction) {
     }
 }
 
-// 최초 로딩 시 전체 게시물 로드
-fetchAllPosts(currentPage);
+// 알림 버튼 클릭 이벤트 처리
+const notificationBtn = document.getElementById('notification-btn');
+if (notificationBtn) {
+    notificationBtn.addEventListener('click', () => {
+        const notificationArea = document.getElementById('notification-area');
+        notificationArea.style.display = notificationArea.style.display === 'block' ? 'none' : 'block';
+    });
+}
+
+// SSE를 사용하여 실시간 알림 수신
+function setupNotificationListener() {
+    const email = localStorage.getItem('userEmail'); // 로컬 스토리지에서 이메일 읽어옴
+    if (!email) {
+        console.error("이메일이 로컬 스토리지에 저장되어 있지 않습니다.");
+        return;
+    }
+
+    console.log("알림 연결 설정 중... 이메일:", email);
+    const eventSource = new EventSource(`/api/notifications/${email}`);
+
+    eventSource.onmessage = (event) => {
+        console.log('알림 수신:', event.data);
+        const notificationList = document.getElementById('notifications');
+        if (notificationList) {
+            const li = document.createElement('li');
+            li.textContent = event.data; // 서버에서 전송된 알림 메시지
+            notificationList.appendChild(li);
+
+            // 알림이 도착하면 알림 영역을 표시합니다
+            const notificationArea = document.getElementById('notification-area');
+            if (notificationArea) {
+                notificationArea.style.display = 'block';
+            }
+        }
+    };
+
+    eventSource.onerror = (error) => {
+        console.error('알림 수신 중 오류 발생:', error);
+        // 일정 시간 후 재연결 시도
+        setTimeout(() => {
+            setupNotificationListener();
+        }, 5000);
+    };
+
+    eventSource.onopen = () => {
+        console.log('알림 연결 설정 완료');
+    };
+}
+
+// 페이지 로드 시 실행되는 초기화 함수
+document.addEventListener('DOMContentLoaded', () => {
+    // 알림 기능 설정
+    setupNotificationListener();
+
+    // 최초 로딩 시 전체 게시물 로드
+    const postList = document.getElementById('postList');
+    if (postList) {
+        fetchAllPosts(currentPage);
+    }
+});

@@ -1,4 +1,4 @@
-package community.community.controller.MemberController;
+package community.community.controller.memberController;
 
 import community.community.dto.MemberDTO.MemberIdAndEmailDTO;
 import community.community.service.memberService.MemberFindService;
