@@ -5,7 +5,7 @@ spring:
   server:
     tomcat:
       threads:
-        max: 12    # 최대 스레드 수 (I/O 바운드 기준)
+        max: 10    # 최대 스레드 수 (I/O 바운드 기준)
         min-spare: 15 # 최소 유휴 스레드 수
       max-connections: 2000 # 동시에 허용할 최대 연결 수
       accept-count: 200     # 대기열 크기
@@ -22,7 +22,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
     hikari:
-      minimum-idle: 12              # 최소 유휴 커넥션 수
+      minimum-idle: 10              # 최소 유휴 커넥션 수
       maximum-pool-size: 12       # 최대 풀 크기 (CPU 코어 기반)
       idle-timeout: 300000         # 유휴 시간 유지 (5분)
       max-lifetime: 1740000        # 최대 수명 유지 (29분)
