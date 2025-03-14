@@ -2,13 +2,13 @@ spring:
   application:
     name: community
 
-#  server:
-#    tomcat:
-#      threads:
-#        max: 25    # 최대 스레드 수 (I/O 바운드 기준)
-#        min-spare: 25 # 최소 유휴 스레드 수
-#      max-connections: 2000 # 동시에 허용할 최대 연결 수
-#      accept-count: 200     # 대기열 크기
+  server:
+    tomcat:
+      threads:
+        max: 10    # 최대 스레드 수 (I/O 바운드 기준)
+        min-spare: 15 # 최소 유휴 스레드 수
+      max-connections: 2000 # 동시에 허용할 최대 연결 수
+      accept-count: 200     # 대기열 크기
 #      connection-timeout: 20000 # 연결 타임아웃 (20초)
 
 
@@ -21,30 +21,19 @@ spring:
     password: 12341234
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-#    hikari:
-#      minimum-idle: 25              # 최소 유휴 커넥션 수
-#      maximum-pool-size: 25        # 최대 풀 크기 (CPU 코어 기반)
-#      idle-timeout: 300000         # 유휴 시간 유지 (5분)
-#      max-lifetime: 1740000        # 최대 수명 유지 (29분)
-#      connection-timeout: 10000     # 커넥션 타임아웃 단축 (10초)
+    hikari:
+      minimum-idle: 10              # 최소 유휴 커넥션 수
+      maximum-pool-size: 12       # 최대 풀 크기 (CPU 코어 기반)
+      idle-timeout: 300000         # 유휴 시간 유지 (5분)
+      max-lifetime: 1740000        # 최대 수명 유지 (29분)
+#      connection-timeout: -1     # 커넥션 타임아웃 단축 (10초)
 
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
       dialect: org.hibernate.dialect.MySQLDialect   # 최신 Hibernate Dialect 사용 (Hibernate 6.x)
     show-sql: true                                  # SQL 쿼리 출력 활성화
     properties:
       hibernate:
         generate_statistics: true                   # Hibernate 통계 활성화
-        cache:
-          use_second_level_cache: true              # Hibernate 2차 캐시 활성화
-          use_query_cache: true                     # 쿼리 캐시 활성화 (선택 사항)
-        region.factory_class: org.hibernate.cache.jcache.JCacheRegionFactory # JCache 사용
-      javax:
-        cache:
-          provider: org.ehcache.jsr107.EhcacheCachingProvider # Ehcache 사용
-
-  cache:
-    jcache:
-      config: classpath:ehcache.xml                 # Ehcache 설정 파일 경로 지정

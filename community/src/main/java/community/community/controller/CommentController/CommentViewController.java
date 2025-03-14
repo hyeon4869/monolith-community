@@ -1,6 +1,7 @@
 package community.community.controller.CommentController;
 
 import community.community.dto.commentDTO.CommentViewDTO;
+import community.community.dto.commentDTO.RepliesCommentRegisterDTO;
 import community.community.service.commentService.CommentViewService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +27,13 @@ public class CommentViewController {
         List<CommentViewDTO> commentViewDTOS = commentViewService.commentView(id);
         response.put("comment", commentViewDTOS);
 
+        return ResponseEntity.ok(response);
+    }
+    @GetMapping("/replicaComment/{commentId}")
+    public ResponseEntity<Map<String, Object>> repliesView(@PathVariable("commentId") Long commentId) {
+        Map<String, Object> response = new HashMap<>();
+        List< RepliesCommentRegisterDTO> repliesCommentRegisterDTOS =commentViewService.repliesCommentView(commentId);
+        response.put("replies", repliesCommentRegisterDTOS);
         return ResponseEntity.ok(response);
     }
 }
