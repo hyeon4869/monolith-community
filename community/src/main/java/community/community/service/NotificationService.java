@@ -15,6 +15,7 @@ public class NotificationService {
     private final NotificationController notificationController;
     private final PostFindService postFindService;
 
+
     public NotificationService(NotificationController notificationController, PostFindService postFindService){
         this.notificationController=notificationController;
         this.postFindService=postFindService;

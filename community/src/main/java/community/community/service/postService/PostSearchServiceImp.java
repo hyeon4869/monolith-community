@@ -3,7 +3,6 @@ package community.community.service.postService;
 import community.community.dto.postDTO.PostFindDTO;
 import community.community.exception.customException.DBAccessException;
 import community.community.repository.postRepository.PostRepository;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-@Qualifier("BASIC SEARCH")
 public class PostSearchServiceImp implements PostSearchService{
 
     private final PostRepository postRepository;

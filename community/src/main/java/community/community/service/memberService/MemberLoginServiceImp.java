@@ -5,7 +5,6 @@ import community.community.dto.MemberDTO.MemberSuccessLoginDTO;
 import community.community.entity.Member;
 import community.community.exception.customException.NotFoundMemberException;
 import community.community.repository.memberRepository.MemberRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,10 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Qualifier("basicLogin")
 public class MemberLoginServiceImp implements MemberLoginService {
 
-    @Autowired
     private final MemberRepository memberRepository;
-
-    @Autowired
     private final PasswordValidator passwordValidator;
 
     public MemberLoginServiceImp(MemberRepository memberRepository, PasswordValidator passwordValidator){

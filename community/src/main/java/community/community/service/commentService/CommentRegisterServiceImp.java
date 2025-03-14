@@ -8,7 +8,6 @@ import community.community.exception.customException.DBAccessException;
 import community.community.repository.commentRepository.CommentRepository;
 import community.community.service.postService.PostFindService;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,10 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class CommentRegisterServiceImp implements CommentRegisterService{
 
-    @Autowired
     private final CommentRepository commentRepository;
-
-    @Autowired
     private final PostFindService postFindService;
 
     public CommentRegisterServiceImp(CommentRepository commentRepository, PostFindService postFindService){

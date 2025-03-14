@@ -6,7 +6,6 @@ import community.community.entity.Post;
 import community.community.exception.customException.DBAccessException;
 import community.community.repository.postRepository.PostRepository;
 import community.community.service.commentService.CommentViewService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,9 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class PostFindServiceImp implements PostFindService {
 
-    @Autowired
     private final PostRepository postRepository;
-    @Autowired
     private final CommentViewService commentViewService;
 
     public PostFindServiceImp(PostRepository postRepository, CommentViewService commentViewService){

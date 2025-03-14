@@ -8,7 +8,6 @@ import community.community.exception.customException.NotFoundMemberException;
 import community.community.repository.memberRepository.MemberRepository;
 import community.community.repository.postRepository.PostRepository;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,10 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class PostRegistrationServiceImp implements PostRegistrationService {
 
-    @Autowired
     private final PostRepository postRepository;
-
-    @Autowired
     private final MemberRepository memberRepository;
 
     public PostRegistrationServiceImp(PostRepository postRepository, MemberRepository memberRepository){

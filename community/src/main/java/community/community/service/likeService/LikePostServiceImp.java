@@ -10,7 +10,6 @@ import community.community.service.NotificationService;
 import community.community.service.memberService.MemberFindService;
 import community.community.service.postService.PostFindService;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,16 +19,9 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class LikePostServiceImp implements LikeService{
 
-    @Autowired
     private final LikeRepository likeRepository;
-
-    @Autowired
     private final MemberFindService memberFindService;
-
-    @Autowired
     private final PostFindService postFindService;
-
-    @Autowired
     private final NotificationService notificationService;
 
     public LikePostServiceImp(LikeRepository likeRepository, MemberFindService memberFindService, PostFindService postFindService, NotificationService notificationService){
