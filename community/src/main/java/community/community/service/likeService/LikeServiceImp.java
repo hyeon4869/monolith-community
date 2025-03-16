@@ -9,7 +9,9 @@ import community.community.repository.likeRepository.LikeRepository;
 import community.community.service.NotificationService;
 import community.community.service.memberService.MemberFindService;
 import community.community.service.postService.PostFindService;
+import community.community.service.postService.PostLikeUpdateService;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,19 +19,14 @@ import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
-public class LikePostServiceImp implements LikeService{
+@RequiredArgsConstructor
+public class LikeServiceImp implements LikeService{
 
     private final LikeRepository likeRepository;
     private final MemberFindService memberFindService;
     private final PostFindService postFindService;
     private final NotificationService notificationService;
-
-    public LikePostServiceImp(LikeRepository likeRepository, MemberFindService memberFindService, PostFindService postFindService, NotificationService notificationService){
-        this.likeRepository=likeRepository;
-        this.memberFindService=memberFindService;
-        this.postFindService=postFindService;
-        this.notificationService=notificationService;
-    }
+    private final PostLikeUpdateService postLikeUpdateService;
 
     @Override
     public void likePush( LikePostDTO likePostDTO, HttpSession session,EntityName entityName) {
@@ -42,7 +39,8 @@ public class LikePostServiceImp implements LikeService{
             if (entityName==EntityName.POST){
                 Post post=postFindService.postFindId(likePostDTO.getEntityId());
                 if(post.getLikeCount()>0){
-                    post.decreaseLikeCount();
+                    //post.decreaseLikeCount();
+                    postLikeUpdateService.decreaseLikeCount(post.getId());
                 }
 
             }
@@ -60,7 +58,7 @@ public class LikePostServiceImp implements LikeService{
 
             if (entityName==EntityName.POST){
                 Post post=postFindService.postFindId(likePostDTO.getEntityId());
-                post.increaseLikeCount();
+                postLikeUpdateService.increaseLikeCount(post.getId());
             }
             notificationService.createNotification(member.getEmail(), likePostDTO.getEntityId());
              likeRepository.save(userlike);

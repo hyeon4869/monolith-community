@@ -7,6 +7,7 @@ import jakarta.persistence.QueryHint;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.stereotype.Repository;
@@ -34,4 +35,13 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             "FROM Post p JOIN p.member m WHERE p.isDeleted=false AND LOWER(p.title) LIKE LOWER(CONCAT('%',:title,'%')) ORDER BY p.createTime DESC")
     @QueryHints(@QueryHint(name = "org.hibernate.readOnly", value="true"))
     Page<PostFindDTO> findSearchTitle(Pageable pageable, String title);
+
+    @Modifying
+    @Query("UPDATE Post p SET p.likeCount = p.likeCount - 1 WHERE p.id = :id")
+    void decreaseLikeCount(Long id);
+
+    @Modifying
+    @Query("UPDATE Post p SET p.likeCount = p.likeCount + 1 WHERE p.id = :id")
+    void increaseLikeCount(Long id);
+
 }

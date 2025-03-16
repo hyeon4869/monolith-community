@@ -2,7 +2,6 @@ package community.community.controller.postController;
 
 import community.community.dto.postDTO.PostFindDTO;
 import community.community.service.postService.PostSearchService;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +18,7 @@ public class PostSearchController {
 
     private final PostSearchService postSearchService;
 
-    public PostSearchController(@Qualifier("BASIC SEARCH") PostSearchService postSearchService){
+    public PostSearchController(PostSearchService postSearchService){
         this. postSearchService=postSearchService;
     }
 
