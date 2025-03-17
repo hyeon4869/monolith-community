@@ -10,7 +10,8 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 @Table(name = "post",
-indexes = @Index(name = "idx_post_title", columnList = "title"))
+indexes = {
+        @Index(name = "idx_post_title", columnList = "title")})
 public class Post extends BasicTimeEntity{
 
     @Id @GeneratedValue
@@ -43,13 +44,4 @@ public class Post extends BasicTimeEntity{
         this.isDeleted=true;
     }
 
-    //좋아요 증가 메서드
-    public void increaseLikeCount(){
-        this.likeCount++;
-    }
-
-    //좋아요 감소 메서드
-    public void decreaseLikeCount() {
-        this.likeCount--;
-    }
 }
