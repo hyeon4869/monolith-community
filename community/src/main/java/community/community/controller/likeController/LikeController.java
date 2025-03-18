@@ -4,6 +4,7 @@ import community.community.dto.likeDTO.LikePostDTO;
 import community.community.entity.EntityName;
 import community.community.service.likeService.LikeService;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,13 +14,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
 public class LikeController {
 
     private final LikeService likeService;
-
-    public LikeController(LikeService likeService){
-        this.likeService=likeService;
-    }
 
     @PostMapping("/like/post")
     public ResponseEntity<Map<String, Object>> likePost(@RequestBody LikePostDTO likePostDTO, HttpSession session){

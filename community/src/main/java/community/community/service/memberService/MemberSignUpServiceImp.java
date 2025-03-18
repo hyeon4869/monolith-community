@@ -6,27 +6,17 @@ import community.community.exception.customException.DBAccessException;
 import community.community.exception.customException.InvalidEmailException;
 import community.community.exception.customException.SignUpFailedException;
 import community.community.repository.memberRepository.MemberRepository;
-import org.springframework.beans.factory.annotation.Qualifier;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Qualifier("defaultSignUp")
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class MemberSignUpServiceImp implements MemberSignUpService {
 
     private final MemberRepository memberRepository;
-
-    public MemberSignUpServiceImp(MemberRepository memberRepository){
-        this.memberRepository=memberRepository;
-    }
-
-    @Override
-    public String hello(){
-        String hello = "hello";
-        return hello;
-    }
 
     @Override
     @Transactional

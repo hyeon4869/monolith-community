@@ -8,20 +8,18 @@ import community.community.exception.customException.DBAccessException;
 import community.community.repository.commentRepository.CommentRepository;
 import community.community.service.postService.PostFindService;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class CommentRegisterServiceImp implements CommentRegisterService{
 
     private final CommentRepository commentRepository;
     private final PostFindService postFindService;
 
-    public CommentRegisterServiceImp(CommentRepository commentRepository, PostFindService postFindService){
-        this.commentRepository=commentRepository;
-        this.postFindService=postFindService;
-    }
 
     @Transactional
     @Override

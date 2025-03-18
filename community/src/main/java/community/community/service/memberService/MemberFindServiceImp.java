@@ -1,32 +1,25 @@
 package community.community.service.memberService;
 
 import community.community.dto.MemberDTO.MemberIdAndEmailDTO;
-import community.community.dto.MemberDTO.MemberMyPageDTO;
-import community.community.dto.postDTO.PostFindDTO;
 import community.community.entity.Member;
 import community.community.exception.customException.DBAccessException;
 import community.community.exception.customException.NotFoundMemberException;
-import community.community.exception.customException.NotFoundPostException;
 import community.community.repository.memberRepository.MemberRepository;
-import org.springframework.beans.factory.annotation.Qualifier;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
-@Qualifier("defaultFind")
+@RequiredArgsConstructor
 public class MemberFindServiceImp implements MemberFindService{
 
     private final MemberRepository memberRepository;
 
-    public MemberFindServiceImp(MemberRepository memberRepository){
-        this.memberRepository= memberRepository;
-    }
 
     @Override
     public MemberIdAndEmailDTO findMember(Long id){
@@ -35,13 +28,7 @@ public class MemberFindServiceImp implements MemberFindService{
         Member member =memberRepository.findByReadId(id)
                 .orElseThrow(()-> new NotFoundMemberException("일치하는 회원이 존재하지 않습니다."));
 
-
-        MemberIdAndEmailDTO memberIdAndEmailDTO = MemberIdAndEmailDTO.builder()
-                .id(member.getId())
-                .email(member.getEmail())
-                .build();
-
-        return memberIdAndEmailDTO;
+        return MemberIdAndEmailDTO.toDTO(member);
     }
 
     @Override

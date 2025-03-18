@@ -4,6 +4,7 @@ import community.community.dto.commentDTO.CommentRegisterDTO;
 import community.community.dto.commentDTO.RepliesCommentRegisterDTO;
 import community.community.service.commentService.CommentRegisterService;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,13 +12,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
 public class CommentRegisterController {
 
     private final CommentRegisterService commentRegisterService;
-
-    public CommentRegisterController(CommentRegisterService commentRegisterService){
-        this.commentRegisterService=commentRegisterService;
-    }
 
     //본댓글 작성
     @PostMapping("/write/{id}")

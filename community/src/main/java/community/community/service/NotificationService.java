@@ -4,22 +4,18 @@ import community.community.controller.notificationController.NotificationControl
 import community.community.entity.Notification;
 import community.community.entity.Post;
 import community.community.service.postService.PostFindService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 @Service
+@RequiredArgsConstructor
 public class NotificationService {
 
     private final NotificationController notificationController;
     private final PostFindService postFindService;
-
-
-    public NotificationService(NotificationController notificationController, PostFindService postFindService){
-        this.notificationController=notificationController;
-        this.postFindService=postFindService;
-    }
 
     private final Queue<Notification> notificationQueue = new ConcurrentLinkedQueue<>();
 

@@ -2,7 +2,7 @@ package community.community.controller.memberController;
 
 import community.community.dto.MemberDTO.MemberIdAndEmailDTO;
 import community.community.service.memberService.MemberFindService;
-import org.springframework.beans.factory.annotation.Qualifier;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,13 +13,11 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
 public class MemberFindController {
 
     private final MemberFindService memberFindService;
 
-    public MemberFindController(@Qualifier("defaultFind") MemberFindService memberFindService){
-        this.memberFindService=memberFindService;
-    }
 
     @GetMapping("/findMember/{id}")
     public ResponseEntity<Map<String, Object>> findMember(@PathVariable("id") Long id){

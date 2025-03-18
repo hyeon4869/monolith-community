@@ -2,7 +2,7 @@ package community.community.controller.memberController;
 
 import community.community.dto.MemberDTO.MemberDTO;
 import community.community.service.memberService.MemberSignUpService;
-import org.springframework.beans.factory.annotation.Qualifier;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,14 +12,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
 public class MemberSignUpController {
 
     private final MemberSignUpService memberSignUpService;
-
-    //기본 회원가입 로직
-    public MemberSignUpController(@Qualifier("defaultSignUp") MemberSignUpService memberSignUp){
-        this.memberSignUpService = memberSignUp;
-    }
 
     @PostMapping("/signUp")
     public ResponseEntity<Map<String, Object>> signUp(@RequestBody MemberDTO memberDTO) {

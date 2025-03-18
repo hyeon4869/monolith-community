@@ -2,7 +2,7 @@ package community.community.controller.postController;
 
 import community.community.dto.postDTO.PostFindDTO;
 import community.community.service.postService.PostSearchService;
-import org.springframework.beans.factory.annotation.Qualifier;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,13 +15,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
 public class PostSearchController {
 
     private final PostSearchService postSearchService;
-
-    public PostSearchController(@Qualifier("BASIC SEARCH") PostSearchService postSearchService){
-        this. postSearchService=postSearchService;
-    }
 
     @GetMapping("/postSearch")
     public ResponseEntity<Map<String, Object>> titleSearch(@RequestParam String title,

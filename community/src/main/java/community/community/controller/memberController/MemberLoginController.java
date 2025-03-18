@@ -6,7 +6,7 @@ import community.community.exception.customException.NotFoundMemberException;
 import community.community.service.memberService.MemberLoginService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Qualifier;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,13 +16,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
 public class MemberLoginController {
 
     private final MemberLoginService memberLoginService;
-
-    public MemberLoginController(@Qualifier("basicLogin") MemberLoginService memberLoginService){
-        this.memberLoginService = memberLoginService;
-    }
 
     @PostMapping("/memberLogin")
     public ResponseEntity<Map<String, Object>> memberLogin(@RequestBody MemberLoginDTO memberLoginDTO, HttpServletRequest request){

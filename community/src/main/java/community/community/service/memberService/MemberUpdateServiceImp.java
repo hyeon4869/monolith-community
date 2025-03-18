@@ -6,23 +6,18 @@ import community.community.entity.Member;
 import community.community.exception.customException.DBAccessException;
 import community.community.exception.customException.NotFoundMemberException;
 import community.community.repository.memberRepository.MemberRepository;
-import org.springframework.beans.factory.annotation.Qualifier;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-@Qualifier("defaultUpdate")
+@RequiredArgsConstructor
 public class MemberUpdateServiceImp implements MemberUpdateService {
 
     private final MemberRepository memberRepository;
     private final PasswordValidator passwordValidator;
-
-    public MemberUpdateServiceImp(MemberRepository memberRepository, PasswordValidator passwordValidator){
-        this.memberRepository=memberRepository;
-        this.passwordValidator=passwordValidator;
-    }
 
     @Override
     @Transactional

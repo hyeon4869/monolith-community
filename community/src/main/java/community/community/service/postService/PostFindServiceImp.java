@@ -6,6 +6,7 @@ import community.community.entity.Post;
 import community.community.exception.customException.DBAccessException;
 import community.community.repository.postRepository.PostRepository;
 import community.community.service.commentService.CommentViewService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,15 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class PostFindServiceImp implements PostFindService {
 
     private final PostRepository postRepository;
     private final CommentViewService commentViewService;
 
-    public PostFindServiceImp(PostRepository postRepository, CommentViewService commentViewService){
-        this.postRepository=postRepository;
-        this.commentViewService=commentViewService;
-    }
 
     //좋아요 수가 추가된 메인 조회
     @Override
@@ -43,7 +41,7 @@ public class PostFindServiceImp implements PostFindService {
         Post post =postRepository.findByReadId(id)
                 .orElseThrow(()->new IllegalArgumentException("삭제된 게시물입니다."));
 
-        PostDetailDTO postDetailDTO =PostDetailDTO.toFromEntity(post);
+        PostDetailDTO postDetailDTO =PostDetailDTO.toDTO(post);
         return postDetailDTO;
     }
 
