@@ -3,7 +3,7 @@ package community.community.controller.memberController;
 import community.community.dto.MemberDTO.MemberIdAndEmailDTO;
 import community.community.dto.MemberDTO.MemberPasswordDTO;
 import community.community.service.memberService.MemberUpdateService;
-import org.springframework.beans.factory.annotation.Qualifier;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,13 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
 public class MemberUpdateController {
 
     private final MemberUpdateService memberUpdateService;
-
-    public MemberUpdateController(@Qualifier("defaultUpdate") MemberUpdateService memberUpdateService){
-        this.memberUpdateService = memberUpdateService;
-    }
 
     @PutMapping("/updateMember/{id}")
     public ResponseEntity<Map<String, Object>> updateMember(@PathVariable("id") Long id, @RequestBody MemberPasswordDTO memberPasswordDTO){

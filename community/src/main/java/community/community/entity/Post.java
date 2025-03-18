@@ -11,7 +11,9 @@ import lombok.*;
 @ToString
 @Table(name = "post",
 indexes = {
-        @Index(name = "idx_post_title", columnList = "title")})
+        @Index(name = "idx_post_title", columnList = "title")
+
+})
 public class Post extends BasicTimeEntity{
 
     @Id @GeneratedValue

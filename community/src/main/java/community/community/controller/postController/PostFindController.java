@@ -3,6 +3,7 @@ package community.community.controller.postController;
 import community.community.dto.postDTO.PostDetailDTO;
 import community.community.dto.postDTO.PostFindAllDTO;
 import community.community.service.postService.PostFindService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,13 +17,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
 public class PostFindController {
 
     private final PostFindService postFindService;
 
-    public PostFindController(PostFindService postFindService){
-        this.postFindService = postFindService;
-    }
 
     @GetMapping("/postFindAll")
     public ResponseEntity<Map<String, Object>> postFindAll(

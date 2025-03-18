@@ -4,7 +4,6 @@ import community.community.dto.MemberDTO.MemberDTO;
 
 public interface MemberSignUpService {
     //연결 테스트
-    String hello();
 
     //회원가입 로직
     String signUp(MemberDTO memberDTO);

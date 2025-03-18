@@ -4,19 +4,17 @@ import community.community.entity.Post;
 import community.community.exception.customException.DBAccessException;
 import community.community.repository.postRepository.PostRepository;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class PostDeleteServiceImp implements PostDeleteService{
 
     private final PostRepository postRepository;
-
-    public PostDeleteServiceImp(PostRepository postRepository){
-        this.postRepository=postRepository;
-    }
 
     @Override
     @Transactional

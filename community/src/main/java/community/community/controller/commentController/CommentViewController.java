@@ -3,6 +3,7 @@ package community.community.controller.commentController;
 import community.community.dto.commentDTO.CommentViewDTO;
 import community.community.dto.commentDTO.RepliesCommentRegisterDTO;
 import community.community.service.commentService.CommentViewService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,13 +14,10 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
 public class CommentViewController {
 
-    private CommentViewService commentViewService;
-
-    public CommentViewController(CommentViewService commentViewService){
-        this.commentViewService=commentViewService;
-    }
+    private final CommentViewService commentViewService;
 
     @GetMapping("/postComment/{id}")
     public ResponseEntity<Map<String, Object>> postView(@PathVariable("id") Long id){

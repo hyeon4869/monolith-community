@@ -20,7 +20,7 @@ public class RepliesCommentRegisterDTO {
 
     private Date createTime;
 
-    public static RepliesCommentRegisterDTO fromEntity(Comment comment){
+    public static RepliesCommentRegisterDTO toDTO(Comment comment){
         RepliesCommentRegisterDTO repliesCommentRegisterDTO = RepliesCommentRegisterDTO.builder()
                 .content(comment.getContent())
                 .createTime(comment.getCreateTime())
