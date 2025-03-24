@@ -1,2 +1,2 @@
 <h2>커뮤니티 ERD</h2>
-![Community (1)](https://github.com/user-attachments/assets/f00f292e-f89c-41ce-90e8-1a8cd0b6b265)
+![Image](https://github.com/user-attachments/assets/3b9a761c-1ec3-4f6f-b9a9-cb1a44de20fe)
