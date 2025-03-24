@@ -2,6 +2,7 @@ package community.community.service.commentService;
 
 import community.community.dto.commentDTO.CommentViewDTO;
 import community.community.dto.commentDTO.RepliesCommentRegisterDTO;
+import community.community.entity.Comment;
 import community.community.repository.commentRepository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,5 +33,13 @@ public class CommentViewServiceImp implements CommentViewService{
                 .map(RepliesCommentRegisterDTO::toDTO)
                 .toList();
         return repliesCommentRegisterDTOS;
+    }
+
+    @Override
+    public Comment findId(Long id){
+        Comment comment =commentRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 댓글입니다.")
+        );
+        return comment;
     }
 }
