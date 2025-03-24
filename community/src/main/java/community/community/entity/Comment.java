@@ -18,14 +18,18 @@ public class Comment extends BasicTimeEntity{
     @Column(name = "comment_id")
     private Long id;
 
+    @Column(nullable = false)
     private String content;
 
+    @Column(nullable = false)
     private String writer;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "post_id")
     private Post post;
 
+    @Column(name = "like_count", nullable = false)
+    private Long likeCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_comment_id")

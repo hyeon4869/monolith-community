@@ -15,6 +15,7 @@ public class Notification extends BasicTimeEntity{
 
     @Id
     @GeneratedValue
+    @Column(name = "notification_id")
     private Long id;
 
     private String message;
