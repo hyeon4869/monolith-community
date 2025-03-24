@@ -3,8 +3,7 @@ cs를 공부하면서 프로젝트에 적용시키며 개발하고 있는 프로
 
 <h2>커뮤니티 ERD</h2><br>
 
-![Image](https://github.com/user-attachments/assets/79a9501a-f450-475b-b25c-6dbddc584707)
-
+![Image](https://github.com/user-attachments/assets/89e58f8c-f08a-451d-a899-85fa88a56ef2)
 <br>
 <h2>사용 기술</h2>
 
