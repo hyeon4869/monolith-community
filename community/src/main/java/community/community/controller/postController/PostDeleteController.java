@@ -17,6 +17,7 @@ public class PostDeleteController {
 
     private final PostDeleteService postDeleteService;
 
+    //게시글 삭제
     @PatchMapping("/delete/{id}")
     public ResponseEntity<Map<String, Object>> delete(@PathVariable("id") Long id, HttpSession session){
         Map<String, Object> response = new HashMap<>();

@@ -29,15 +29,18 @@ public class LikeServiceImp implements LikeService{
     private final CommentViewService commentViewService;
     private final CommentLikeUpdateService commentLikeUpdateService;
 
-
+    //좋아요 버튼 눌렀을 때 실행
     @Override
     public void likePush( LikePostDTO likePostDTO, HttpSession session,EntityName entityName) {
         String email = (String) session.getAttribute("loginEmail");
         Member member = memberFindService.findByEmail(email);
 
+        //같은 사용자가 이미 좋아요를 눌렀는지 확인
         Optional<UserLike> existingLike = likeRepository.findByMemberIdAndEntityId(member.getId(),likePostDTO.getEntityId());
 
+        //존재하면 실행
         if(existingLike.isPresent()){
+            //게시글일 경우
             if (entityName==EntityName.POST){
                 Post post=postFindService.postFindId(likePostDTO.getEntityId());
                 if(post.getLikeCount()>0){
@@ -45,18 +48,19 @@ public class LikeServiceImp implements LikeService{
                 }
 
             }
-
+            //댓글일 경우
             if(entityName==EntityName.COMMENT){
                 Comment comment = commentViewService.findId(likePostDTO.getEntityId());
                 if(comment.getLikeCount()>0){
                     commentLikeUpdateService.decreaseLikeCount(comment.getId());
                 }
             }
-
+            //만약 이미 존재한다면 좋아요 취소
             likeRepository.delete(existingLike.get());
         }
 
         else{
+            //해당 게시물, 댓글에 대한 첫 좋아요 일 경우
             //like 저장
             UserLike userlike = UserLike.builder()
                 .entityId(likePostDTO.getEntityId())
@@ -64,15 +68,17 @@ public class LikeServiceImp implements LikeService{
                 .entityName(entityName)
                 .build();
 
+            //게시글
             if (entityName==EntityName.POST){
                 Post post=postFindService.postFindId(likePostDTO.getEntityId());
                 postLikeUpdateService.increaseLikeCount(post.getId());
             }
-
+            //댓글
             if (entityName==EntityName.COMMENT){
                 Comment comment=commentViewService.findId(likePostDTO.getEntityId());
                 commentLikeUpdateService.increaseLikeCount(comment.getId());
             }
+            //알림 전송
             notificationService.createNotification(member.getEmail(), likePostDTO.getEntityId());
              likeRepository.save(userlike);
         }

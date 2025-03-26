@@ -40,6 +40,8 @@ public class MemberUpdateServiceImp implements MemberUpdateService {
         }
     }
 
+
+    //회원 삭제
     @Override
     @Transactional
     public void deleteMember(Long id, MemberPasswordDTO memberPasswordDTO){

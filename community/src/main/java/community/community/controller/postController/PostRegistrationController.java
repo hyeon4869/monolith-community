@@ -16,6 +16,7 @@ public class PostRegistrationController {
 
     private final PostRegistrationService postRegistrationService;
 
+    //게시글 등록
     @PostMapping("/postRegistration")
     public ResponseEntity<PostRegisterDTO> postRegistration(@RequestBody PostDTO postDTO, HttpSession session) {
 

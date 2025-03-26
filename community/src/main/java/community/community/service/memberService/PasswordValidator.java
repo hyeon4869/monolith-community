@@ -9,6 +9,7 @@ import org.springframework.web.context.annotation.RequestScope;
 public class PasswordValidator {
 
 
+    //비밀번호 검증
     public void validate(String dtoPassword, String storePassword, String errorMassage) {
         if(!dtoPassword.equals(storePassword)){
             throw new NotFoundMemberException(errorMassage);

@@ -31,6 +31,8 @@ public class MemberFindServiceImp implements MemberFindService{
         return MemberIdAndEmailDTO.toDTO(member);
     }
 
+
+    //회원 전체 조회
     @Override
     public List<MemberIdAndEmailDTO> findMemberList(){
         List<Member> memberList=memberRepository.findReadMemberList();

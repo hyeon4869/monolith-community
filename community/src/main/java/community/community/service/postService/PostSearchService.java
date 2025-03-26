@@ -6,5 +6,6 @@ import org.springframework.data.domain.Pageable;
 
 public interface PostSearchService {
 
+    //제목으로 검색
     Page<PostFindDTO> postSearch(Pageable pageable,String title);
 }

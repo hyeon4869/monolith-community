@@ -8,8 +8,10 @@ import java.util.List;
 
 public interface CommentViewService {
 
+    //댓글 전체 조회
     List<CommentViewDTO> commentView(Long id);
 
+    //대댓글 전체 조회
     List<RepliesCommentRegisterDTO> repliesCommentView(Long parentId);
 
     Comment findId(Long id);

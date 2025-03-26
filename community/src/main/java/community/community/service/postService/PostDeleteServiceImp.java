@@ -22,6 +22,7 @@ public class PostDeleteServiceImp implements PostDeleteService{
         Post post = postRepository.findById(id)
                 .orElseThrow(()->new IllegalArgumentException("존재하지 않는 게시물입니다."));
 
+        //존재 여부 확인
         if(post.isDeleted()){
             throw new IllegalArgumentException("이미 삭제된 게시물입니다.");
         }

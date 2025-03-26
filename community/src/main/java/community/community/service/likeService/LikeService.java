@@ -8,6 +8,7 @@ public interface LikeService {
 
     void likePostPush(LikePostDTO likePostDTO, HttpSession session, EntityName entityName);
 
+    //공용 메서드
     void likePush(LikePostDTO likePostDTO, HttpSession session,EntityName entityName);
 
     void likeCommentPush(LikePostDTO likePostDTO, HttpSession session, EntityName entityName);
