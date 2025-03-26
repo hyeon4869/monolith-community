@@ -20,6 +20,7 @@ public class PostSearchController {
 
     private final PostSearchService postSearchService;
 
+    //게시글 검색
     @GetMapping("/postSearch")
     public ResponseEntity<Map<String, Object>> titleSearch(@RequestParam String title,
                                                            @RequestParam(defaultValue = "50") int size,

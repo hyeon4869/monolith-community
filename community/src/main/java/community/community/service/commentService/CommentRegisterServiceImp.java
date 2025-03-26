@@ -21,11 +21,13 @@ public class CommentRegisterServiceImp implements CommentRegisterService{
     private final PostFindService postFindService;
 
 
+    //댓글 등록
     @Transactional
     @Override
     public String commentRegister(Long id, CommentRegisterDTO commentRegisterDTO, HttpSession session) {
         String writer=(String)session.getAttribute("loginEmail");
 
+        //로그인이 안 된 경우 작성자는 익명
         if(writer==null||writer.isEmpty()){
             writer="익명";
         }
@@ -47,12 +49,13 @@ public class CommentRegisterServiceImp implements CommentRegisterService{
         }
         return commentRegisterDTO.getContent();
     }
-
+//대댓글 등록
     @Override
     @Transactional
     public String replicaCommentRegister(Long commentId, RepliesCommentRegisterDTO repliesCommentRegisterDTO, HttpSession session) {
         String writer=(String)session.getAttribute("loginEmail");
 
+        //로그인이 안 된 경우 작성자는 익명
         if(writer==null||writer.isEmpty()){
             writer="익명";
         }

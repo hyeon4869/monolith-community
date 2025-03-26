@@ -19,6 +19,7 @@ public class NotificationService {
 
     private final Queue<Notification> notificationQueue = new ConcurrentLinkedQueue<>();
 
+    //알림 생성
     public void createNotification(String senderEmail, Long postId) {
         Post post = postFindService.postFindId(postId);
         String targetEmail = post.getMember().getEmail();
@@ -34,6 +35,7 @@ public class NotificationService {
         processNotifications();
     }
 
+    //알림 출력
     public void processNotifications() {
         while (!notificationQueue.isEmpty()) {
             Notification notification = notificationQueue.poll();

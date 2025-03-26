@@ -18,6 +18,7 @@ public class PostSearchServiceImp implements PostSearchService{
     private final PostRepository postRepository;
 
 
+    //제목 검색을 통한 조회
     @Override
     @Cacheable(value = "myC")
     public Page<PostFindDTO> postSearch(Pageable pageable, String title) {

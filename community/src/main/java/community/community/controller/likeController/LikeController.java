@@ -19,6 +19,7 @@ public class LikeController {
 
     private final LikeService likeService;
 
+    //게시글에 좋아요
     @PostMapping("/like/post")
     public ResponseEntity<Map<String, Object>> likePost(@RequestBody LikePostDTO likePostDTO, HttpSession session){
         Map<String, Object> response = new HashMap<>();
@@ -27,6 +28,7 @@ public class LikeController {
         return ResponseEntity.ok(response);
     }
 
+    //댓글에 좋아요
     @PostMapping("/like/comment")
     public ResponseEntity<Map<String, Object>> likeComment(@RequestBody LikePostDTO likePostDTO, HttpSession session){
         Map<String, Object> response = new HashMap<>();

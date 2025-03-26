@@ -10,7 +10,7 @@ public interface PostFindService {
 
     Page<PostFindAllDTO> postFindAll(Pageable pageable);
 
-
+    //게시글 상세 조회
     PostDetailDTO postDetail(Long id);
 
     Post postFindId(Long id);

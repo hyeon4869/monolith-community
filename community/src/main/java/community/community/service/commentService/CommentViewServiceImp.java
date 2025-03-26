@@ -17,6 +17,7 @@ public class CommentViewServiceImp implements CommentViewService{
 
     private final CommentRepository commentRepository;
 
+    //댓글 전체 조회
     @Override
     public List<CommentViewDTO> commentView(Long id) {
 
@@ -27,6 +28,7 @@ public class CommentViewServiceImp implements CommentViewService{
         return commentViewDTOS;
     }
 
+    //대댓글 전체 조회
     @Override
     public List<RepliesCommentRegisterDTO> repliesCommentView(Long parentId){
         List<RepliesCommentRegisterDTO> repliesCommentRegisterDTOS = commentRepository.findRepliesReadAll(parentId).stream()

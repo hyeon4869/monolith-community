@@ -36,10 +36,12 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @QueryHints(@QueryHint(name = "org.hibernate.readOnly", value="true"))
     Page<PostFindDTO> findSearchTitle(Pageable pageable, String title);
 
+    //좋아요 카운트 1감소 update 쿼리
     @Modifying
     @Query("UPDATE Post p SET p.likeCount = p.likeCount - 1 WHERE p.id = :id")
     void decreaseLikeCount(Long id);
 
+    //좋아요 카운트 1증가 update 쿼리
     @Modifying
     @Query("UPDATE Post p SET p.likeCount = p.likeCount + 1 WHERE p.id = :id")
     void increaseLikeCount(Long id);

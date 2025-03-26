@@ -23,6 +23,7 @@ public class PostRegistrationServiceImp implements PostRegistrationService {
     private final MemberRepository memberRepository;
 
 
+    //게시글 등록
     @Transactional
     public PostRegisterDTO postRegistration(PostDTO postDTO, HttpSession session) {
         //게시물 등록 로직
