@@ -1,6 +1,9 @@
-<h2>1인 커뮤니티 프로젝트(진행 중)</h2><br>
+<h2>1인 커뮤니티 프로젝트</h2><br>
 cs를 공부하면서 프로젝트에 적용시키며 개발하고 있는 프로젝트입니다.<br>
 
+<h2>아키텍처</h2>
+
+![Image](https://github.com/user-attachments/assets/fd791add-d685-4b20-9d97-f3bfb214fed5)
 <h2>커뮤니티 ERD</h2><br>
 
 ![Image](https://github.com/user-attachments/assets/89e58f8c-f08a-451d-a899-85fa88a56ef2)
