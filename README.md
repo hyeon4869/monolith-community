@@ -15,7 +15,7 @@ cs를 공부하면서 프로젝트에 적용시키며 개발하고 있는 프로
 ![Image](https://github.com/user-attachments/assets/78a3253d-7f36-48b3-8ce2-3db986fffb33)
 ![Image](https://github.com/user-attachments/assets/0f470010-749b-4683-8cec-84b2464d6985)
 ![Image](https://github.com/user-attachments/assets/d765d465-68a6-432a-8a04-8a0a0c7f3f3d)
-
+![Image](https://github.com/user-attachments/assets/28cd2868-a7b0-46a1-a10b-560e2085fa8f)
 <h2>요구사항</h2>
 <h3>회원 관리</h3>
 
