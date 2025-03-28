@@ -41,4 +41,5 @@ public class Post extends BasicTimeEntity{
         this.isDeleted=true;
     }
 
+
 }

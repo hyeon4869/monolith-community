@@ -15,22 +15,22 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     //본댓글만 조회
-    @Query("SELECT c FROM Comment c JOIN FETCH  c.post p where p.id=:id AND c.parentComment IS NULL ORDER BY createTime")
+    @Query("SELECT c FROM Comment c JOIN FETCH  c.post p where p.id=:id AND c.parentComment IS NULL ORDER BY c.createTime")
     @QueryHints(@QueryHint(name = "org.hibernate.readOnly", value = "true"))
     List<Comment> findReadAll(@Param("id") Long id);
 
     //모든 대댓글을 조회
-    @Query("SELECT c FROM Comment c WHERE c.parentComment.id = :parentId ORDER BY createTime ")
+    @Query("SELECT c FROM Comment c WHERE c.parentComment.id = :parentId ORDER BY c.createTime ")
     @QueryHints(@QueryHint(name = "org.hibernate.readOnly", value = "true"))
     List<Comment> findRepliesReadAll(@Param("parentId") Long parentId);
 
     //좋아요 카운트 1 증가 쿼리
     @Modifying
-    @Query("UPDATE Comment c SET c.like_count = c.like_count+1 where c.id=:id ")
+    @Query("UPDATE Comment c SET c.likeCount = c.likeCount+1 where c.id=:id ")
     void increaseLikeCount(Long id);
 
     //좋아요 카운트 1 증가 쿼리
     @Modifying
-    @Query("UPDATE Comment c SET c.like_count = c.like_count-1 where c.id=:id ")
+    @Query("UPDATE Comment c SET c.likeCount = c.likeCount-1 where c.id=:id ")
     void decreaseLikeCount(Long id);
 }
