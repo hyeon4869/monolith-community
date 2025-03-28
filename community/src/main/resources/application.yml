@@ -1,19 +1,12 @@
 spring:
-  application:
-    name: community
+  profiles:
+    active: ide  # 기본 활성화 프로필 (IDE 환경)
 
-  server:
-    tomcat:
-      threads:
-        max: 10    # 최대 스레드 수 (I/O 바운드 기준)
-        min-spare: 15 # 최소 유휴 스레드 수
-      max-connections: 2000 # 동시에 허용할 최대 연결 수
-      accept-count: 200     # 대기열 크기
-#      connection-timeout: 20000 # 연결 타임아웃 (20초)
-
-
-  jackson:
-    time-zone: Asia/Seoul
+---
+spring:
+  config:
+    activate:
+      on-profile: ide
 
   datasource:
     url: jdbc:mysql://localhost:3306/community?useSSL=false&serverTimezone=Asia/Seoul
@@ -21,19 +14,62 @@ spring:
     password: 12341234
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-    hikari:
-      minimum-idle: 10              # 최소 유휴 커넥션 수
-      maximum-pool-size: 12       # 최대 풀 크기 (CPU 코어 기반)
-      idle-timeout: 300000         # 유휴 시간 유지 (5분)
-      max-lifetime: 1740000        # 최대 수명 유지 (29분)
-#      connection-timeout: -1     # 커넥션 타임아웃 단축 (10초)
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        generate_statistics: true
 
+server:
+  port: 8080
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+  datasource:
+    url: jdbc:mysql://mysql:3306/community?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul
+    username: root
+    password: 12341234
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
       ddl-auto: update
-      dialect: org.hibernate.dialect.MySQLDialect   # 최신 Hibernate Dialect 사용 (Hibernate 6.x)
-    show-sql: true                                  # SQL 쿼리 출력 활성화
+    show-sql: true
     properties:
       hibernate:
-        generate_statistics: true                   # Hibernate 통계 활성화
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        generate_statistics: true
+
+server:
+  port: 8080
+
+---
+# 공통 설정
+spring:
+  application:
+    name: community
+
+  jackson:
+    time-zone: Asia/Seoul
+
+  datasource:
+    hikari:
+      minimum-idle: 10
+      maximum-pool-size: 12
+      idle-timeout: 300000
+     # max-lifetime: 1740000
+
+  server:
+    tomcat:
+      threads:
+        max: 15
+        min-spare: 20
+      max-connections: 2000
+      accept-count: 200
