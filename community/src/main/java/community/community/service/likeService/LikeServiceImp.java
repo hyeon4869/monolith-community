@@ -3,7 +3,7 @@ package community.community.service.likeService;
 import community.community.dto.likeDTO.LikePostDTO;
 import community.community.entity.*;
 import community.community.repository.likeRepository.LikeRepository;
-import community.community.service.NotificationService;
+import community.community.service.notificationService.NotificationService;
 import community.community.service.commentService.CommentLikeUpdateService;
 import community.community.service.commentService.CommentViewService;
 import community.community.service.memberService.MemberFindService;
