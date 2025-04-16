@@ -1,6 +1,7 @@
 package community.community.service.myPageService;
 
 import community.community.dto.MemberDTO.MemberIdAndEmailDTO;
+import community.community.dto.commentDTO.CommentOfMemberDTO;
 import community.community.dto.postDTO.PostOfMemberDTO;
 import community.community.service.commentService.CommentFindService;
 import community.community.service.memberService.MemberFindService;
@@ -27,5 +28,9 @@ public class MyPageService {
 
     public Page<PostOfMemberDTO> findPostByMemberId(Pageable pageable, Long id) {
         return postFindService.findPostAllByMemberId(pageable, id);
+    }
+
+    public Page<CommentOfMemberDTO> findCommentByMemberId(Pageable pageable, Long id) {
+        return commentFindService.findAllCommentByMemberId(pageable, id);
     }
 }

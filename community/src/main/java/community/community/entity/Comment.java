@@ -21,8 +21,9 @@ public class Comment extends BasicTimeEntity{
     @Column(nullable = false)
     private String content;
 
-    @Column(nullable = false)
-    private String writer;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "post_id")
@@ -41,6 +42,10 @@ public class Comment extends BasicTimeEntity{
 
     public void setPost(Post post){
         this.post=post;
+    }
+
+    public void setMember(Member member){
+        this.member = member;
     }
 
 }
