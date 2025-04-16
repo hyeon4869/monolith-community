@@ -13,13 +13,13 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class CommentViewServiceImp implements CommentViewService{
+public class CommentFindServiceImp implements CommentFindService {
 
     private final CommentRepository commentRepository;
 
     //댓글 전체 조회
     @Override
-    public List<CommentViewDTO> commentView(Long id) {
+    public List<CommentViewDTO> findComment(Long id) {
 
         List<CommentViewDTO> commentViewDTOS = commentRepository.findReadAll(id).stream()
                 //여기 수정하기
@@ -30,7 +30,7 @@ public class CommentViewServiceImp implements CommentViewService{
 
     //대댓글 전체 조회
     @Override
-    public List<RepliesCommentRegisterDTO> repliesCommentView(Long parentId){
+    public List<RepliesCommentRegisterDTO> findRepliesComment(Long parentId){
         List<RepliesCommentRegisterDTO> repliesCommentRegisterDTOS = commentRepository.findRepliesReadAll(parentId).stream()
                 .map(RepliesCommentRegisterDTO::toDTO)
                 .toList();

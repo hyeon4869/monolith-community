@@ -6,13 +6,13 @@ import community.community.entity.Comment;
 
 import java.util.List;
 
-public interface CommentViewService {
+public interface CommentFindService {
 
     //댓글 전체 조회
-    List<CommentViewDTO> commentView(Long id);
+    List<CommentViewDTO> findComment(Long id);
 
     //대댓글 전체 조회
-    List<RepliesCommentRegisterDTO> repliesCommentView(Long parentId);
+    List<RepliesCommentRegisterDTO> findRepliesComment(Long parentId);
 
     Comment findId(Long id);
 }
