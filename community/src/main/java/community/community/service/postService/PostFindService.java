@@ -2,6 +2,7 @@ package community.community.service.postService;
 
 import community.community.dto.postDTO.PostDetailDTO;
 import community.community.dto.postDTO.PostFindAllDTO;
+import community.community.dto.postDTO.PostOfMemberDTO;
 import community.community.entity.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,4 +15,7 @@ public interface PostFindService {
     PostDetailDTO postDetail(Long id);
 
     Post postFindId(Long id);
+
+    //단일 회원의 게시글 조회
+    Page<PostOfMemberDTO> findPostAllByMemberId(Pageable pageable, Long id);
 }

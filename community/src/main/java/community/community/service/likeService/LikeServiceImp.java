@@ -5,7 +5,7 @@ import community.community.entity.*;
 import community.community.repository.likeRepository.LikeRepository;
 import community.community.service.notificationService.NotificationService;
 import community.community.service.commentService.CommentLikeUpdateService;
-import community.community.service.commentService.CommentViewService;
+import community.community.service.commentService.CommentFindService;
 import community.community.service.memberService.MemberFindService;
 import community.community.service.postService.PostFindService;
 import community.community.service.postService.PostLikeUpdateService;
@@ -26,7 +26,7 @@ public class LikeServiceImp implements LikeService{
     private final PostFindService postFindService;
     private final NotificationService notificationService;
     private final PostLikeUpdateService postLikeUpdateService;
-    private final CommentViewService commentViewService;
+    private final CommentFindService commentFindService;
     private final CommentLikeUpdateService commentLikeUpdateService;
 
     //좋아요 버튼 눌렀을 때 실행
@@ -50,7 +50,7 @@ public class LikeServiceImp implements LikeService{
             }
             //댓글일 경우
             if(entityName==EntityName.COMMENT){
-                Comment comment = commentViewService.findId(likePostDTO.getEntityId());
+                Comment comment = commentFindService.findId(likePostDTO.getEntityId());
                 if(comment.getLikeCount()>0){
                     commentLikeUpdateService.decreaseLikeCount(comment.getId());
                 }
@@ -75,7 +75,7 @@ public class LikeServiceImp implements LikeService{
             }
             //댓글
             if (entityName==EntityName.COMMENT){
-                Comment comment=commentViewService.findId(likePostDTO.getEntityId());
+                Comment comment= commentFindService.findId(likePostDTO.getEntityId());
                 commentLikeUpdateService.increaseLikeCount(comment.getId());
             }
             //알림 전송
