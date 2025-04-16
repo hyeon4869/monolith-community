@@ -3,6 +3,7 @@ package community.community.service.commentService;
 import community.community.dto.commentDTO.CommentRegisterDTO;
 import community.community.dto.commentDTO.RepliesCommentRegisterDTO;
 import community.community.entity.Comment;
+import community.community.entity.Member;
 import community.community.entity.Post;
 import community.community.exception.customException.DBAccessException;
 import community.community.repository.commentRepository.CommentRepository;
@@ -27,6 +28,11 @@ public class CommentRegisterServiceImp implements CommentRegisterService{
     public String commentRegister(Long id, CommentRegisterDTO commentRegisterDTO, HttpSession session) {
         String writer=(String)session.getAttribute("loginEmail");
 
+        Member member = Member.builder()
+                .email(writer)
+                .build();
+
+
         //로그인이 안 된 경우 작성자는 익명
         if(writer==null||writer.isEmpty()){
             writer="익명";
@@ -37,7 +43,7 @@ public class CommentRegisterServiceImp implements CommentRegisterService{
 
         Comment comment = Comment.builder()
                 .content(commentRegisterDTO.getContent())
-                .writer(writer)
+                .member(member)
                 .post(post)
                 .parentComment(null)
                 .build();
@@ -54,6 +60,9 @@ public class CommentRegisterServiceImp implements CommentRegisterService{
     @Transactional
     public String replicaCommentRegister(Long commentId, RepliesCommentRegisterDTO repliesCommentRegisterDTO, HttpSession session) {
         String writer=(String)session.getAttribute("loginEmail");
+        Member member = Member.builder()
+                .email(writer)
+                .build();
 
         //로그인이 안 된 경우 작성자는 익명
         if(writer==null||writer.isEmpty()){
@@ -67,7 +76,7 @@ public class CommentRegisterServiceImp implements CommentRegisterService{
 
         Comment comment = Comment.builder()
                 .content(repliesCommentRegisterDTO.getContent())
-                .writer(writer)
+                .member(member)
                 .parentComment(parentComment)
                 .post(parentComment.getPost())
                 .build();

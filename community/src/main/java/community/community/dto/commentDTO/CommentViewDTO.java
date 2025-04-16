@@ -21,7 +21,7 @@ public class CommentViewDTO {
         CommentViewDTO commentViewDTO = CommentViewDTO.builder()
                 .id(comment.getId())
                 .content(comment.getContent())
-                .writer(comment.getWriter())
+                .writer(comment.getMember().getEmail())
                 .createTime(comment.getCreateTime())
                 .build();
             return commentViewDTO;

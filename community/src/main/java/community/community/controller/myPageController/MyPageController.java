@@ -1,6 +1,7 @@
 package community.community.controller.myPageController;
 
 import community.community.dto.MemberDTO.MemberIdAndEmailDTO;
+import community.community.dto.commentDTO.CommentOfMemberDTO;
 import community.community.dto.postDTO.PostOfMemberDTO;
 import community.community.service.myPageService.MyPageService;
 import lombok.RequiredArgsConstructor;
@@ -22,9 +23,8 @@ public class MyPageController {
 
     private final MyPageService myPageService;
 
-
     @GetMapping("/myPageInfoMember/{id}")
-    public ResponseEntity<Map<String, Object>> myPageInfoMember(@PathVariable("id") Long id){
+    public ResponseEntity<Map<String, Object>> myPagebyMember(@PathVariable("id") Long id){
         Map<String, Object> response = new HashMap<>();
         MemberIdAndEmailDTO memberIdAndEmailDTO = myPageService.findMember(id);
         response.put("member", memberIdAndEmailDTO);
@@ -32,7 +32,7 @@ public class MyPageController {
     }
 
     @GetMapping("/myPageInfoPost/{id}")
-    public ResponseEntity<Map<String, Object>> myPageInfoPost(@PathVariable("id") Long id,
+    public ResponseEntity<Map<String, Object>> myPageByPost(@PathVariable("id") Long id,
                                                               @RequestParam(defaultValue = "10") int size,
                                                               @RequestParam(defaultValue = "0") int page) {
         Map<String, Object> response = new HashMap<>();
@@ -41,6 +41,20 @@ public class MyPageController {
         Page<PostOfMemberDTO> postOfMemberDTOS = myPageService.findPostByMemberId(pageable, id);
 
         response.put("postInfo",postOfMemberDTOS);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/myPageInfoComment/{id}")
+    public ResponseEntity<Map<String, Object>> myPageByComment(@PathVariable("id") Long id,
+                                                               @RequestParam(defaultValue = "10") int size,
+                                                               @RequestParam(defaultValue = "0" ) int page){
+
+        Map<String, Object> response = new HashMap<>();
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<CommentOfMemberDTO> commentOfMemberDTO = myPageService.findCommentByMemberId(pageable, id);
+
+        response.put("commentInfo", commentOfMemberDTO);
         return ResponseEntity.ok(response);
     }
 

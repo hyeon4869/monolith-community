@@ -1,10 +1,15 @@
 package community.community.service.commentService;
 
+import community.community.dto.commentDTO.CommentOfMemberDTO;
 import community.community.dto.commentDTO.CommentViewDTO;
 import community.community.dto.commentDTO.RepliesCommentRegisterDTO;
 import community.community.entity.Comment;
+import community.community.exception.customException.DBAccessException;
 import community.community.repository.commentRepository.CommentRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,5 +48,17 @@ public class CommentFindServiceImp implements CommentFindService {
                 () -> new IllegalArgumentException("존재하지 않는 댓글입니다.")
         );
         return comment;
+    }
+
+    @Override
+    public Page<CommentOfMemberDTO> findAllCommentByMemberId(Pageable pageable, Long id) {
+        try{
+           Page<CommentOfMemberDTO> commentOfMemberDTO= commentRepository.findAllCommentByMemberId(pageable, id);
+            return commentOfMemberDTO;
+        } catch (DataAccessException e) {
+            throw new DBAccessException("데이터베이스에 문제가 발생하여 회원의 댓글을 조회할 수 없습니다.", e);
+        } catch (Exception e) {
+            throw new RuntimeException("알 수 없는 문제가 발생했습니다.");
+        }
     }
 }
