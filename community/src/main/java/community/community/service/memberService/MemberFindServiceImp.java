@@ -4,6 +4,7 @@ import community.community.dto.MemberDTO.MemberIdAndEmailDTO;
 import community.community.entity.Member;
 import community.community.exception.customException.DBAccessException;
 import community.community.exception.customException.NotFoundMemberException;
+import community.community.mapper.MemberMapper;
 import community.community.repository.memberRepository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
@@ -28,7 +29,7 @@ public class MemberFindServiceImp implements MemberFindService{
         Member member =memberRepository.findByReadId(id)
                 .orElseThrow(()-> new NotFoundMemberException("일치하는 회원이 존재하지 않습니다."));
 
-        return MemberIdAndEmailDTO.toDTO(member);
+        return MemberMapper.toMemberIdAndEmailDTO(member);
     }
 
 
@@ -52,8 +53,15 @@ public class MemberFindServiceImp implements MemberFindService{
 
 
     @Override
-    public Member findByEmail(String email) {
+    public Member findByReadEmail(String email) {
         Member member =memberRepository.findByReadEmail(email)
+                .orElseThrow(()->new IllegalArgumentException("확인되지 않은 회원입니다. : "+ email));
+        return member;
+    }
+
+    @Override
+    public Member findByEmail(String email) {
+        Member member =memberRepository.findByEmail(email)
                 .orElseThrow(()->new IllegalArgumentException("확인되지 않은 회원입니다. : "+ email));
         return member;
     }

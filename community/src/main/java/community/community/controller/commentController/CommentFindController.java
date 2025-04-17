@@ -1,6 +1,6 @@
 package community.community.controller.commentController;
 
-import community.community.dto.commentDTO.CommentViewDTO;
+import community.community.dto.commentDTO.CommentFindDTO;
 import community.community.dto.commentDTO.RepliesCommentRegisterDTO;
 import community.community.service.commentService.CommentFindService;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +22,8 @@ public class CommentFindController {
     @GetMapping("/postComment/{id}")
     public ResponseEntity<Map<String, Object>> postView(@PathVariable("id") Long id){
         Map<String, Object> response = new HashMap<>();
-        List<CommentViewDTO> commentViewDTOS = commentFindService.findComment(id);
-        response.put("comment", commentViewDTOS);
+        List<CommentFindDTO> commentFindDTOS = commentFindService.findComment(id);
+        response.put("comment", commentFindDTOS);
 
         return ResponseEntity.ok(response);
     }

@@ -11,5 +11,8 @@ public interface MemberFindService {
     List<MemberIdAndEmailDTO> findMemberList();
 
     //좋아요 기능에 사용하는 email 조회
+    Member findByReadEmail(String email);
+
     Member findByEmail(String email);
+
 }

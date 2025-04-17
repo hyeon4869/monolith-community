@@ -5,6 +5,7 @@ import community.community.dto.postDTO.PostFindAllDTO;
 import community.community.dto.postDTO.PostOfMemberDTO;
 import community.community.entity.Post;
 import community.community.exception.customException.DBAccessException;
+import community.community.mapper.PostMapper;
 import community.community.repository.postRepository.PostRepository;
 import community.community.service.commentService.CommentFindService;
 import lombok.RequiredArgsConstructor;
@@ -53,8 +54,7 @@ public class PostFindServiceImp implements PostFindService {
         Post post =postRepository.findByReadId(id)
                 .orElseThrow(()->new IllegalArgumentException("삭제된 게시물입니다."));
 
-        PostDetailDTO postDetailDTO =PostDetailDTO.toDTO(post);
-        return postDetailDTO;
+        return PostMapper.toPostDetailDTO(post);
     }
 
     @Override

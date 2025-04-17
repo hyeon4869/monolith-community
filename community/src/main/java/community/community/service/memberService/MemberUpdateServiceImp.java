@@ -5,6 +5,7 @@ import community.community.dto.MemberDTO.MemberPasswordDTO;
 import community.community.entity.Member;
 import community.community.exception.customException.DBAccessException;
 import community.community.exception.customException.NotFoundMemberException;
+import community.community.mapper.MemberMapper;
 import community.community.repository.memberRepository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
@@ -28,10 +29,7 @@ public class MemberUpdateServiceImp implements MemberUpdateService {
         //비밀번호 변경 메서드
         try {
             member.updatePassword(memberPasswordDTO.getPassword());
-            MemberIdAndEmailDTO updateDTO = MemberIdAndEmailDTO.builder()
-                    .id(member.getId())
-                    .email(member.getEmail())
-                    .build();
+            MemberIdAndEmailDTO updateDTO = MemberMapper.toMemberIdAndEmailDTO(member);
             return updateDTO;
         } catch (DataAccessException e) {
             throw new DBAccessException("비밀번호 업데이트 중 데이터베이스에 오류가 발생했습니다.",e);

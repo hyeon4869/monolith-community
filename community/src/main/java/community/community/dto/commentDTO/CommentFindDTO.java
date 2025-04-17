@@ -1,22 +1,19 @@
 package community.community.dto.commentDTO;
 
-import community.community.entity.Comment;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.Date;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class CommentFindDTO {
 
     private Long id;
+    private String content;
+    private String writer;
+    private Date createTime;
 
-    public static CommentFindDTO toDTO(Comment comment){
-        return CommentFindDTO.builder()
-                .id(comment.getId())
-                .build();
-    }
 }

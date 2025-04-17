@@ -8,7 +8,6 @@ import lombok.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@ToString
 @Table(name = "comment"
         ,indexes = @Index(name = "idx_parent_id_createTime", columnList = "parent_comment_id, create_time"))
 
@@ -21,7 +20,7 @@ public class Comment extends BasicTimeEntity{
     @Column(nullable = false)
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 

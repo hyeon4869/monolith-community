@@ -1,10 +1,11 @@
 package community.community.service.commentService;
 
 import community.community.dto.commentDTO.CommentOfMemberDTO;
-import community.community.dto.commentDTO.CommentViewDTO;
+import community.community.dto.commentDTO.CommentFindDTO;
 import community.community.dto.commentDTO.RepliesCommentRegisterDTO;
 import community.community.entity.Comment;
 import community.community.exception.customException.DBAccessException;
+import community.community.mapper.CommentMapper;
 import community.community.repository.commentRepository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
@@ -24,20 +25,20 @@ public class CommentFindServiceImp implements CommentFindService {
 
     //댓글 전체 조회
     @Override
-    public List<CommentViewDTO> findComment(Long id) {
+    public List<CommentFindDTO> findComment(Long id) {
 
-        List<CommentViewDTO> commentViewDTOS = commentRepository.findReadAll(id).stream()
+        List<CommentFindDTO> commentFindDTOS = commentRepository.findReadAll(id).stream()
                 //여기 수정하기
-                 .map(CommentViewDTO::toDTO)
+                 .map(CommentMapper::toCommentViewDTO)
                 .toList();
-        return commentViewDTOS;
+        return commentFindDTOS;
     }
 
     //대댓글 전체 조회
     @Override
     public List<RepliesCommentRegisterDTO> findRepliesComment(Long parentId){
         List<RepliesCommentRegisterDTO> repliesCommentRegisterDTOS = commentRepository.findRepliesReadAll(parentId).stream()
-                .map(RepliesCommentRegisterDTO::toDTO)
+                .map(CommentMapper::toRepliesCommentRegisterDTO)
                 .toList();
         return repliesCommentRegisterDTOS;
     }

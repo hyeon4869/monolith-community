@@ -12,10 +12,7 @@ import lombok.Setter;
 public class PostFindAllDTO {
 
     private Long id;
-
     private String title;
-
     private String memberEmail;
-
     private int likeCount;
 }

@@ -10,9 +10,7 @@ import lombok.*;
 public class PostFindDTO {
 
     private Long id;
-
     private String title;
-
     private String memberEmail;
 
 }
