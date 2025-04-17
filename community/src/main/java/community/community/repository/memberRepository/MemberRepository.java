@@ -15,7 +15,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     Optional<Member> findByEmail(String email);
 
-
     //읽기 전용으로 아이디 조회
     @Query("SELECT m FROM Member m where m.id= :id")
     @QueryHints(@QueryHint(name = "org.hibernate.readOnly", value = "true"))

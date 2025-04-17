@@ -2,6 +2,7 @@ package community.community.service.likeService;
 
 import community.community.dto.likeDTO.LikePostDTO;
 import community.community.entity.*;
+import community.community.mapper.UserLikeMapper;
 import community.community.repository.likeRepository.LikeRepository;
 import community.community.service.notificationService.NotificationService;
 import community.community.service.commentService.CommentLikeUpdateService;
@@ -33,7 +34,7 @@ public class LikeServiceImp implements LikeService{
     @Override
     public void likePush( LikePostDTO likePostDTO, HttpSession session,EntityName entityName) {
         String email = (String) session.getAttribute("loginEmail");
-        Member member = memberFindService.findByEmail(email);
+        Member member = memberFindService.findByReadEmail(email);
 
         //같은 사용자가 이미 좋아요를 눌렀는지 확인
         Optional<UserLike> existingLike = likeRepository.findByMemberIdAndEntityId(member.getId(),likePostDTO.getEntityId());
@@ -62,11 +63,7 @@ public class LikeServiceImp implements LikeService{
         else{
             //해당 게시물, 댓글에 대한 첫 좋아요 일 경우
             //like 저장
-            UserLike userlike = UserLike.builder()
-                .entityId(likePostDTO.getEntityId())
-                .member(member)
-                .entityName(entityName)
-                .build();
+            UserLike userlike = UserLikeMapper.toEntity(likePostDTO, member, entityName);
 
             //게시글
             if (entityName==EntityName.POST){

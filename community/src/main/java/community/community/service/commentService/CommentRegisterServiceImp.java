@@ -6,7 +6,9 @@ import community.community.entity.Comment;
 import community.community.entity.Member;
 import community.community.entity.Post;
 import community.community.exception.customException.DBAccessException;
+import community.community.mapper.CommentMapper;
 import community.community.repository.commentRepository.CommentRepository;
+import community.community.service.memberService.MemberFindService;
 import community.community.service.postService.PostFindService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +22,7 @@ public class CommentRegisterServiceImp implements CommentRegisterService{
 
     private final CommentRepository commentRepository;
     private final PostFindService postFindService;
-
+    private final MemberFindService memberService;
 
     //댓글 등록
     @Transactional
@@ -28,10 +30,7 @@ public class CommentRegisterServiceImp implements CommentRegisterService{
     public String commentRegister(Long id, CommentRegisterDTO commentRegisterDTO, HttpSession session) {
         String writer=(String)session.getAttribute("loginEmail");
 
-        Member member = Member.builder()
-                .email(writer)
-                .build();
-
+        Member member = memberService.findByEmail(writer);
 
         //로그인이 안 된 경우 작성자는 익명
         if(writer==null||writer.isEmpty()){
@@ -60,9 +59,8 @@ public class CommentRegisterServiceImp implements CommentRegisterService{
     @Transactional
     public String replicaCommentRegister(Long commentId, RepliesCommentRegisterDTO repliesCommentRegisterDTO, HttpSession session) {
         String writer=(String)session.getAttribute("loginEmail");
-        Member member = Member.builder()
-                .email(writer)
-                .build();
+
+        Member member = memberService.findByEmail(writer);
 
         //로그인이 안 된 경우 작성자는 익명
         if(writer==null||writer.isEmpty()){
@@ -74,12 +72,7 @@ public class CommentRegisterServiceImp implements CommentRegisterService{
                 .orElseThrow(() -> new IllegalArgumentException("조회되는 댓글이 없습니다."));
 
 
-        Comment comment = Comment.builder()
-                .content(repliesCommentRegisterDTO.getContent())
-                .member(member)
-                .parentComment(parentComment)
-                .post(parentComment.getPost())
-                .build();
+        Comment comment = CommentMapper.toEntity(repliesCommentRegisterDTO,member,parentComment);
 
         try{
             commentRepository.save(comment);

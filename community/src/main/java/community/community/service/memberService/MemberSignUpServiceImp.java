@@ -5,6 +5,7 @@ import community.community.entity.Member;
 import community.community.exception.customException.DBAccessException;
 import community.community.exception.customException.InvalidEmailException;
 import community.community.exception.customException.SignUpFailedException;
+import community.community.mapper.MemberMapper;
 import community.community.repository.memberRepository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
@@ -29,10 +30,7 @@ public class MemberSignUpServiceImp implements MemberSignUpService {
             throw new IllegalArgumentException("아이디나 비밀번호는 필수입니다.");
         }
         try {
-            Member member = Member.builder()
-                    .email(memberDTO.getEmail())
-                    .password(memberDTO.getPassword())
-                    .build();
+            Member member = MemberMapper.toEntity(memberDTO);
             memberRepository.save(member);
 
             return String.valueOf(member.getId());

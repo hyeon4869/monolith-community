@@ -13,9 +13,7 @@ import lombok.NoArgsConstructor;
 public class CommentOfMemberDTO {
 
     private Long id;
-
     private String content;
-
     private String postTitle;
 
     public static CommentOfMemberDTO toDTO(Comment comment){

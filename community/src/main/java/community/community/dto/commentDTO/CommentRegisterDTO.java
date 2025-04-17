@@ -12,8 +12,6 @@ import lombok.Setter;
 public class CommentRegisterDTO {
 
     private Long id;
-
     private String Content;
-
     private String writer;
 }

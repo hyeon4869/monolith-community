@@ -11,7 +11,6 @@ import org.springframework.cache.annotation.Cacheable;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@ToString
 @Cacheable
 @org.hibernate.annotations.Cache(usage= CacheConcurrencyStrategy.READ_WRITE)
 public class Member extends BasicTimeEntity{
