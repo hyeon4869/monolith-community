@@ -9,7 +9,7 @@ import org.springframework.cache.annotation.Cacheable;
 @Table(name = "Member")
 @Getter
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @ToString
 @Cacheable
