@@ -18,7 +18,7 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     //본댓글만 조회
-    @Query("SELECT c FROM Comment c JOIN FETCH  c.post p where p.id=:id AND c.parentComment IS NULL ORDER BY c.createTime")
+    @Query("SELECT c FROM Comment c JOIN FETCH c.post p where p.id=:id AND c.parentComment IS NULL ORDER BY c.createTime")
     @QueryHints(@QueryHint(name = "org.hibernate.readOnly", value = "true"))
     List<Comment> findReadAll(@Param("id") Long id);
 

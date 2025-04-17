@@ -1,15 +1,12 @@
 package community.community.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Table(name = "user_like"
 ,indexes = @Index(name = "idx_unique_member_entity", columnList = "member_Id, entityId", unique = true))

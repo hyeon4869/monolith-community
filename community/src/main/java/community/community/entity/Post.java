@@ -5,10 +5,9 @@ import lombok.*;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @AllArgsConstructor
-@ToString
 public class Post extends BasicTimeEntity{
 
     @Id @GeneratedValue
@@ -31,7 +30,7 @@ public class Post extends BasicTimeEntity{
     @Column(nullable = false)
     private boolean isDeleted;
 
-    //양방향 연관관계 편의 메서드
+    //단방향 연관관계 편의 메서드
     public void setMember(Member member){
         this.member=member;
     }
