@@ -1,9 +1,11 @@
 package community.community.mapper;
 
 import community.community.dto.commentDTO.CommentFindDTO;
+import community.community.dto.commentDTO.CommentRegisterDTO;
 import community.community.dto.commentDTO.RepliesCommentRegisterDTO;
 import community.community.entity.Comment;
 import community.community.entity.Member;
+import community.community.entity.Post;
 
 public class CommentMapper {
 
@@ -28,7 +30,7 @@ public class CommentMapper {
     //////////////////////////////////////////////
     //엔티티로 변환하는 로직
 
-        public static Comment toEntity(RepliesCommentRegisterDTO repliesCommentRegisterDTO, Member member, Comment parentComment){
+    public static Comment toEntity(RepliesCommentRegisterDTO repliesCommentRegisterDTO, Member member, Comment parentComment){
         return Comment.builder()
                     .content(repliesCommentRegisterDTO.getContent())
                     .member(member)
@@ -37,5 +39,13 @@ public class CommentMapper {
                     .build();
     }
 
+    public static Comment toEntity(CommentRegisterDTO commentRegisterDTO, Member member, Post post){
+        return Comment.builder()
+                    .content(commentRegisterDTO.getContent())
+                    .member(member)
+                    .post(post)
+                    .parentComment(null)
+                    .build();
+    }
 
 }
