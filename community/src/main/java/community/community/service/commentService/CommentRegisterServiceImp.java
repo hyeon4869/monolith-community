@@ -40,12 +40,7 @@ public class CommentRegisterServiceImp implements CommentRegisterService{
         //게시물 존재여부 확인
         Post post = postFindService.postFindId(id);
 
-        Comment comment = Comment.builder()
-                .content(commentRegisterDTO.getContent())
-                .member(member)
-                .post(post)
-                .parentComment(null)
-                .build();
+        Comment comment = CommentMapper.toEntity(commentRegisterDTO, member, post);
 
         try {
             commentRepository.save(comment);
