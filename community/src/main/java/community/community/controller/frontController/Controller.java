@@ -26,4 +26,9 @@ public class Controller {
     private String signUpPage(){
         return "signUp";
     }
+
+    @GetMapping("/postWrite")
+    private String writePost() {
+        return "postWrite";
+    }
 }

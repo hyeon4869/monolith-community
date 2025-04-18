@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MemberFindServiceImp implements MemberFindService{
 
     private final MemberRepository memberRepository;
@@ -34,6 +34,7 @@ public class MemberFindServiceImp implements MemberFindService{
 
 
     //회원 전체 조회
+
     @Override
     public List<MemberIdAndEmailDTO> findMemberList(){
         List<Member> memberList=memberRepository.findReadMemberList();
