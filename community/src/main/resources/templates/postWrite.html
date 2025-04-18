@@ -13,7 +13,7 @@
     <div class="logo"><a href="/">대화의 장소</a></div>
 </header>
 <main class="content-container">
-    <form class="write-form" action="/postRegistration" method="post" enctype="multipart/form-data">
+    <form class="write-form" id="postForm" action="/postRegistration" method="post" enctype="multipart/form-data">
         <h2>글 작성</h2>
         <label for="title">제목</label>
         <input type="text" id="title" name="title" required>
@@ -27,5 +27,34 @@
         <button type="submit">등록</button>
     </form>
 </main>
+
+<script>
+    // 폼 제출 이벤트 리스너 추가
+    document.getElementById('postForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // 기본 제출 동작 방지
+
+        const formData = new FormData(this);
+
+        fetch('/postRegistration', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                // 성공 시 메인 페이지로 이동
+                window.location.href = '/';
+            } else {
+                // 실패 시 오류 메시지 표시
+                return response.json().then(data => {
+                    throw new Error(data.message || '게시글 등록에 실패했습니다.');
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert(error.message || '오류가 발생했습니다.');
+        });
+    });
+</script>
 </body>
 </html>

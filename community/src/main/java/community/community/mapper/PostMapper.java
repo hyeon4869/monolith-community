@@ -4,6 +4,7 @@ import community.community.dto.postDTO.PostDTO;
 import community.community.dto.postDTO.PostDetailDTO;
 import community.community.dto.postDTO.PostRegisterDTO;
 import community.community.entity.Post;
+import community.community.entity.PostFile;
 
 public class PostMapper {
 
@@ -38,5 +39,13 @@ public class PostMapper {
                     .build();
     }
 
+    //파일 저장하는 메소드
+    public static PostFile toEntity(String fileName, String filePath, Post post){
+        return PostFile.builder()
+                .fileName(fileName)
+                .filePath(filePath)
+                .post(post)
+                .build();
+    }
 
 }
