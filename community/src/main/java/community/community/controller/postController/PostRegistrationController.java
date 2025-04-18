@@ -6,8 +6,8 @@ import community.community.service.postService.PostRegistrationService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -18,7 +18,7 @@ public class PostRegistrationController {
 
     //게시글 등록
     @PostMapping("/postRegistration")
-    public ResponseEntity<PostRegisterDTO> postRegistration(@RequestBody PostDTO postDTO, HttpSession session) {
+    public ResponseEntity<PostRegisterDTO> postRegistration(@ModelAttribute PostDTO postDTO, HttpSession session) {
 
         PostRegisterDTO postRegisterDTO = postRegistrationService.postRegistration(postDTO, session);
 

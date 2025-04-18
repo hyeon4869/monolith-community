@@ -27,6 +27,7 @@ public class Post extends BasicTimeEntity{
     @Column(nullable = false)
     private int likeCount = 0;
 
+
     @Column(nullable = false)
     private boolean isDeleted;
 
