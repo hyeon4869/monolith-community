@@ -6,7 +6,7 @@ cs를 공부하면서 프로젝트에 적용시키며 개발하고 있는 프로
 ![Image](https://github.com/user-attachments/assets/fd791add-d685-4b20-9d97-f3bfb214fed5)
 <h2>커뮤니티 ERD</h2><br>
 
-![Image](https://github.com/user-attachments/assets/7f301b0d-da21-430a-befb-904570790412)
+![Image](https://github.com/user-attachments/assets/c520890a-3532-400f-b007-9651ba78684f)
 <h2>사용 기술</h2>
 
 ![Image](https://github.com/user-attachments/assets/efba11e6-03b8-400b-9ac8-0433e97d8d6c)
