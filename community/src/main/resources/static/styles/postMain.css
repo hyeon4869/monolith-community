@@ -92,3 +92,101 @@ body {
 .pagination button[disabled] {
     background-color: #ccc;
 }
+/* 기본 스타일 초기화 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+.header .logo a {
+    text-decoration: none;
+    color: white;
+    font-size: 24px;
+}
+
+.content-container {
+    max-width: 800px;
+    margin: 20px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 글 작성 폼 스타일 */
+.write-form {
+    max-width: 600px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 30px 24px 24px 24px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.08);
+    border: 1px solid #e0e0e0;
+}
+
+.write-form h2 {
+    margin-bottom: 18px;
+    color: #4CAF50;
+    font-size: 24px;
+    text-align: center;
+}
+
+.write-form label {
+    display: block;
+    margin-bottom: 7px;
+    font-weight: bold;
+    color: #333;
+}
+
+.write-form input[type="text"],
+.write-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 18px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    background: #fafafa;
+    transition: border 0.2s;
+}
+
+.write-form input[type="text"]:focus,
+.write-form textarea:focus {
+    border: 1.5px solid #4CAF50;
+    outline: none;
+}
+
+.write-form input[type="file"] {
+    margin-bottom: 18px;
+}
+
+.write-form button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.write-form button[type="submit"]:hover {
+    background-color: #388e3c;
+}

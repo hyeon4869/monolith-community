@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>글 작성</title>
+    <link rel="stylesheet" href="/styles/postMain.css"> <!-- 기존 스타일과 통일 -->
+    <style>
+        /* 위의 CSS를 여기에 붙여넣거나, 별도 CSS 파일로 분리해서 import */
+    </style>
+</head>
+<body>
+<header class="header">
+    <div class="logo"><a href="/">대화의 장소</a></div>
+</header>
+<main class="content-container">
+    <form class="write-form" action="/postRegistration" method="post" enctype="multipart/form-data">
+        <h2>글 작성</h2>
+        <label for="title">제목</label>
+        <input type="text" id="title" name="title" required>
+
+        <label for="content">내용</label>
+        <textarea id="content" name="content" rows="6" required></textarea>
+
+        <label for="file">첨부파일</label>
+        <input type="file" id="file" name="file">
+
+        <button type="submit">등록</button>
+    </form>
+</main>
+</body>
+</html>
