@@ -6,6 +6,7 @@ import community.community.entity.Member;
 import community.community.entity.Post;
 import community.community.exception.customException.DBAccessException;
 import community.community.exception.customException.NotFoundMemberException;
+import community.community.exception.customException.NotMatchTypeException;
 import community.community.mapper.PostMapper;
 import community.community.repository.memberRepository.MemberRepository;
 import community.community.repository.postRepository.PostFileRepository;
@@ -58,6 +59,9 @@ public class PostRegistrationServiceImp implements PostRegistrationService {
         }
           catch (DataAccessException e){
             throw new DBAccessException("게시글 등록 중 데이터베이스에 문제가 발생했습니다.",e);
+        } catch (IOException e){
+            throw new NotMatchTypeException("이미지 파일 형식이 아닙니다.", e);
+
         } catch (Exception e) {
             throw new RuntimeException("게시글 등록 중 예상치 못한 문제가 발생했습니다.");
         }
@@ -68,9 +72,14 @@ public class PostRegistrationServiceImp implements PostRegistrationService {
         MultipartFile file = postDTO.getFile();
 
         String fileName = file.getOriginalFilename();
+
+        if (!isImageFile(fileName)) {
+            throw new IOException("이미지 파일 형식이 아닙니다.");
+        }
+
         String uniqueFileName = UUID.randomUUID().toString() + "_" + fileName;
 
-        String uploadDir = "D:"+File.separator+"boot";
+        String uploadDir = "D:"+File.separator+"boot" + File.separator + "images";
         Path filePath = Paths.get(uploadDir).resolve(uniqueFileName).normalize();
         String filePathStr = filePath.toString();
         //디렉토리가 없으면 생성
@@ -80,5 +89,13 @@ public class PostRegistrationServiceImp implements PostRegistrationService {
 
         postFileRepository.save(PostMapper.toEntity(fileName, filePathStr, post));
 
+    }
+    //파일 유형 확인 메서드
+    private boolean isImageFile(String fileName) {
+        if (fileName == null) {
+            return false;
+        }
+        String lowerFileName = fileName.toLowerCase();
+        return lowerFileName.endsWith(".png") || lowerFileName.endsWith(".jpeg") || lowerFileName.endsWith(".jpg");
     }
 }
