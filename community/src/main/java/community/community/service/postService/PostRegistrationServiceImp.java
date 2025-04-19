@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
 @Service
@@ -85,7 +84,7 @@ public class PostRegistrationServiceImp implements PostRegistrationService {
         //디렉토리가 없으면 생성
         Files.createDirectories(filePath.getParent());
 
-        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+        Files.copy(file.getInputStream(), filePath);
 
         postFileRepository.save(PostMapper.toEntity(fileName, filePathStr, post));
 

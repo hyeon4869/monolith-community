@@ -2,17 +2,13 @@ package community.community.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.cache.annotation.Cacheable;
 
 @Entity
-@Table(name = "Member")
+@Table(name = "Member", indexes = @Index(name = "idx_email", columnList = "email"))
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Cacheable
-@org.hibernate.annotations.Cache(usage= CacheConcurrencyStrategy.READ_WRITE)
 public class Member extends BasicTimeEntity{
 
     @Id @GeneratedValue
