@@ -2,6 +2,7 @@ spring:
   profiles:
     active: ide  # 기본 활성화 프로필 (IDE 환경)
 
+
 ---
 spring:
   config:
@@ -25,6 +26,9 @@ spring:
 
 server:
   port: 8080
+# 파일 업로드 경로 설정
+upload:
+  path: D:/boot/images
 
 ---
 spring:

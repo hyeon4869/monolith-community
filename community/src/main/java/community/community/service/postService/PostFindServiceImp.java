@@ -4,8 +4,10 @@ import community.community.dto.postDTO.PostDetailDTO;
 import community.community.dto.postDTO.PostFindAllDTO;
 import community.community.dto.postDTO.PostOfMemberDTO;
 import community.community.entity.Post;
+import community.community.entity.PostFile;
 import community.community.exception.customException.DBAccessException;
 import community.community.mapper.PostMapper;
+import community.community.repository.postRepository.PostFileRepository;
 import community.community.repository.postRepository.PostRepository;
 import community.community.service.commentService.CommentFindService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -22,7 +27,7 @@ public class PostFindServiceImp implements PostFindService {
 
     private final PostRepository postRepository;
     private final CommentFindService commentFindService;
-
+    private final PostFileRepository postFileRepository;
 
     //좋아요 수가 추가된 메인 조회
     @Override
@@ -51,10 +56,14 @@ public class PostFindServiceImp implements PostFindService {
     //게시물 상세 조회
     @Override
     public PostDetailDTO postDetail(Long id){
+        Map<String, Object> postDTO = new HashMap<>();
+
         Post post =postRepository.findByReadId(id)
                 .orElseThrow(()->new IllegalArgumentException("삭제된 게시물입니다."));
 
-        return PostMapper.toPostDetailDTO(post);
+        PostFile postFile = postFileRepository.findReadPostId(id);
+
+        return PostMapper.toPostDetailDTO(post, postFile);
     }
 
     @Override

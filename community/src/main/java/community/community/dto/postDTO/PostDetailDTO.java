@@ -15,4 +15,5 @@ public class PostDetailDTO {
     private String title;
     private String content;
     private Date createTime;
+    private PostFileDTO postFileDTO;
 }
