@@ -85,7 +85,7 @@ public class PostRegistrationServiceImp implements PostRegistrationService {
         Files.createDirectories(filePath.getParent());
 
         Files.copy(file.getInputStream(), filePath);
-
+        
         postFileRepository.save(PostMapper.toEntity(fileName, filePathStr, post));
 
     }

@@ -2,19 +2,25 @@ package community.community.mapper;
 
 import community.community.dto.postDTO.PostDTO;
 import community.community.dto.postDTO.PostDetailDTO;
+import community.community.dto.postDTO.PostFileDTO;
 import community.community.dto.postDTO.PostRegisterDTO;
 import community.community.entity.Post;
 import community.community.entity.PostFile;
 
 public class PostMapper {
 
-    public static PostDetailDTO toPostDetailDTO(Post post) {
+    public static PostDetailDTO toPostDetailDTO(Post post, PostFile postFile) {
         return PostDetailDTO.builder()
-                    .id(post.getId())
-                    .content(post.getContent())
-                    .title(post.getTitle())
-                    .createTime(post.getCreateTime())
-                    .build();
+                .id(post.getId())
+                .content(post.getContent())
+                .title(post.getTitle())
+                .createTime(post.getCreateTime())
+                .postFileDTO(postFile != null ?
+                        PostFileDTO.builder()
+                        .fileName(postFile.getFileName())
+                        .filePath(postFile.getFilePath())
+                        .build() : null)
+                .build();
     }
 
     public static PostRegisterDTO toPostRegisterDTO(Post post, String message) {
@@ -33,7 +39,7 @@ public class PostMapper {
 
     //postDTO
     public static Post toEntity(PostDTO postDTO) {
-        return Post.builder()
+        return community.community.entity.Post.builder()
                     .title(postDTO.getTitle())
                     .content(postDTO.getContent())
                     .build();
@@ -41,7 +47,7 @@ public class PostMapper {
 
     //파일 저장하는 메소드
     public static PostFile toEntity(String fileName, String filePath, Post post){
-        return PostFile.builder()
+        return community.community.entity.PostFile.builder()
                 .fileName(fileName)
                 .filePath(filePath)
                 .post(post)
