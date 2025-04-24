@@ -18,8 +18,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.IIOImage;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.ImageOutputStream;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -84,8 +92,9 @@ public class PostRegistrationServiceImp implements PostRegistrationService {
         //디렉토리가 없으면 생성
         Files.createDirectories(filePath.getParent());
 
-        Files.copy(file.getInputStream(), filePath);
-        
+        // 이미지 압축 처리
+        compressAndSaveImg(file.getInputStream(), filePathStr, getFormatName(fileName));
+
         postFileRepository.save(PostMapper.toEntity(fileName, filePathStr, post));
 
     }
@@ -96,5 +105,47 @@ public class PostRegistrationServiceImp implements PostRegistrationService {
         }
         String lowerFileName = fileName.toLowerCase();
         return lowerFileName.endsWith(".png") || lowerFileName.endsWith(".jpeg") || lowerFileName.endsWith(".jpg");
+    }
+
+    //이미지 압축 및 저장 메서드
+    private void compressAndSaveImg(InputStream inputStream, String outputPath, String formatName) throws IOException{
+
+        //원본 이미지 읽기
+        BufferedImage originalImage = ImageIO.read(inputStream);
+
+        //압축할 이미지 생성
+        BufferedImage compressImage = new BufferedImage(
+          originalImage.getWidth(),
+          originalImage.getHeight(),
+          BufferedImage.TYPE_INT_RGB
+        );
+
+        //이미지 그리기
+        compressImage.createGraphics().drawImage(originalImage, 0, 0, null);
+
+        //압축 품질 설정
+        float quality = 0.7f;
+
+        try(FileOutputStream outputStream = new FileOutputStream(outputPath)) {
+            //이미지 압축 설정
+            ImageWriter writer = ImageIO.getImageWritersByFormatName(formatName).next();
+            ImageWriteParam param = writer.getDefaultWriteParam();
+
+            if (param.canWriteCompressed()) {
+                param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+                param.setCompressionQuality(quality);
+            }
+            try(ImageOutputStream imageOutputStream = ImageIO.createImageOutputStream(outputStream)) {
+                writer.setOutput(imageOutputStream);
+                writer.write(null, new IIOImage(compressImage, null, null), param);
+                    writer.dispose();
+            }
+        }
+    }
+
+    //파일 확장자 추출 메서드
+    private String getFormatName(String fileName){
+        String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
+        return extension.toLowerCase();
     }
 }
