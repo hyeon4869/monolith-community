@@ -126,21 +126,32 @@ public class PostRegistrationServiceImp implements PostRegistrationService {
         //압축 품질 설정
         float quality = 0.7f;
 
+        // 파일 출력 스트림을 try-with-resources로 생성 (자동으로 닫힘)
         try(FileOutputStream outputStream = new FileOutputStream(outputPath)) {
-            //이미지 압축 설정
+            // 지정한 포맷(JPG, PNG 등)에 맞는 ImageWriter 객체를 가져옴
             ImageWriter writer = ImageIO.getImageWritersByFormatName(formatName).next();
+            // 이미지 저장 시의 파라미터(압축 등) 설정 객체 생성
             ImageWriteParam param = writer.getDefaultWriteParam();
 
+            // 만약 해당 포맷이 압축을 지원한다면
             if (param.canWriteCompressed()) {
+                // 압축 모드를 명시적으로 설정
                 param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+                // 압축 품질(0.0~1.0) 지정 (값이 낮을수록 용량이 줄고 품질이 낮아짐)
                 param.setCompressionQuality(quality);
             }
+
+            // 이미지 출력 스트림을 try-with-resources로 생성 (자동으로 닫힘)
             try(ImageOutputStream imageOutputStream = ImageIO.createImageOutputStream(outputStream)) {
+                // ImageWriter의 출력 대상을 imageOutputStream으로 지정
                 writer.setOutput(imageOutputStream);
+                // 압축된 이미지를 파일로 저장
                 writer.write(null, new IIOImage(compressImage, null, null), param);
-                    writer.dispose();
+                // ImageWriter 자원 해제
+                writer.dispose();
             }
         }
+
     }
 
     //파일 확장자 추출 메서드
