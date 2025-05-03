@@ -84,16 +84,14 @@ function displayFileAttachment(postData) {
     const fileName = postData.postFileDTO.fileName;
     let filePath = postData.postFileDTO.filePath;
 
-        // 로컬 경로를 웹 접근 가능한 URL로 변환
-        if (filePath.includes("D:\\boot\\images")) {
-            // 마지막 백슬래시 이후의 모든 문자(파일명)를 가져옴
-            const fileNameWithUUID = filePath.substring(filePath.lastIndexOf('\\') + 1);
+    // 로컬 경로를 웹 접근 가능한 URL로 변환
+    if (filePath.includes("D:\\boot\\images")) {
+        // 마지막 백슬래시 이후의 모든 문자(파일명)를 가져옴
+        const fileNameWithUUID = filePath.substring(filePath.lastIndexOf('\\') + 1);
 
-            // 웹 접근 가능한 URL로 변환
-            filePath = "/files/" + encodeURIComponent(fileNameWithUUID);
-        }
-
-
+        // 웹 접근 가능한 URL로 변환
+        filePath = "/files/" + encodeURIComponent(fileNameWithUUID);
+    }
 
     // 이미지 파일인지 확인
     const isImage = /\.(jpg|jpeg|png|gif|bmp)$/i.test(fileName);
@@ -109,10 +107,15 @@ function displayFileAttachment(postData) {
     `;
 }
 
-// 댓글 데이터 조회 및 렌더링
-async function fetchComments() {
+// 커서 기반 댓글 데이터 조회 및 렌더링
+async function fetchComments(cursor = null) {
     try {
-        const response = await fetch(`/postComment/${postId}`);
+        let url = `/postComment/${postId}?size=10`;
+        if (cursor) {
+            url += `&cursor=${cursor}`;
+        }
+
+        const response = await fetch(url);
         if (!response.ok) {
             const errorText = await response.text();
             throw new Error(`댓글 데이터를 가져오는 데 실패했습니다. 상태 코드: ${response.status}, 메시지: ${errorText}`);
@@ -120,18 +123,28 @@ async function fetchComments() {
 
         const data = await response.json();
         const commentList = document.getElementById('commentList');
-        commentList.innerHTML = "";
 
-        if (data.comment && data.comment.length > 0) {
+        // 첫 페이지인 경우 기존 댓글 초기화
+        if (!cursor) {
+            commentList.innerHTML = "";
+        }
+
+        if (data.comment && data.comment.values && data.comment.values.length > 0) {
             // 댓글 렌더링
-            renderComments(data.comment, commentList);
+            renderComments(data.comment.values, commentList);
 
-            // 댓글 수 버튼에 표시
-            const toggleCommentsBtn = document.getElementById('toggleCommentsBtn');
-            toggleCommentsBtn.textContent = `댓글 보기 (${data.comment.length})`;
-        } else {
+            // 댓글 수 버튼에 표시 (첫 페이지인 경우만)
+            if (!cursor) {
+                const toggleCommentsBtn = document.getElementById('toggleCommentsBtn');
+                toggleCommentsBtn.textContent = `댓글 보기 (${document.querySelectorAll('#commentList > li').length})`;
+            }
+
+            // 더 보기 버튼 처리
+            handleLoadMoreComments(data.comment.hasNext, data.comment.nextCursor);
+        } else if (!cursor) {
             commentList.innerHTML = "<li>댓글이 없습니다.</li>";
             document.getElementById('toggleCommentsBtn').textContent = "댓글 보기 (0)";
+            hideLoadMoreButton();
         }
     } catch (error) {
         console.error("Error fetching comments:", error);
@@ -140,11 +153,58 @@ async function fetchComments() {
     }
 }
 
+// 더 보기 버튼 처리 함수
+function handleLoadMoreComments(hasNext, nextCursor) {
+    let loadMoreContainer = document.getElementById('loadMoreCommentsContainer');
+
+    if (!loadMoreContainer) {
+        loadMoreContainer = document.createElement('div');
+        loadMoreContainer.id = 'loadMoreCommentsContainer';
+        loadMoreContainer.style.textAlign = 'center';
+        loadMoreContainer.style.marginTop = '20px';
+
+        const button = document.createElement('button');
+        button.id = 'loadMoreCommentsBtn';
+        button.textContent = '댓글 더 보기';
+        button.addEventListener('click', function() {
+            const cursor = this.getAttribute('data-cursor');
+            if (cursor) {
+                fetchComments(cursor);
+            }
+        });
+
+        loadMoreContainer.appendChild(button);
+        document.querySelector('.comments-section').appendChild(loadMoreContainer);
+    }
+
+    const loadMoreBtn = document.getElementById('loadMoreCommentsBtn');
+
+    if (hasNext && nextCursor) {
+        loadMoreContainer.style.display = 'block';
+        loadMoreBtn.setAttribute('data-cursor', nextCursor);
+    } else {
+        loadMoreContainer.style.display = 'none';
+    }
+}
+
+// 더 보기 버튼 숨기기 함수
+function hideLoadMoreButton() {
+    const loadMoreContainer = document.getElementById('loadMoreCommentsContainer');
+    if (loadMoreContainer) {
+        loadMoreContainer.style.display = 'none';
+    }
+}
+
 // 댓글 렌더링 함수
 function renderComments(comments, commentList) {
     comments.forEach(comment => {
-        const li = document.createElement('li');
+        // 이미 렌더링된 댓글은 건너뛰기
+        if (document.getElementById(`comment-${comment.id}`)) {
+            return;
+        }
 
+        const li = document.createElement('li');
+        li.id = `comment-${comment.id}`;
         li.innerHTML = `
             <p>
                 <span>${escapeHTML(comment.content)}</span>
@@ -166,6 +226,113 @@ function renderComments(comments, commentList) {
         `;
         commentList.appendChild(li);
     });
+}
+
+// 대댓글 목록 표시 함수 (커서 기반 페이징)
+async function showReplies(commentId, cursor = null) {
+    const repliesList = document.getElementById(`replies-${commentId}`);
+
+    // 첫 요청이고 이미 표시되어 있으면 토글
+    if (!cursor && repliesList.style.display === "block") {
+        repliesList.style.display = "none";
+        const loadMoreContainer = document.getElementById(`load-more-replies-${commentId}`);
+        if (loadMoreContainer) loadMoreContainer.style.display = "none";
+        return;
+    }
+
+    try {
+        // 첫 요청인 경우 로딩 메시지 표시
+        if (!cursor) {
+            repliesList.innerHTML = "<li>대댓글을 불러오는 중...</li>";
+            repliesList.style.display = "block";
+        }
+
+        let url = `/replicaComment/${commentId}?size=5`;
+        if (cursor) {
+            url += `&cursor=${cursor}`;
+        }
+
+        const response = await fetch(url);
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`대댓글 데이터를 가져오는 데 실패했습니다. 상태 코드: ${response.status}, 메시지: ${errorText}`);
+        }
+
+        const data = await response.json();
+
+        // 첫 요청인 경우 목록 초기화
+        if (!cursor) {
+            repliesList.innerHTML = "";
+        }
+
+        if (data.replies && data.replies.values && data.replies.values.length > 0) {
+            // 대댓글 렌더링
+            data.replies.values.forEach(reply => {
+                // 이미 렌더링된 답글은 건너뛰기
+                if (document.getElementById(`reply-${reply.id}`)) {
+                    return;
+                }
+
+                const li = document.createElement('li');
+                li.id = `reply-${reply.id}`;
+                li.innerHTML = `
+                    <p>
+                        <span>${escapeHTML(reply.content)}</span>
+                        <span style="float: right; font-size: 0.9em; color: gray;">- ${escapeHTML(reply.writer)}</span>
+                    </p>
+                    <span class="reply-time">${formatDate(reply.createTime)}</span>
+                `;
+                repliesList.appendChild(li);
+            });
+
+            // 더 보기 버튼 처리
+            handleLoadMoreReplies(commentId, data.replies.hasNext, data.replies.nextCursor);
+        } else if (!cursor) {
+            repliesList.innerHTML = "<li>대댓글이 없습니다.</li>";
+        }
+
+    } catch (error) {
+        console.error("Error fetching replies:", error);
+        if (!cursor) {
+            repliesList.innerHTML = `<li>대댓글을 불러오는 데 실패했습니다: ${error.message}</li>`;
+        }
+    }
+}
+
+// 대댓글 더 보기 버튼 처리 함수
+function handleLoadMoreReplies(commentId, hasNext, nextCursor) {
+    let loadMoreContainer = document.getElementById(`load-more-replies-${commentId}`);
+
+    if (!loadMoreContainer) {
+        loadMoreContainer = document.createElement('div');
+        loadMoreContainer.id = `load-more-replies-${commentId}`;
+        loadMoreContainer.className = 'load-more-replies';
+        loadMoreContainer.style.textAlign = 'center';
+        loadMoreContainer.style.marginTop = '10px';
+
+        const button = document.createElement('button');
+        button.id = `load-more-replies-btn-${commentId}`;
+        button.className = 'load-more-replies-btn';
+        button.textContent = '답글 더 보기';
+        button.addEventListener('click', function() {
+            const cursor = this.getAttribute('data-cursor');
+            if (cursor) {
+                showReplies(commentId, cursor);
+            }
+        });
+
+        loadMoreContainer.appendChild(button);
+        document.getElementById(`replies-${commentId}`).after(loadMoreContainer);
+    }
+
+    const loadMoreBtn = document.getElementById(`load-more-replies-btn-${commentId}`);
+
+    if (hasNext && nextCursor) {
+        loadMoreContainer.style.display = 'block';
+        loadMoreBtn.setAttribute('data-cursor', nextCursor);
+    } else {
+        loadMoreContainer.style.display = 'none';
+    }
 }
 
 // HTML 이스케이프 함수 (XSS 방지)
@@ -196,28 +363,19 @@ function toggleComments() {
     const commentList = document.getElementById('commentList');
     const toggleCommentsBtn = document.getElementById('toggleCommentsBtn');
 
-    if (commentList.style.display === "none" || commentList.style.display === "") {
+    // 실제 계산된 display 값을 체크하는 방식으로 수정
+    const isHidden = window.getComputedStyle(commentList).display === "none";
+
+    if (isHidden) {
         commentList.style.display = "block";
-
-        // 댓글 입력 폼 추가
-        if (!document.querySelector('#commentForm')) {
-            const formHtml = `
-                <form id="commentForm" onsubmit="submitComment(event)">
-                    <textarea id="commentInput" placeholder="댓글을 입력하세요..." required></textarea>
-                    <button type="submit">등록</button>
-                </form>
-            `;
-            commentSection.insertAdjacentHTML('afterbegin', formHtml);
-        }
-
         toggleCommentsBtn.textContent = toggleCommentsBtn.textContent.replace("보기", "숨기기");
+        // 댓글 목록이 비어있으면 첫 페이지 로드
+        if (commentList.children.length === 0) {
+            fetchComments();
+        }
     } else {
         commentList.style.display = "none";
-
-        // 댓글 입력 폼 제거
-        const commentForm = document.querySelector('#commentForm');
-        if (commentForm) commentForm.remove();
-
+        document.getElementById('loadMoreCommentsContainer').style.display = 'none';
         toggleCommentsBtn.textContent = toggleCommentsBtn.textContent.replace("숨기기", "보기");
     }
 }
@@ -229,52 +387,6 @@ function showReplyForm(commentId) {
 
     if (replyForm.style.display === "block") {
         document.getElementById(`reply-input-${commentId}`).focus();
-    }
-}
-
-// 대댓글 목록 표시 함수
-async function showReplies(commentId) {
-    const repliesList = document.getElementById(`replies-${commentId}`);
-
-    // 이미 표시되어 있으면 토글
-    if (repliesList.style.display === "block") {
-        repliesList.style.display = "none";
-        return;
-    }
-
-    try {
-        repliesList.innerHTML = "<li>대댓글을 불러오는 중...</li>";
-        repliesList.style.display = "block";
-
-        const response = await fetch(`/replicaComment/${commentId}`);
-        if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(`대댓글 데이터를 가져오는 데 실패했습니다. 상태 코드: ${response.status}, 메시지: ${errorText}`);
-        }
-
-        const data = await response.json();
-        repliesList.innerHTML = "";
-
-        if (data.replies && data.replies.length > 0) {
-            // 대댓글 렌더링
-            data.replies.forEach(reply => {
-                const li = document.createElement('li');
-                li.innerHTML = `
-                    <p>
-                        <span>${escapeHTML(reply.content)}</span>
-                        <span style="float: right; font-size: 0.9em; color: gray;">- ${escapeHTML(reply.writer)}</span>
-                    </p>
-                    <span class="reply-time">${formatDate(reply.createTime)}</span>
-                `;
-                repliesList.appendChild(li);
-            });
-        } else {
-            repliesList.innerHTML = "<li>대댓글이 없습니다.</li>";
-        }
-
-    } catch (error) {
-        console.error("Error fetching replies:", error);
-        repliesList.innerHTML = `<li>대댓글을 불러오는 데 실패했습니다: ${error.message}</li>`;
     }
 }
 
