@@ -11,9 +11,11 @@ public class CommentMapper {
 
     public static RepliesCommentRegisterDTO toRepliesCommentRegisterDTO(Comment comment){
         return RepliesCommentRegisterDTO.builder()
-                    .content(comment.getContent())
-                    .createTime(comment.getCreateTime())
-                    .build();
+                .id(comment.getId())
+                .content(comment.getContent())
+                .parentCommentId(comment.getParentComment().getId())
+                .createTime(comment.getCreateTime())
+                .build();
 
     }
 
