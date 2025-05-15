@@ -3,6 +3,7 @@ package community.community.controller.postController;
 import community.community.dto.postDTO.PostDetailDTO;
 import community.community.dto.postDTO.PostFindAllDTO;
 import community.community.service.postService.PostFindService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -48,12 +49,20 @@ public class PostFindController {
     }
 
     @GetMapping("/postDetail/{id}")
-    public ResponseEntity<Map<String, Object>> postDetail(@PathVariable("id") Long id){
+    public ResponseEntity<Map<String, Object>> postDetail(@PathVariable("id") Long id, HttpSession session){
         Map<String, Object> response = new HashMap<>();
 
-        PostDetailDTO postDetailDTO = postFindService.postDetail(id);
+        PostDetailDTO postDetailDTO = postFindService.postDetail(session, id);
 
         response.put("postDetail", postDetailDTO);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/posts/recent")
+    public ResponseEntity<Map<String, Object>> postRecent(){
+        Map<String, Object> response = new HashMap<>();
+
 
         return ResponseEntity.ok(response);
     }

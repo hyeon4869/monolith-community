@@ -5,4 +5,5 @@ import community.community.dto.MemberDTO.MemberSuccessLoginDTO;
 
 public interface MemberLoginService {
     MemberSuccessLoginDTO memberLogin(MemberLoginDTO memberLoginDTO);
+
 }
