@@ -6,6 +6,7 @@ import community.community.entity.Member;
 import community.community.exception.customException.NotFoundMemberException;
 import community.community.mapper.MemberMapper;
 import community.community.repository.memberRepository.MemberRepository;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,4 +29,5 @@ public class MemberLoginServiceImp implements MemberLoginService {
 
         return MemberMapper.toSuccessLoginDTO(member);
     }
+
 }

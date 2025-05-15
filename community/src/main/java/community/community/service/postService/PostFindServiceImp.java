@@ -10,6 +10,7 @@ import community.community.mapper.PostMapper;
 import community.community.repository.postRepository.PostFileRepository;
 import community.community.repository.postRepository.PostRepository;
 import community.community.service.commentService.CommentFindService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
@@ -28,7 +29,7 @@ public class PostFindServiceImp implements PostFindService {
     private final PostRepository postRepository;
     private final CommentFindService commentFindService;
     private final PostFileRepository postFileRepository;
-
+    private final PostPopularFindService postPopularFindService;
     //좋아요 수가 추가된 메인 조회
     @Override
     public Page<PostFindAllDTO> postFindAll(Pageable pageable) {
@@ -55,13 +56,15 @@ public class PostFindServiceImp implements PostFindService {
 
     //게시물 상세 조회
     @Override
-    public PostDetailDTO postDetail(Long id){
+    public PostDetailDTO postDetail(HttpSession session, Long id){
         Map<String, Object> postDTO = new HashMap<>();
 
         Post post =postRepository.findByReadId(id)
                 .orElseThrow(()->new IllegalArgumentException("삭제된 게시물입니다."));
 
         PostFile postFile = postFileRepository.findReadPostId(id);
+
+        postPopularFindService.addRecentPosts(session, id);
 
         return PostMapper.toPostDetailDTO(post, postFile);
     }

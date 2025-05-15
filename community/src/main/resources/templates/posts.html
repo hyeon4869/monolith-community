@@ -6,6 +6,71 @@
     <title>게시물 목록</title>
     <link rel="stylesheet" href="/styles/postMain.css"> <!-- CSS 경로 -->
     <style>
+        /* 전체 레이아웃 */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .main-container {
+            display: flex;
+            flex: 1;
+        }
+
+        /* 사이드 네비게이션 스타일 */
+        .side-nav {
+            width: 250px;
+            background-color: #f8f9fa;
+            padding: 20px 0;
+            height: 100%;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+
+        .side-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .side-nav li {
+            padding: 10px 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .side-nav li:last-child {
+            border-bottom: none;
+        }
+
+        .side-nav a {
+            text-decoration: none;
+            color: #333;
+            display: block;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .side-nav a:hover {
+            color: #007bff;
+        }
+
+        .side-nav .active {
+            background-color: #e9ecef;
+            border-left: 4px solid #007bff;
+        }
+
+        .side-nav .nav-icon {
+            margin-right: 10px;
+        }
+
+        /* 컨텐츠 영역 조정 */
+        .content-container {
+            flex: 1;
+            padding: 20px;
+        }
+
         /* 로그인/회원가입 버튼 스타일 */
         .auth-buttons {
             display: flex;
@@ -43,6 +108,57 @@
         .login-btn:hover {
             background-color: #0056b3; /* 어두운 파란색 */
         }
+
+        /* 검색 영역 조정 */
+        .search-container {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .search-container input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+        }
+
+        .search-container button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+
+        /* 알림 영역 스타일 */
+        #notification-area {
+            position: absolute;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+            max-height: 300px;
+            overflow-y: auto;
+            width: 300px;
+        }
+
+        /* 글 작성 버튼 */
+        .write-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .write-btn:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -54,53 +170,79 @@
         <a href="/login" class="login-btn">로그인</a>
         <a href="/signUp" class="signup-btn">회원가입</a>
     </div>
-    <!-- 알림 표시 영역 추가 -->
-
 </header>
 
-<main class="content-container">
-    <!-- Hero Section -->
-    <section class="hero">
-        <h1>게시물 목록</h1>
-    </section>
-    <!-- Search Section -->
-    <section class="search-container">
-        <input type="text" id="searchInput" placeholder="검색어를 입력하세요">
-        <button onclick="searchPosts()">검색</button>
-    </section>
+<div class="main-container">
+    <!-- 왼쪽 사이드 네비게이션 -->
+    <nav class="side-nav">
+        <ul>
+            <li class="active"><a href="/"><span class="nav-icon">🏠</span>홈</a></li>
+            <li><a href="/posts/popular"><span class="nav-icon">🔥</span>인기 게시물</a></li>
+            <li><a href="/posts/recent"><span class="nav-icon">🕒</span>최근 접속 게시물</a></li>
+            <li><a href="/mypage"><span class="nav-icon">👤</span>마이페이지</a></li>
+            <li><a href="/notifications" id="nav-notifications"><span class="nav-icon">🔔</span>알림</a></li>
+\        </ul>
+    </nav>
 
-    <!-- 알림 버튼 및 알림 표시 영역 -->
-    <div id="notification-container">
-        <button id="notification-btn">알림 보기</button>
-        <div id="notification-area" style="display: none;">
-            <h3>알림</h3>
-            <ul id="notifications"></ul>
+    <main class="content-container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>게시물 목록</h1>
+        </section>
+
+        <!-- Search Section -->
+        <section class="search-container">
+            <input type="text" id="searchInput" placeholder="검색어를 입력하세요">
+            <button onclick="searchPosts()">검색</button>
+        </section>
+
+        <!-- 알림 버튼 및 알림 표시 영역 -->
+        <div id="notification-container">
+            <button id="notification-btn">알림 보기</button>
+            <div id="notification-area" style="display: none;">
+                <h3>알림</h3>
+                <ul id="notifications"></ul>
+            </div>
         </div>
-    </div>
 
-    <!-- 글 작성 버튼 -->
-    <div class="write-post-container" style="margin: 20px 0; text-align: right;">
-        <a href="postWrite" class="write-btn">글 작성</a>
-    </div>
+        <!-- 글 작성 버튼 -->
+        <div class="write-post-container" style="margin: 20px 0; text-align: right;">
+            <a href="postWrite" class="write-btn">글 작성</a>
+        </div>
 
-    <!-- Post List Section -->
-    <section class="post-list-section">
-        <ul id="postList" class="post-list">
-            <!-- 게시물 리스트가 여기에 추가됩니다 -->
-        </ul>
-    </section>
+        <!-- Post List Section -->
+        <section class="post-list-section">
+            <ul id="postList" class="post-list">
+                <!-- 게시물 리스트가 여기에 추가됩니다 -->
+            </ul>
+        </section>
 
-    <!-- Pagination -->
-    <div id="pagination" class="pagination">
-        <button id="prevPage" onclick="changePage(-1)">이전</button>
-        <button id="nextPage" onclick="changePage(1)">다음</button>
-    </div>
-</main>
+        <!-- Pagination -->
+        <div id="pagination" class="pagination">
+            <button id="prevPage" onclick="changePage(-1)">이전</button>
+            <button id="nextPage" onclick="changePage(1)">다음</button>
+        </div>
+    </main>
+</div>
 
 <footer class="footer">
     &copy; 2025 POST. All rights reserved.
 </footer>
 
 <script src="/scripts/postMain.js"></script> <!-- JavaScript 경로 -->
+<script>
+    // 알림 토글 기능
+    document.getElementById('notification-btn').addEventListener('click', function() {
+        const notificationArea = document.getElementById('notification-area');
+        notificationArea.style.display = notificationArea.style.display === 'none' ? 'block' : 'none';
+    });
+
+    // 네비게이션 알림 클릭 시에도 알림 영역 표시
+    document.getElementById('nav-notifications').addEventListener('click', function(e) {
+        e.preventDefault();
+        const notificationArea = document.getElementById('notification-area');
+        notificationArea.style.display = 'block';
+    });
+</script>
 </body>
 </html>

@@ -4,6 +4,7 @@ import community.community.dto.MemberDTO.MemberLoginDTO;
 import community.community.dto.MemberDTO.MemberSuccessLoginDTO;
 import community.community.exception.customException.NotFoundMemberException;
 import community.community.service.memberService.MemberLoginService;
+import community.community.service.postService.PostPopularFindService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import java.util.Map;
 public class MemberLoginController {
 
     private final MemberLoginService memberLoginService;
+    private final PostPopularFindService postPopularFindService;
 
     @PostMapping("/memberLogin")
     public ResponseEntity<Map<String, Object>> memberLogin(@RequestBody MemberLoginDTO memberLoginDTO, HttpServletRequest request){
@@ -49,9 +51,12 @@ public class MemberLoginController {
             //예외를 변경할 것
             throw new NotFoundMemberException("이미 로그아웃 상태입니다.");
         }
+
+        postPopularFindService.saveRecentPost(loginEmail);
         session.invalidate();
 
         response.put("message","로그아웃하셨습니다.");
         return ResponseEntity.ok(response);
     }
+
 }
