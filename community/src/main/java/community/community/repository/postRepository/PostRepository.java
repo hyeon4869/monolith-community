@@ -14,6 +14,7 @@ import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -44,6 +45,13 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             "FROM Post p JOIN p.member m WHERE p.isDeleted=false AND LOWER(p.title) LIKE LOWER(CONCAT('%',:title,'%')) ORDER BY p.createTime DESC")
     @QueryHints(@QueryHint(name = "org.hibernate.readOnly", value="true"))
     Page<PostFindDTO> findSearchTitle(Pageable pageable, String title);
+
+
+    //최근 조회한 게시물
+    @Query("SELECT new community.community.dto.postDTO.PostFindDTO(p.id, p.title, m.email)" +
+    "FROM Post p JOIN p.member m WHERE p.isDeleted=false AND p.id IN :postId")
+    @QueryHints(@QueryHint(name = "org.hibernate.readOnly", value="true"))
+    List<PostFindDTO> findRecentPosts(@Param("postId") List<Long> postId);
 
     //좋아요 카운트 1감소 update 쿼리
     @Modifying

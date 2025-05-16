@@ -2,6 +2,7 @@ package community.community.service.postService;
 
 import community.community.dto.postDTO.PostDetailDTO;
 import community.community.dto.postDTO.PostFindAllDTO;
+import community.community.dto.postDTO.PostFindDTO;
 import community.community.dto.postDTO.PostOfMemberDTO;
 import community.community.entity.Post;
 import community.community.entity.PostFile;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -29,7 +31,9 @@ public class PostFindServiceImp implements PostFindService {
     private final PostRepository postRepository;
     private final CommentFindService commentFindService;
     private final PostFileRepository postFileRepository;
-    private final PostPopularFindService postPopularFindService;
+    private final PostRecentFindService postRecentFindService; // 인터페이스로 참조
+    private final PostDataAccessService postDataAccessService; // 새로운 의존성
+
     //좋아요 수가 추가된 메인 조회
     @Override
     public Page<PostFindAllDTO> postFindAll(Pageable pageable) {
@@ -39,7 +43,6 @@ public class PostFindServiceImp implements PostFindService {
         } catch (DataAccessException e) {
             throw new DBAccessException("데이터베이스 접근에 문제가 발생했습니다.",e);
         }
-
     }
 
     //단일 회원의 게시물 조회(마이페이지)
@@ -53,29 +56,35 @@ public class PostFindServiceImp implements PostFindService {
         }
     }
 
-
     //게시물 상세 조회
     @Override
     public PostDetailDTO postDetail(HttpSession session, Long id){
         Map<String, Object> postDTO = new HashMap<>();
 
-        Post post =postRepository.findByReadId(id)
-                .orElseThrow(()->new IllegalArgumentException("삭제된 게시물입니다."));
+        Post post = postRepository.findByReadId(id)
+                .orElseThrow(() -> new IllegalArgumentException("삭제된 게시물입니다."));
+        try{
+            PostFile postFile = postFileRepository.findReadPostId(id);
+            postRecentFindService.addRecentPosts(session, id);
 
-        PostFile postFile = postFileRepository.findReadPostId(id);
+            return PostMapper.toPostDetailDTO(post, postFile);
 
-        postPopularFindService.addRecentPosts(session, id);
-
-        return PostMapper.toPostDetailDTO(post, postFile);
+        } catch (DataAccessException e) {
+            throw new DBAccessException("데이터베이스 접근에 문제가 발생했습니다.", e);
+        } catch (Exception e) {
+            throw new RuntimeException("알 수 없는 문제가 발생했습니다.", e);
+        }
     }
 
     @Override
     public Post postFindId(Long id) {
-
         Post post = postRepository.findById(id)
-                .orElseThrow(()->new IllegalArgumentException("삭제된 게시물입니다."));
+                .orElseThrow(() -> new IllegalArgumentException("삭제된 게시물입니다."));
         return post;
     }
 
-
+    @Override
+    public List<PostFindDTO> findRecentPost(List<Long> postId){
+        return postDataAccessService.findRecentPostsByIds(postId);
+    }
 }

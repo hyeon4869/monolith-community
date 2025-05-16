@@ -31,4 +31,9 @@ public class Controller {
     private String writePost() {
         return "postWrite";
     }
+
+    @GetMapping("/posts/recent")
+    private String recentPost(){
+        return "recent";
+    }
 }
