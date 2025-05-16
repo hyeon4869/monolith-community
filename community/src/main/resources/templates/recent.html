@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>최근 조회한 게시물</title>
+  <style>
+    /* 전체 스타일 */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+    }
+
+    body {
+        background-color: #f5f6f7;
+        color: #222;
+        line-height: 1.5;
+    }
+
+    /* 헤더 스타일 */
+    .header {
+        background-color: #03c75a;
+        padding: 15px 0;
+        text-align: center;
+    }
+
+    .header h1 {
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    /* 컨테이너 스타일 */
+    .container {
+        max-width: 800px;
+        margin: 20px auto;
+        background-color: #fff;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+    }
+
+    /* 타이틀 스타일 */
+    .title-area {
+        border-bottom: 1px solid #e5e5e5;
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+    }
+
+    .title-area h2 {
+        font-size: 18px;
+        color: #03c75a;
+        font-weight: bold;
+    }
+
+    .title-area p {
+        font-size: 13px;
+        color: #666;
+        margin-top: 5px;
+    }
+
+    /* 게시물 목록 스타일 */
+    .post-list {
+        list-style: none;
+    }
+
+    .post-item {
+        padding: 15px 10px;
+        border-bottom: 1px solid #f0f0f0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: background-color 0.2s;
+    }
+
+    .post-item:hover {
+        background-color: #f9f9f9;
+    }
+
+    .post-item:last-child {
+        border-bottom: none;
+    }
+
+    .post-title {
+        font-size: 14px;
+        color: #222;
+        font-weight: normal;
+        flex-grow: 1;
+        text-decoration: none;
+    }
+
+    .post-title:hover {
+        text-decoration: underline;
+        color: #03c75a;
+    }
+
+    .post-author {
+        font-size: 12px;
+        color: #999;
+        margin-left: 15px;
+    }
+
+    /* 빈 목록 스타일 */
+    .empty-list {
+        text-align: center;
+        padding: 50px 0;
+        color: #999;
+        font-size: 14px;
+    }
+
+    /* 푸터 스타일 */
+    .footer {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 12px;
+        color: #999;
+    }
+
+    /* 반응형 스타일 */
+    @media (max-width: 768px) {
+        .container {
+            margin: 10px;
+            width: auto;
+        }
+    }
+  </style>
+</head>
+<body>
+<div class="header">
+  <h1>커뮤니티</h1>
+</div>
+
+<div class="container">
+  <div class="title-area">
+    <h2>최근 조회한 게시물</h2>
+    <p>최근에 확인한 게시물 목록입니다. (최대 10개)</p>
+  </div>
+
+  <ul class="post-list" id="recentPostsList">
+    <!-- JavaScript로 데이터 삽입 -->
+  </ul>
+
+  <div class="footer">
+    © 2025 커뮤니티 서비스
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      // API에서 최근 게시물 데이터 가져오기
+      fetch('/api/posts/recent')
+          .then(response => response.json())
+          .then(data => {
+              const postsList = document.getElementById('recentPostsList');
+
+              // 데이터가 없는 경우
+              if (!data.recentPosts || data.recentPosts.length === 0) {
+                  postsList.innerHTML = '<div class="empty-list">최근 조회한 게시물이 없습니다.</div>';
+                  return;
+              }
+
+              // 최대 10개까지만 표시
+              const posts = data.recentPosts.slice(0, 10);
+
+              // 게시물 목록 생성
+              posts.forEach(post => {
+                  const li = document.createElement('li');
+                  li.className = 'post-item';
+
+                  li.innerHTML = `
+                      <a href="/posts/${post.id}" class="post-title">${post.title}</a>
+                      <span class="post-author">${post.member.email}</span>
+                  `;
+
+                  postsList.appendChild(li);
+              });
+          })
+          .catch(error => {
+              console.error('데이터를 불러오는 중 오류가 발생했습니다:', error);
+              document.getElementById('recentPostsList').innerHTML =
+                  '<div class="empty-list">데이터를 불러오는 중 오류가 발생했습니다.</div>';
+          });
+  });
+</script>
+</body>
+</html>

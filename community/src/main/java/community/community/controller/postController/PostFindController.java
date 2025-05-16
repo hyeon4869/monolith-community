@@ -2,7 +2,9 @@ package community.community.controller.postController;
 
 import community.community.dto.postDTO.PostDetailDTO;
 import community.community.dto.postDTO.PostFindAllDTO;
+import community.community.dto.postDTO.PostFindDTO;
 import community.community.service.postService.PostFindService;
+import community.community.service.postService.PostRecentFindService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -22,7 +25,7 @@ import java.util.Map;
 public class PostFindController {
 
     private final PostFindService postFindService;
-
+    private final PostRecentFindService postRecentFindService;
 
     @GetMapping("/postFindAll")
     public ResponseEntity<Map<String, Object>> postFindAll(
@@ -59,11 +62,14 @@ public class PostFindController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/posts/recent")
-    public ResponseEntity<Map<String, Object>> postRecent(){
+    @GetMapping("api/posts/recent")
+    public ResponseEntity<Map<String, Object>> postRecent(HttpSession session){
         Map<String, Object> response = new HashMap<>();
+        String loginEmail = (String) session.getAttribute("loginEmail");
 
-
+        List<PostFindDTO> postFindDTOS = postRecentFindService.findRecentPost(loginEmail);
+        response.put("recentPosts", postFindDTOS);
         return ResponseEntity.ok(response);
     }
+
 }

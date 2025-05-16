@@ -4,7 +4,7 @@ import community.community.dto.MemberDTO.MemberLoginDTO;
 import community.community.dto.MemberDTO.MemberSuccessLoginDTO;
 import community.community.exception.customException.NotFoundMemberException;
 import community.community.service.memberService.MemberLoginService;
-import community.community.service.postService.PostPopularFindService;
+import community.community.service.postService.PostRecentFindServiceImp;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ import java.util.Map;
 public class MemberLoginController {
 
     private final MemberLoginService memberLoginService;
-    private final PostPopularFindService postPopularFindService;
+    private final PostRecentFindServiceImp postPopularFindService;
 
     @PostMapping("/memberLogin")
     public ResponseEntity<Map<String, Object>> memberLogin(@RequestBody MemberLoginDTO memberLoginDTO, HttpServletRequest request){

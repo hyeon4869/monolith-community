@@ -3,7 +3,7 @@ package community.community.controller.myPageController;
 import community.community.dto.MemberDTO.MemberIdAndEmailDTO;
 import community.community.dto.commentDTO.CommentOfMemberDTO;
 import community.community.dto.postDTO.PostOfMemberDTO;
-import community.community.service.myPageService.MyPageService;
+import community.community.service.myPageService.MyPageServiceImp;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,7 +21,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class MyPageController {
 
-    private final MyPageService myPageService;
+    private final MyPageServiceImp myPageService;
 
     @GetMapping("/myPageInfoMember/{id}")
     public ResponseEntity<Map<String, Object>> myPagebyMember(@PathVariable("id") Long id){

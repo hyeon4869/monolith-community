@@ -1,6 +1,6 @@
 package community.community.service.postService;
 
-
+import community.community.dto.postDTO.PostFindDTO;
 import community.community.entity.UserRecentPost;
 import community.community.repository.postRepository.PostRecentRepository;
 import jakarta.servlet.http.HttpSession;
@@ -16,23 +16,25 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class PostPopularFindService {
+public class PostRecentFindServiceImp implements PostRecentFindService {
 
     private final PostRecentRepository postRecentRepository;
+    private final PostDataAccessService postDataAccessService; // PostFindService 대신 이것을 사용
 
     private final ConcurrentHashMap<String, List<Long>> recentPost = new ConcurrentHashMap<>();
 
     //상세보기 페이지에 접속했을 때 실행되는 메서드
-
+    @Override
     public void addRecentPosts(HttpSession session, Long postId){
-        String userEmail =(String) session.getAttribute("loginEmail");
+        String loginEmail = (String) session.getAttribute("loginEmail");
 
-        if(userEmail == null) {
+        if(loginEmail == null) {
             return;
         }
-        List<Long> posts = recentPost.get(userEmail);
+
+        List<Long> posts = recentPost.get(loginEmail);
         if(posts == null) {
-            List<UserRecentPost> userRecentPost = postRecentRepository.findByUserEmail(userEmail);
+            List<UserRecentPost> userRecentPost = postRecentRepository.findByUserEmail(loginEmail);
 
             if(userRecentPost != null && !userRecentPost.isEmpty()) {
                 posts = new ArrayList<>();
@@ -44,22 +46,15 @@ public class PostPopularFindService {
                 posts = new ArrayList<>();
             }
 
-            recentPost.put(userEmail, posts);
+            recentPost.put(loginEmail, posts);
         }
 
-        //중복 객체 제거
-        posts.remove(postId);
-        posts.add(0, postId);
-
-        if(posts.size() > 10) {
-            posts.remove(posts.size() - 1);
-        }
-        //없으면 db에서 데이터를 확인해보고 있으면 들고오고
-        //없으면 새롭게 추가
-
+        // PostDataAccessService로 로직 위임
+        postDataAccessService.addRecentPostToUser(loginEmail, postId, posts);
     }
 
     @Transactional
+    @Override
     public void saveRecentPost(String loginEmail) {
         List<Long> posts = recentPost.computeIfAbsent(loginEmail, k -> new ArrayList<>());
 
@@ -85,6 +80,14 @@ public class PostPopularFindService {
             postRecentRepository.saveAll(userPosts);
         }
     }
-    //사용자가 로그아웃 할 때는 hashMap에 저장된 사용자의 기록을 삭제시키고 db에 저장
 
+    @Override
+    public List<PostFindDTO> findRecentPost(String loginEmail) {
+        if(recentPost.containsKey(loginEmail)){
+            List<Long> postId = recentPost.get(loginEmail);
+            return postDataAccessService.findRecentPostsByIds(postId);
+        } else {
+            return new ArrayList<>();
+        }
+    }
 }
