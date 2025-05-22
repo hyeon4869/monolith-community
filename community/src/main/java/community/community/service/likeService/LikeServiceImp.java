@@ -4,9 +4,8 @@ import community.community.dto.likeDTO.LikePostDTO;
 import community.community.entity.*;
 import community.community.mapper.UserLikeMapper;
 import community.community.repository.likeRepository.LikeRepository;
-import community.community.service.notificationService.NotificationService;
-import community.community.service.commentService.CommentLikeUpdateService;
 import community.community.service.commentService.CommentFindService;
+import community.community.service.commentService.CommentLikeUpdateService;
 import community.community.service.memberService.MemberFindService;
 import community.community.service.postService.PostFindService;
 import community.community.service.postService.PostLikeUpdateService;
@@ -25,7 +24,7 @@ public class LikeServiceImp implements LikeService{
     private final LikeRepository likeRepository;
     private final MemberFindService memberFindService;
     private final PostFindService postFindService;
-    private final NotificationService notificationService;
+//    private final NotificationService notificationService;
     private final PostLikeUpdateService postLikeUpdateService;
     private final CommentFindService commentFindService;
     private final CommentLikeUpdateService commentLikeUpdateService;
@@ -76,7 +75,7 @@ public class LikeServiceImp implements LikeService{
                 commentLikeUpdateService.increaseLikeCount(comment.getId());
             }
             //알림 전송
-            notificationService.createNotification(member.getEmail(), likePostDTO.getEntityId());
+//            notificationService.createNotification(member.getEmail(), likePostDTO.getEntityId());
              likeRepository.save(userlike);
         }
     }
