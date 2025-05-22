@@ -58,16 +58,16 @@ public class PostFindController {
         PostDetailDTO postDetailDTO = postFindService.postDetail(session, id);
 
         response.put("postDetail", postDetailDTO);
-
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("api/posts/recent")
+    @GetMapping("/api/posts/recent")
     public ResponseEntity<Map<String, Object>> postRecent(HttpSession session){
         Map<String, Object> response = new HashMap<>();
         String loginEmail = (String) session.getAttribute("loginEmail");
 
         List<PostFindDTO> postFindDTOS = postRecentFindService.findRecentPost(loginEmail);
+
         response.put("recentPosts", postFindDTOS);
         return ResponseEntity.ok(response);
     }

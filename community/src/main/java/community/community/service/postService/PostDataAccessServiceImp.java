@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +27,23 @@ public class PostDataAccessServiceImp implements PostDataAccessService {
         }
 
         try {
-            return postRepository.findRecentPosts(postIds);
+            List<PostFindDTO> posts = postRepository.findRecentPosts(postIds);
+
+            // ID를 키로 하는 맵 생성
+            Map<Long, PostFindDTO> postMap = new HashMap<>();
+            for (PostFindDTO post : posts) {
+                postMap.put(post.getId(), post);
+            }
+
+            // 원래 순서대로 결과 리스트 구성
+            List<PostFindDTO> sortedPosts = new ArrayList<>(posts.size());
+            for (Long id : postIds) {
+                PostFindDTO post = postMap.get(id);
+                if (post != null) {
+                    sortedPosts.add(post);
+                }
+            }
+            return sortedPosts;
         } catch (DataAccessException e) {
             throw new DBAccessException("데이터베이스 접근에 문제가 발생했습니다.", e);
         } catch (Exception e) {
